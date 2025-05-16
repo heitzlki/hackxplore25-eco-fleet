@@ -19,7 +19,7 @@ export default function Home() {
       <main className='flex flex-col min-h-screen'>
         <Hero />
         <Bento />
-        {/* <About /> */}
+        <About />
         {/* <Features /> */}
         {/* <FAQ /> */}
         <Footer />

@@ -3,8 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* 3751ecff */
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -45,6 +43,10 @@
   --radius-xl: calc(var(--radius) + 4px);
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+  --color-custom-one: var(--custom-one);
+  --color-custom-two: var(--custom-two);
+  --color-custom-three: var(--custom-three);
+  --color-custom-four: var(--custom-four);
 
   @keyframes accordion-down {
     from {
@@ -88,18 +90,24 @@
     }
   }
   --animate-marquee: marquee var(--duration) infinite linear;
-  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite
-;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
   @keyframes marquee {
-  from {
-    transform: translateX(0);}
-  to {
-    transform: translateX(calc(-100% - var(--gap)));}}
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
   @keyframes marquee-vertical {
-  from {
-    transform: translateY(0);}
-  to {
-    transform: translateY(calc(-100% - var(--gap)));}}}
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+}
 
 :root {
   --radius: 0.5rem;
@@ -134,6 +142,10 @@
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
+  --custom-one: #38e8b6;
+  --custom-two: #80ed99;
+  --custom-three: #4cc9f0;
+  --custom-four: #ccff33;
 }
 
 .dark {
@@ -168,6 +180,10 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
+  --custom-one: #38e8b6;
+  --custom-two: #80ed99;
+  --custom-three: #4cc9f0;
+  --custom-four: #ccff33;
 }
 
 @layer base {

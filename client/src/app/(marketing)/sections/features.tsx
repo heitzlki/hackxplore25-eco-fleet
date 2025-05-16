@@ -46,15 +46,7 @@ export function Features() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}>
-          <div className='mb-6 flex justify-center'>
-            <img
-              // src={theme === 'dark' ? '/PrizmAi_w.png' : '/PrizmAi_b.png'}
-              src={'/PrizmAi_b.png'}
-              alt='PrizmAi Logo'
-              width={300}
-              height={75}
-            />
-          </div>
+          <div className='mb-6 flex justify-center'></div>
           <p className='mx-auto max-w-2xl text-xl text-muted-foreground'>
             Our comprehensive platform transforms your document chaos into
             structured, actionable data with minimal effort.

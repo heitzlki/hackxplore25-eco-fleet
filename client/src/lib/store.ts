@@ -63,7 +63,13 @@ export const useStore = create<ClientState>((set) => ({
   selectedNode: null,
   serverResponse: null, 
   garbageContainers: [
-    {}
+    { lng: 49.009544, lat: 8.403545 },
+    { lng: 49.009504, lat: 8.404323 },
+    { lng: 49.009014, lat: 8.403469 },
+    { lng: 49.008968, lat: 8.404302 },
+    { lng: 49.008260, lat: 8.403522 },
+    { lng: 49.008241, lat: 8.404078 },
+    { lng: 49.009753, lat: 8.401409 }
   ],
   setGarbageContainers: (garbageContainers: LongLatInfo[]) => set({ garbageContainers: garbageContainers }),
   setColor1: (color: string) => set({ color1: color }),
