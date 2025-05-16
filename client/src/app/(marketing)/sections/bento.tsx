@@ -3,8 +3,8 @@ import { BellIcon, Share2Icon } from 'lucide-react';
 
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
-import AnimatedBeamMultipleOutputDemo from '@/app/(marketing)/sections/_components/animated-beam-multiple-outputs';
-import AnimatedListDemo from '@/app/(marketing)/sections/_components/animated-list-demo';
+import AnimatedBeamMultipleOutputDemo from '@/app/(marketing)/_components/animated-beam-multiple-outputs';
+import AnimatedListDemo from '@/app/(marketing)/_components/animated-list-demo';
 import { BentoCard, BentoGrid } from '@/components/magicui/bento-grid';
 import { Marquee } from '@/components/magicui/marquee';
 
@@ -106,10 +106,14 @@ const features = [
 
 export function Bento() {
   return (
-    <BentoGrid>
-      {features.map((feature, idx) => (
-        <BentoCard key={idx} {...feature} />
-      ))}
-    </BentoGrid>
+    <section className='bg-background py-24' suppressHydrationWarning>
+      <div className='container mx-auto px-4 lg:px-8'>
+        <BentoGrid>
+          {features.map((feature, idx) => (
+            <BentoCard key={idx} {...feature} />
+          ))}
+        </BentoGrid>
+      </div>
+    </section>
   );
 }
