@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { environment } from "@/lib/environment";
@@ -11,6 +11,7 @@ export default function Page() {
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const [center, setCenter] = useState<any>([8.403735115313623, 49.00791069535478])
   const [zoom, setZoom] = useState(17.5)
+  const [popups, setPopups] = useState<ReactNode[]>([])
 
   useEffect(() => {
     
@@ -42,8 +43,32 @@ export default function Page() {
         console.log(mapCenter);
       })
       
+      map.on('click', (event) => {
+        const features = map.queryRenderedFeatures(event.point, {
+          layers: ['garbage-containers']
+        })
+        if (!features.length) {
+          return;
+        }
+
+        const feature = features[0];
+
+        const geometry: any = feature.geometry;
+        const properties: any = feature.properties;
+
+        setPopups(prev => [...prev, (
+          <div key={prev.length} className="absolute top-0 left-0 z-100 bg-white">
+            <p>{properties.title}</p>
+            <p>{properties.description}</p>
+          </div>
+        )])
+      })
+
+
       mapRef.current = map; 
       
+
+
     })()
 
     return () => {
@@ -60,6 +85,7 @@ export default function Page() {
     <div className="h-screen w-screen relative overflow-hidden">
       <div ref={mapContainerRef} className="h-full w-full relative z-0"></div>
       {/* kirills stuff here */}
+      { popups }
     </div>
   );
 }
