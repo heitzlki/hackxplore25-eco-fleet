@@ -13,7 +13,6 @@ export default function Page() {
   const [zoom, setZoom] = useState(17.5)
 
   useEffect(() => {
-    let mapInstance: mapboxgl.Map | null = null;
     
     (async () => {
       if (!mapContainerRef.current) return; // Safety check
@@ -22,13 +21,13 @@ export default function Page() {
   
       const map = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: 'mapbox://styles/zhgr/cmar8hvo600o101s57dnw4vvb', // Add a default style
+        style: 'mapbox://styles/zhgr/cmarabpiy01pw01sl35e50m1p', // Add a default style
         projection: "globe",
         center: center, // Default center (adjust as needed)
         zoom: zoom, // Default zoom level
         antialias: true,
-        pitch: 70,
-        bearing: -45
+        pitch: 30,
+        bearing: 0
       });
 
 
@@ -43,19 +42,13 @@ export default function Page() {
         console.log(mapCenter);
       })
       
-      mapRef.current = map;
-      mapInstance = map;
+      mapRef.current = map; 
       
     })()
 
     return () => {
-      // Use the local variable which is guaranteed to be in scope
-      if (mapInstance) {
-        mapInstance.remove();
-      }
-      // Also clean up the ref
       if (mapRef.current) {
-        mapRef.current.remove();
+        mapRef.current.remove()
       }
     }
 
