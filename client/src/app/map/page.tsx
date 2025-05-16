@@ -13,6 +13,7 @@ export default function Page() {
   const [zoom, setZoom] = useState(17.5)
 
   useEffect(() => {
+    let mapInstance: mapboxgl.Map | null = null;
     
     (async () => {
       if (!mapContainerRef.current) return; // Safety check
@@ -42,13 +43,19 @@ export default function Page() {
         console.log(mapCenter);
       })
       
-      mapRef.current = map; 
+      mapRef.current = map;
+      mapInstance = map;
       
     })()
 
     return () => {
+      // Use the local variable which is guaranteed to be in scope
+      if (mapInstance) {
+        mapInstance.remove();
+      }
+      // Also clean up the ref
       if (mapRef.current) {
-        mapRef.current.remove()
+        mapRef.current.remove();
       }
     }
 
