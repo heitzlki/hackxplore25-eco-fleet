@@ -17,18 +17,13 @@ export function About() {
           <h2 className='mb-6 text-4xl font-bold tracking-tight text-foreground md:text-5xl'>
             About{' '}
             <span className='inline-block ml-2'>
-              <Logo size='lg' className='text-4xl md:text-5xl' /> {/* Adjusted size to match "About" */}
+              <Logo size='lg' className='text-4xl md:text-5xl' />{' '}
+              {/* Adjusted size to match "About" */}
             </span>
           </h2>
           <div className='h-1 w-20 mx-auto bg-primary mb-8'></div>
           <TextReveal className='text-xl leading-relaxed text-muted-foreground'>
-            PrizmAI uses AI to extract and analyze data from PDFs.
-          </TextReveal>
-          <TextReveal className='text-xl leading-relaxed text-muted-foreground'>
-            Reduce manual labour. Minimize errors. Save time.
-          </TextReveal>
-          <TextReveal className='text-xl leading-relaxed text-muted-foreground'>
-            Integrate seamlessly. Faster decisions. Value from data.
+            Efficient. Clean. Reliable
           </TextReveal>
         </motion.div>
       </div>
