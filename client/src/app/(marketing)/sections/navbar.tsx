@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button';
 import { ModeToggle } from '@/components/ui/mode-toggle';
 import { useTheme } from 'next-themes';
 
+import Logo from '@/components/custom/logo';
+
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -37,18 +39,7 @@ export const Navbar = () => {
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex items-center justify-between h-16'>
           <div className='flex-shrink-0 relative'>
-            {/* <Logo /> */}
-            <Link href='/'>
-              {mounted ? (
-                <img
-                  src={theme === 'dark' ? '/PrizmAi_w.png' : '/PrizmAi_b.png'}
-                  alt='Logo'
-                  className='h-6 w-auto'
-                />
-              ) : (
-                <div className='h-6 w-24' /> // Placeholder with same dimensions to prevent layout shift
-              )}
-            </Link>
+            <Logo />
           </div>
 
           {/* Navigation Links - Desktop - Now centered */}

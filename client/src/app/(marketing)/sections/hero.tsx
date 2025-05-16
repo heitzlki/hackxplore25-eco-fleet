@@ -1,6 +1,6 @@
 'use client';
 
-import Globe from '@/components/custom/marketing/globe';
+// import Globe from '@/components/custom/marketing/globe';
 import { motion } from 'framer-motion';
 
 import { TypingAnimation } from '@/components/magicui/typing-animation';
@@ -9,6 +9,7 @@ import { BorderBeam } from '@/components/magicui/border-beam';
 import { HyperText } from '@/components/magicui/hyper-text';
 import Logo from '@/components/custom/logo';
 import { Beam } from '../_components/beam';
+import Globe from '@/app/(marketing)/_components/globe';
 
 export function Hero() {
   return (
@@ -20,25 +21,10 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}>
           <h1 className='mb-4 text-5xl font-bold tracking-tight text-foreground md:text-7xl'>
-            {/* <span className='text-primary'> */}
-            {/* <HyperText className='text-5xl font-bold tracking-tight md:text-7xl text-primary'>
-              PrizmAi
-            </HyperText> */}
             <Logo size='lg' />
-            {/* <HyperText className='text-5xl font-bold tracking-tight md:text-7xl text-secondary'>
-              Connect
-            </HyperText>
-            <HyperText className='text-5xl font-bold tracking-tight md:text-7xl text-foreground'>
-              ME
-            </HyperText> */}
-            {/* </span> */}
-            {/* <br />
-            <span className='text-secondary'>{'Connect'}</span>
-            <br />
-            ME */}
           </h1>
           <span className='mt-4 text-xl md:text-2xl font-medium text-foreground'>
-            <TypingAnimation>From clutter to clarity.</TypingAnimation>
+            <TypingAnimation>Efficient. Clean. Reliable</TypingAnimation>
           </span>
 
           <Button
@@ -48,13 +34,13 @@ export function Hero() {
             <BorderBeam
               duration={6}
               size={40}
-              className='from-transparent via-primary to-transparent'
+              className='from-transparent via-custom-one to-transparent'
             />
             <BorderBeam
               duration={6}
               delay={3}
               size={40}
-              className='from-transparent via-secondary to-transparent'
+              className='from-transparent via-custom-three to-transparent'
             />
           </Button>
         </motion.div>
@@ -65,7 +51,8 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2 }}>
-          <Beam />
+          {/* <Beam /> */}
+          <Globe />
         </motion.div>
       </div>
     </section>
