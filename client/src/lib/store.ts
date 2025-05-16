@@ -33,6 +33,11 @@ interface ServerResponse {
   xml: string;
 }
 
+interface LongLatInfo {
+  lng: number,
+  lat: number
+}
+
 interface ClientState {
   roadmap: boolean;
   color1: string;
@@ -40,6 +45,8 @@ interface ClientState {
   graphData: Area[];
   selectedNode: NodeInfo | null;
   serverResponse: ServerResponse | null;
+  garbageContainers: LongLatInfo[];
+  setGarbageContainers: (garbageContainers: LongLatInfo[]) => void;
   setRoadmap: () => void;
   setGraphData: (graphData: Area[]) => void;
   setColor1: (color: string) => void;
@@ -54,7 +61,11 @@ export const useStore = create<ClientState>((set) => ({
   color2: 'hsl(122.4,100%,58.5%)',
   graphData: [],
   selectedNode: null,
-  serverResponse: null,
+  serverResponse: null, 
+  garbageContainers: [
+    {}
+  ],
+  setGarbageContainers: (garbageContainers: LongLatInfo[]) => set({ garbageContainers: garbageContainers }),
   setColor1: (color: string) => set({ color1: color }),
   setColor2: (color: string) => set({ color2: color }),
   setGraphData: (graphData: Area[]) => set({ graphData }),

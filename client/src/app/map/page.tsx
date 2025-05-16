@@ -56,10 +56,11 @@ export default function Page() {
         const geometry: any = feature.geometry;
         const properties: any = feature.properties;
 
+        console.log(properties)
+
         setPopups(prev => [...prev, (
           <div key={prev.length} className="absolute top-0 left-0 z-100 bg-white">
-            <p>{properties.title}</p>
-            <p>{properties.description}</p>
+            <p>test</p>
           </div>
         )])
       })
@@ -83,7 +84,7 @@ export default function Page() {
 
   return (
     <div className="h-screen w-screen relative overflow-hidden">
-      <div ref={mapContainerRef} className="h-full w-full relative z-0"></div>
+      <div ref={mapContainerRef} className="h-full w-full relative z-"></div>
       {/* kirills stuff here */}
       { popups }
     </div>
