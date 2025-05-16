@@ -10,8 +10,11 @@ import { HyperText } from '@/components/magicui/hyper-text';
 import Logo from '@/components/custom/logo';
 import { Beam } from '../_components/beam';
 import Globe from '@/app/(marketing)/_components/globe';
+import { useRouter } from 'next/navigation';
 
 export function Hero() {
+  const router = useRouter();
+
   return (
     <section className='relative flex min-h-screen items-center overflow-hidden bg-background py-20'>
       <div className='container mx-auto grid grid-cols-1 gap-12 px-4 md:grid-cols-2 lg:px-8'>
@@ -29,7 +32,10 @@ export function Hero() {
 
           <Button
             className='mt-6 relative inline-block w-fit text-2xl font-medium text-white bg-black rounded-lg border px-8 py-4 h-auto hover:bg-gray-800'
-            variant='ghost'>
+            variant='ghost'
+            onClick={() => {
+              router.push('/map');
+            }}>
             Get started
             <BorderBeam
               duration={6}
