@@ -9,33 +9,32 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'PrizmAi',
-  description: 'From clutter to clarity.',
-  keywords:
-    'PDF, data, search, PrizmAi, technology, AI',
+  title: 'EcoFleet',
+  description: 'Efficient. Clean. Reliable',
+  keywords: 'EcoFleet, Eco, Fleet, EcoFleet, EcoFleet, EcoFleet, EcoFleet',
   authors: [{ name: 'Kirill Heitzler' }],
   viewport: 'width=device-width, initial-scale=1',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://PrizmAi.com/',
-    title: 'PrizmAi - From clutter to clarity.',
-    description: 'From clutter to clarity.',
-    siteName: 'PrizmAi',
+    url: 'https://hackxplore-rose.vercel.app',
+    title: 'EcoFleet - Efficient. Clean. Reliable',
+    description: 'Efficient. Clean. Reliable',
+    siteName: 'EcoFleet',
     images: [
       {
-        url: 'https://voyada.com/opengraph.png',
+        url: 'https://hackxplore-rose.vercel.appopengraph.png',
         width: 1200,
         height: 630,
-        alt: 'PrizmAi - From clutter to clarity',
+        alt: 'EcoFleet - Efficient. Clean. Reliable',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PrizmAi - From clutter to clarity',
-    description: 'From clutter to clarity',
-    images: ['https://voyada.com/opengraph.png'],
+    title: 'EcoFleet - Efficient. Clean. Reliable',
+    description: 'Efficient. Clean. Reliable',
+    images: ['https://hackxplore-rose.vercel.app'],
   },
 };
 

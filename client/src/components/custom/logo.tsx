@@ -22,10 +22,9 @@ export default function Logo({ size = 'md', className }: LogoProps) {
         'flex items-center self-center font-bold',
         sizeClasses[size],
         className // Apply custom className if provided
-      )}
-    >
-      <span className='text-primary'>Prizm</span>
-      <AuroraText>AI</AuroraText>
+      )}>
+      <span className='text-primary'>Eco</span>
+      <AuroraText>Fleet</AuroraText>
     </Link>
   );
 }
