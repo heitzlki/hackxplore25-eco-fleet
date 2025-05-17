@@ -208,5 +208,36 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  /* Custom calendar styles */
+  /* We'll use a different approach with a dot container and actual dot elements */
+  .calendar-day {
+    position: relative;
+  }
+  
+  /* Container for all dots */
+  .dot-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    height: 4px;
+  }
+  
+  /* Base dot style */
+  .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+  }
+  
+  /* Dot colors */
+  .dot-bio { background-color: var(--color-green); }
+  .dot-recycling { background-color: #FFD700; } /* Yellow */
+  .dot-special { background-color: #4CC9F0; } /* Blue */
+  .dot-general { background-color: #9CA3AF; } /* Grey */
 }

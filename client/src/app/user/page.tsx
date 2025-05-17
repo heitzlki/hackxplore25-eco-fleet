@@ -10,6 +10,35 @@ import { Calendar } from '@/components/ui/calendar';
 import { X, CalendarIcon } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import RouteDisplay from './_components/route-display';
+import { DayContent } from 'react-day-picker';
+
+// Custom day component that can show multiple dots
+function CustomDay(props: React.ComponentProps<typeof DayContent>) {
+  const { date, activeModifiers } = props;
+  
+  // Check which modifiers apply to this day
+  const hasBio = activeModifiers?.bio;
+  const hasRecycling = activeModifiers?.recycling;
+  const hasSpecial = activeModifiers?.special;
+  const hasGeneral = activeModifiers?.general;
+  
+  // Only add dots container if at least one modifier applies
+  const showDots = hasBio || hasRecycling || hasSpecial || hasGeneral;
+  
+  return (
+    <div className="calendar-day">
+      <DayContent {...props} />
+      {showDots && (
+        <div className="dot-container">
+          {hasBio && <div className="dot dot-bio" title="Bio waste collection" />}
+          {hasRecycling && <div className="dot dot-recycling" title="Recycling collection" />}
+          {hasSpecial && <div className="dot dot-special" title="Special collection" />}
+          {hasGeneral && <div className="dot dot-general" title="General waste collection" />}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Dashboard() {
   // Use the global store for popup state
@@ -301,10 +330,39 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent>
                   <Calendar
+                    weekStartsOn={1}
                     mode="single"
                     selected={date}
                     onSelect={setDate}
                     className="rounded-md border"
+                    modifiers={{
+                      // Green dot on every Tuesday (bio waste)
+                      bio: (date) => date.getDay() === 2,
+                      
+                      // Yellow dot on every Wednesday on even calendar weeks (recycling)
+                      recycling: (date) => {
+                        const weekNumber = Math.ceil((date.getDate() + new Date(date.getFullYear(), date.getMonth(), 1).getDay()) / 7);
+                        return date.getDay() === 3 && weekNumber % 2 === 0;
+                      },
+                      
+                      // Blue dot on every Tuesday every 4th week (special collection)
+                      special: (date) => {
+                        // Get the week number in the year
+                        const startOfYear = new Date(date.getFullYear(), 0, 1);
+                        const days = Math.floor((date.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000));
+                        const weekNumber = Math.ceil((days + startOfYear.getDay() + 1) / 7);
+                        return date.getDay() === 2 && weekNumber % 4 === 0;
+                      },
+                      
+                      // Grey dot on every Monday on even calendar weeks (general waste)
+                      general: (date) => {
+                        const weekNumber = Math.ceil((date.getDate() + new Date(date.getFullYear(), date.getMonth(), 1).getDay()) / 7);
+                        return date.getDay() === 1 && weekNumber % 2 === 0;
+                      }
+                    }}
+                    components={{
+                      DayContent: CustomDay
+                    }}
                     disabled={(date) => {
                       // Disable past dates and weekends
                       const today = new Date();
@@ -315,20 +373,66 @@ export default function Dashboard() {
                     initialFocus
                   />
                 </CardContent>
-                <CardFooter className="pt-0 flex justify-end">
-                  {date && (
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground">
-                        Selected: {date.toLocaleDateString()}
-                      </span>
-                      <Button 
-                        size="sm" 
-                        className="bg-primary text-primary-foreground hover:bg-primary/90"
-                      >
-                        Confirm Pickup
-                      </Button>
+                <CardFooter className="pt-0 flex flex-col justify-start items-start">
+                  {date && <>
+                    <span className="text-xs text-muted-foreground">
+                      Selected: {date.toLocaleDateString()}
+                    </span>
+                    <div className="mt-2 flex flex-col gap-1">
+                      {
+                        date && (
+                          <>
+                            {/* Check for bio waste collection (every Tuesday) */}
+                            {date.getDay() === 2 && (
+                              <div className="flex items-center gap-2">
+                                <div className="dot dot-bio w-3 h-3"></div>
+                                <span className="text-xs">Bio waste</span>
+                              </div>
+                            )}
+                            
+                            {/* Check for recycling (Wednesdays on even weeks) */}
+                            {date.getDay() === 3 && 
+                              Math.ceil((date.getDate() + new Date(date.getFullYear(), date.getMonth(), 1).getDay()) / 7) % 2 === 0 && (
+                              <div className="flex items-center gap-2">
+                                <div className="dot dot-recycling w-3 h-3"></div>
+                                <span className="text-xs">Valuable waste</span>
+                              </div>
+                            )}
+                            
+                            {/* Check for special collection (Tuesdays every 4th week) */}
+                            {date.getDay() === 2 && 
+                              (() => {
+                                const startOfYear = new Date(date.getFullYear(), 0, 1);
+                                const days = Math.floor((date.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000));
+                                const weekNumber = Math.ceil((days + startOfYear.getDay() + 1) / 7);
+                                return weekNumber % 4 === 0;
+                              })() && (
+                              <div className="flex items-center gap-2">
+                                <div className="dot dot-special w-3 h-3"></div>
+                                <span className="text-xs">Paper waste</span>
+                              </div>
+                            )}
+                            
+                            {/* Check for general waste (Mondays on even weeks) */}
+                            {date.getDay() === 1 && 
+                              Math.ceil((date.getDate() + new Date(date.getFullYear(), date.getMonth(), 1).getDay()) / 7) % 2 === 0 && (
+                              <div className="flex items-center gap-2">
+                                <div className="dot dot-general w-3 h-3"></div>
+                                <span className="text-xs">Residual waste</span>
+                              </div>
+                            )}
+                            
+                            {/* If no collections on this day */}
+                            {!(date.getDay() === 2 || 
+                               (date.getDay() === 3 && Math.ceil((date.getDate() + new Date(date.getFullYear(), date.getMonth(), 1).getDay()) / 7) % 2 === 0) || 
+                               (date.getDay() === 1 && Math.ceil((date.getDate() + new Date(date.getFullYear(), date.getMonth(), 1).getDay()) / 7) % 2 === 0)) && (
+                              <span className="text-xs text-muted-foreground">No trash service on this day</span>
+                            )}
+                          </>
+                        )
+                      }
                     </div>
-                  )}
+                  </>}
                 </CardFooter>
               </Card>
             </div>
@@ -406,58 +510,7 @@ export default function Dashboard() {
               </Button>
             </CardFooter>
           </Card>
-          
-          {/* Recycling Calendar popup */}
-          {showRecyclingCalendar && (
-            <div 
-              className="mt-2 w-full transition-all duration-300 ease-in-out transform animate-in fade-in slide-in-from-right-2"
-            >
-              <Card className="border border-gray-700 bg-black shadow-xl overflow-hidden text-white">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium">Recycling Schedule</CardTitle>
-                  <CardDescription className="text-xs text-gray-400">
-                    Select a date for recycling pickup
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    className="rounded-md border border-gray-700"
-                    disabled={(date) => {
-                      // Disable past dates and weekends, just like the original calendar
-                      const today = new Date();
-                      today.setHours(0, 0, 0, 0);
-                      const day = date.getDay();
-                      return date < today || day === 0 || day === 6;
-                    }}
-                    initialFocus
-                    classNames={{
-                      day_selected: "bg-blue-600 text-white hover:bg-blue-700",
-                      day_today: "bg-gray-800 text-white",
-                      day: "text-white hover:bg-gray-700"
-                    }}
-                  />
-                </CardContent>
-                <CardFooter className="pt-0 flex justify-end">
-                  {date && (
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-400">
-                        Selected: {date.toLocaleDateString()}
-                      </span>
-                      <Button 
-                        size="sm" 
-                        className="bg-blue-600 text-white hover:bg-blue-700"
-                      >
-                        Confirm Pickup
-                      </Button>
-                    </div>
-                  )}
-                </CardFooter>
-              </Card>
-            </div>
-          )}
+
         </div>
       )}
     </MapView>
