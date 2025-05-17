@@ -70,7 +70,7 @@ export const createContainerMarker = (
   el.style.borderRadius = '50%';
   el.style.backgroundColor = markerColor;
   el.style.border = '2px solid white';
-  el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+  el.style.boxShadow = '0 5px 10px rgba(0,0,0,0.3)';
 
   // Add waste type indicators
   const availableTypes = [];
@@ -78,20 +78,20 @@ export const createContainerMarker = (
   if (aluminum >= 0) availableTypes.push('A');
   if (general >= 0) availableTypes.push('W');
 
-  if (availableTypes.length > 0) {
-    const typeIndicator = document.createElement('div');
-    typeIndicator.style.position = 'absolute';
-    typeIndicator.style.top = '-8px';
-    typeIndicator.style.right = '-8px';
-    typeIndicator.style.backgroundColor = 'rgba(0,0,0,0.7)';
-    typeIndicator.style.color = 'white';
-    typeIndicator.style.fontSize = '8px';
-    typeIndicator.style.fontWeight = 'bold';
-    typeIndicator.style.padding = '2px 3px';
-    typeIndicator.style.borderRadius = '3px';
-    typeIndicator.textContent = availableTypes.join('');
-    el.appendChild(typeIndicator);
-  }
+  // if (availableTypes.length > 0) {
+  //   const typeIndicator = document.createElement('div');
+  //   typeIndicator.style.position = 'absolute';
+  //   typeIndicator.style.top = '-8px';
+  //   typeIndicator.style.right = '-8px';
+  //   typeIndicator.style.backgroundColor = 'rgba(0,0,0,0.7)';
+  //   typeIndicator.style.color = 'white';
+  //   typeIndicator.style.fontSize = '8px';
+  //   typeIndicator.style.fontWeight = 'bold';
+  //   typeIndicator.style.padding = '2px 3px';
+  //   typeIndicator.style.borderRadius = '3px';
+  //   typeIndicator.textContent = availableTypes.join('');
+  //   el.appendChild(typeIndicator);
+  // }
 
   // Create marker with custom element
   const marker = new mapboxgl.Marker({ element: el })

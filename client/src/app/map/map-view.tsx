@@ -84,6 +84,9 @@ export default function MapView({
     setMapCenter,
     setMapZoom,
   } = useStore();
+  
+  // Reference to store container markers
+  const containerMarkersRef = useRef<mapboxgl.Marker[]>([]);
 
   // Use initial values from props or fall back to store values
   const center = initialCenter || storeCenter;
@@ -459,10 +462,35 @@ export default function MapView({
           duration: 6000, // Duration in milliseconds
         });
 
-        // Add garbage container markers
+        // Create garbage container markers but manage visibility based on zoom level
+        const zoomThreshold = 13; // Only show markers when zoomed in beyond this level
+        
+        // Clear any existing markers
+        containerMarkersRef.current.forEach(marker => marker.remove());
+        containerMarkersRef.current = [];
+        
+        // Create markers for all containers
         garbageContainers.forEach((container) => {
           // Create container marker with click handler
-          createContainerMarker(container, map, openPopup);
+          const marker = createContainerMarker(container, map, openPopup);
+          containerMarkersRef.current.push(marker);
+          
+          // Initially set visibility based on current zoom level
+          if (map.getZoom() < zoomThreshold) {
+            marker.getElement().style.display = 'none';
+          }
+        });
+        
+        // Add zoom change handler to show/hide markers based on zoom level
+        map.on('zoom', () => {
+          const currentZoom = map.getZoom();
+          containerMarkersRef.current.forEach(marker => {
+            if (currentZoom < zoomThreshold) {
+              marker.getElement().style.display = 'none';
+            } else {
+              marker.getElement().style.display = '';
+            }
+          });
         });
       });
 
