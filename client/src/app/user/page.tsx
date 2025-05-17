@@ -456,16 +456,16 @@ export default function Dashboard() {
               : 'opacity-0 translate-x-4 scale-95'
           }`}
         >
-          <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden text-white">
-            {/* Removed gradient background for consistency */}
+          <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+            {/* Adaptive background for light/dark modes */}
             <CardHeader className="pb-2 relative">
               <div className="flex justify-between items-start">
                 <div>
                   <CardTitle className="text-lg font-semibold">Recycling Guide</CardTitle>
-                  <CardDescription className="text-sm mt-1 text-gray-300">How to recycle different materials</CardDescription>
-                  <p className="text-xs text-blue-400 mt-1">Click on any item for detailed guidelines</p>
+                  <CardDescription className="text-sm mt-1 text-gray-600 dark:text-gray-300">How to recycle different materials</CardDescription>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">Click on any item for detailed guidelines</p>
                 </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-blue-500/10" onClick={closeRecyclingPopup}>
+                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-blue-100/50 dark:hover:bg-blue-500/10" onClick={closeRecyclingPopup}>
                   <X className="h-4 w-4" />
                 </Button>
               </div>
@@ -513,7 +513,7 @@ export default function Dashboard() {
                 ].map((item, index) => (
                   <div key={item.key} className="mb-2">
                     <div 
-                      className={`flex justify-between items-center cursor-pointer ${expandedWasteType === item.key ? 'bg-blue-800/40 rounded-t-md border-t border-l border-r border-blue-700' : 'hover:bg-blue-900/30 rounded-md'} p-1`}
+                      className={`flex justify-between items-center cursor-pointer ${expandedWasteType === item.key ? 'bg-blue-100 dark:bg-blue-800/40 rounded-t-md border-t border-l border-r border-blue-300 dark:border-blue-700' : 'hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-md'} p-1`}
                       onClick={() => toggleWasteTypeDetails(item.key)}
                       style={{ 
                         animation: `fadeInRight 0.3s ease-out forwards ${index * 0.05 + 0.1}s`,
@@ -521,29 +521,29 @@ export default function Dashboard() {
                       }}
                     >
                       <div className="flex items-center">
-                        <Info className="h-3 w-3 text-blue-400 mr-1.5" />
-                        <span className="text-sm text-gray-300">{item.key}</span>
+                        <Info className="h-3 w-3 text-blue-600 dark:text-blue-400 mr-1.5" />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">{item.key}</span>
                       </div>
                       <div className="flex items-center">
-                        <Badge className="font-normal bg-blue-900 text-blue-100 mr-2">
+                        <Badge className="font-normal bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100 mr-2">
                           {item.value}
                         </Badge>
                         {expandedWasteType === item.key ? (
-                          <ChevronUp className="h-4 w-4 text-gray-400" />
+                          <ChevronUp className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                         ) : (
-                          <ChevronDown className="h-4 w-4 text-gray-400" />
+                          <ChevronDown className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                         )}
                       </div>
                     </div>
                     
                     {expandedWasteType === item.key && (
                       <div 
-                        className="text-sm text-gray-400 mt-0 p-3 border border-blue-700 rounded-b-md bg-blue-900/20 animate-in fade-in slide-in-from-top-2 duration-200"
+                        className="text-sm text-gray-600 dark:text-gray-400 mt-0 p-3 border border-blue-300 dark:border-blue-700 rounded-b-md bg-blue-50/80 dark:bg-blue-900/20 animate-in fade-in slide-in-from-top-2 duration-200"
                       >
                         <p className="mb-2">{item.details}</p>
                         {item.key === "Plastic" && (
-                          <div className="mb-2 bg-blue-950/50 p-2 rounded-md">
-                            <span className="font-semibold text-xs text-blue-300">Plastic Recycling Numbers:</span>
+                          <div className="mb-2 bg-blue-100/90 dark:bg-blue-950/50 p-2 rounded-md">
+                            <span className="font-semibold text-xs text-blue-700 dark:text-blue-300">Plastic Recycling Numbers:</span>
                             <ul className="text-xs list-disc ml-4 mt-1">
                               <li>#1 (PET): Water bottles, soda bottles</li>
                               <li>#2 (HDPE): Milk jugs, detergent bottles</li>
@@ -552,8 +552,8 @@ export default function Dashboard() {
                           </div>
                         )}
                         {item.key === "Batteries" && (
-                          <div className="mb-2 bg-blue-950/50 p-2 rounded-md">
-                            <span className="font-semibold text-xs text-blue-300">Local Drop-off Locations Südweststadt:</span>
+                          <div className="mb-2 bg-blue-100/90 dark:bg-blue-950/50 p-2 rounded-md">
+                            <span className="font-semibold text-xs text-blue-700 dark:text-blue-300">Local Drop-off Locations Südweststadt:</span>
                             <ul className="text-xs list-disc ml-4 mt-1">
                               <li>Bahnhof­straße gegenüber Nr. 42</li>
                               <li>Beiert­hei­mer Allee 2 (vor Landrat­samt)</li>
@@ -565,7 +565,7 @@ export default function Dashboard() {
                           href={item.link} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="text-blue-400 hover:text-blue-300 flex items-center text-xs mt-2"
+                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center text-xs mt-2"
                         >
                           More dropoff locations <ExternalLink className="h-3 w-3 ml-1" />
                         </a>
@@ -588,7 +588,7 @@ export default function Dashboard() {
                 variant="outline" 
                 size="sm" 
                 onClick={closeRecyclingPopup}
-                className="transition-all hover:bg-blue-500 hover:text-white border-gray-600"
+                className="transition-all hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-500 dark:hover:text-white border-gray-300 dark:border-gray-600"
               >
                 Close
               </Button>
