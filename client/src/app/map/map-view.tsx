@@ -466,7 +466,7 @@ export default function MapView({
 
         // Create garbage container markers but manage visibility based on zoom level
         const zoomThreshold = 13; // Only show markers when zoomed in beyond this level
-        const typeIndicatorZoomThreshold = 17; // Only show type indicators when zoomed in beyond this level
+        const typeIndicatorZoomThreshold = 15.7; // Only show type indicators when zoomed in beyond this level
         
         // Clear any existing markers
         containerMarkersRef.current.forEach(marker => marker.remove());
