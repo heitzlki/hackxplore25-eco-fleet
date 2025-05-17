@@ -4,8 +4,8 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { environment } from '@/lib/environment';
 import { useStore } from '@/lib/store';
-import { 
-  createContainerMarker, 
+import {
+  createContainerMarker,
   PopupInfo,
   CustomPoint,
   RouteResponse,
@@ -15,7 +15,7 @@ import {
   createCustomPointMarker,
   generateCSVFromPoints,
   downloadCSV,
-  clearCustomPointMarkers
+  clearCustomPointMarkers,
 } from '@/lib/map-utils';
 import { cn } from '@/lib/utils';
 import { Pointer } from '@/components/magicui/pointer';
@@ -44,7 +44,9 @@ export default function MapView({
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const routeLayerId = useRef<string>('route-layer');
-  const clickListenerRef = useRef<((e: mapboxgl.MapMouseEvent) => void) | null>(null);
+  const clickListenerRef = useRef<((e: mapboxgl.MapMouseEvent) => void) | null>(
+    null
+  );
   const userLocationMarkerRef = useRef<mapboxgl.Marker | null>(null);
   const locationWatchIdRef = useRef<number | null>(null);
   const popupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -52,11 +54,13 @@ export default function MapView({
   // Dashboard-specific state
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isLocatingUser, setIsLocatingUser] = useState(false);
-  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(
+    null
+  );
   const [locationError, setLocationError] = useState<string | null>(null);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
-  
+
   // Extract state and actions from the store
   const {
     garbageContainers,
@@ -80,7 +84,7 @@ export default function MapView({
     setMapCenter,
     setMapZoom,
   } = useStore();
-  
+
   // Use initial values from props or fall back to store values
   const center = initialCenter || storeCenter;
   const zoom = initialZoom || storeZoom;
@@ -92,11 +96,11 @@ export default function MapView({
       clearTimeout(popupTimeoutRef.current);
       popupTimeoutRef.current = null;
     }
-    
+
     // Store the popup data in the global state
     setPopupData(data);
     setPopupOpen(true);
-    
+
     // Call the onMarkerClick callback if provided
     if (onMarkerClick) {
       onMarkerClick(data);
@@ -105,7 +109,7 @@ export default function MapView({
 
   // Function to toggle calendar visibility (dashboard mode)
   const toggleCalendar = () => {
-    setShowCalendar(prev => !prev);
+    setShowCalendar((prev) => !prev);
   };
 
   // Function to close the popup
@@ -114,7 +118,7 @@ export default function MapView({
       // First hide the popup with animation
       setIsPopupVisible(false);
       setShowCalendar(false);
-      
+
       // Then remove it from the DOM after animation completes
       popupTimeoutRef.current = setTimeout(() => {
         setPopupOpen(false);
@@ -315,18 +319,18 @@ export default function MapView({
   // Function to update the user location marker on the map (dashboard mode)
   const updateUserLocationMarker = (position: GeolocationPosition) => {
     if (!mapRef.current) return;
-    
+
     const { longitude, latitude } = position.coords;
     const lngLat: [number, number] = [longitude, latitude];
-    
+
     // Check if this is the first location update
     const isFirstUpdate = !userLocation;
-    
+
     // Update state
     setUserLocation(lngLat);
     setIsLocatingUser(false);
     setLocationError(null);
-    
+
     // Create or update the marker
     if (!userLocationMarkerRef.current) {
       // Create a pulsing dot element for the user location
@@ -339,7 +343,7 @@ export default function MapView({
       el.style.border = '2px solid white';
       el.style.boxShadow = '0 0 0 2px rgba(66, 133, 244, 0.3)';
       el.style.animation = 'pulse 1.5s infinite';
-      
+
       // Add the pulsing animation
       const style = document.createElement('style');
       style.textContent = `
@@ -350,19 +354,19 @@ export default function MapView({
         }
       `;
       document.head.appendChild(style);
-      
+
       // Create and add the marker
       const marker = new mapboxgl.Marker({ element: el })
         .setLngLat(lngLat)
         .addTo(mapRef.current);
-      
+
       // Store the marker reference
       userLocationMarkerRef.current = marker;
     } else {
       // Update existing marker position
       userLocationMarkerRef.current.setLngLat(lngLat);
     }
-    
+
     // If this is the first location update, fly to the user's location
     if (isFirstUpdate && mapRef.current) {
       mapRef.current.flyTo({
@@ -386,7 +390,7 @@ export default function MapView({
     }
 
     setIsLocatingUser(true);
-    
+
     // Start watching position
     locationWatchIdRef.current = navigator.geolocation.watchPosition(
       // Success callback
@@ -403,17 +407,17 @@ export default function MapView({
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 5000 // Accept positions up to 5 seconds old
+        maximumAge: 5000, // Accept positions up to 5 seconds old
       }
     );
   };
-  
+
   // Function to stop tracking user location (dashboard mode)
   const stopLocationTracking = () => {
     if (locationWatchIdRef.current) {
       navigator.geolocation.clearWatch(locationWatchIdRef.current);
       locationWatchIdRef.current = null;
-      console.log("Location tracking stopped");
+      console.log('Location tracking stopped');
     }
   };
 
@@ -432,30 +436,29 @@ export default function MapView({
         projection: 'globe',
         attributionControl: false, // Disable the attribution control to remove the label
         // For dashboard mode, start with a wider view until we get user location
-        zoom: mode === 'dashboard' ? 2 : zoom,
+        // zoom: mode === 'dashboard' ? 2 : zoom,
       });
 
       // Add a load event handler
       map.on('load', () => {
         console.log('Map loaded');
-        
+
         // For dashboard mode, start location tracking immediately
         if (mode === 'dashboard' && enableLocationTracking) {
           startLocationTracking();
-        } else {
-          // For map mode, fly to the initial location with a smooth animation
-          map.flyTo({
-            center: center,
-            zoom: zoom,
-            pitch: 30,
-            bearing: 0,
-            speed: 0.8, // Animation speed (0.2 is very slow, 1.2 is very fast)
-            curve: 1.0, // Animation curve (1 is linear)
-            essential: true, // This animation is considered essential for the user experience
-            duration: 6000, // Duration in milliseconds
-          });
         }
-        
+        // For map mode, fly to the initial location with a smooth animation
+        map.flyTo({
+          center: center,
+          zoom: zoom,
+          pitch: 30,
+          bearing: 0,
+          speed: 0.8, // Animation speed (0.2 is very slow, 1.2 is very fast)
+          curve: 1.0, // Animation curve (1 is linear)
+          essential: true, // This animation is considered essential for the user experience
+          duration: 6000, // Duration in milliseconds
+        });
+
         // Add garbage container markers
         garbageContainers.forEach((container) => {
           // Create container marker with click handler
@@ -466,23 +469,27 @@ export default function MapView({
       map.on('move', () => {
         const mapCenter = map.getCenter();
         const mapZoom = map.getZoom();
-        
+
         // Only update state if values have changed significantly to prevent infinite loops
-        const currentCenter = [mapCenter.lng, mapCenter.lat] as [number, number];
+        const currentCenter = [mapCenter.lng, mapCenter.lat] as [
+          number,
+          number
+        ];
         const currentZoom = mapZoom;
-        
+
         // Check if center has changed by more than a small threshold
-        const centerChanged = Math.abs(currentCenter[0] - center[0]) > 0.0001 || 
-                            Math.abs(currentCenter[1] - center[1]) > 0.0001;
-                            
+        const centerChanged =
+          Math.abs(currentCenter[0] - center[0]) > 0.0001 ||
+          Math.abs(currentCenter[1] - center[1]) > 0.0001;
+
         // Check if zoom has changed by more than a small threshold
         const zoomChanged = Math.abs(currentZoom - zoom) > 0.01;
-        
+
         // Only update state if there's a meaningful change
         if (centerChanged) {
           setMapCenter(currentCenter);
         }
-        
+
         if (zoomChanged) {
           setMapZoom(currentZoom);
         }
@@ -496,7 +503,7 @@ export default function MapView({
       if (mode === 'dashboard' && enableLocationTracking) {
         stopLocationTracking();
       }
-      
+
       // Remove map
       if (mapRef.current) {
         mapRef.current.remove();
@@ -540,10 +547,10 @@ export default function MapView({
   return (
     <div className={className}>
       <div ref={mapContainerRef} className='h-full w-full relative z-0' />
-      
+
       {/* Render children (popups, controls, etc.) */}
       {children}
-      
+
       {/* Map cursor for map mode */}
       {mode === 'map' && <Pointer />}
     </div>
