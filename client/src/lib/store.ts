@@ -1,5 +1,18 @@
 import { Area, Contact } from '@/types';
 import { create } from 'zustand';
+import garbageContainersData from '@/data/garbageContainers.json';
+
+// Function to initialize garbage containers from the JSON file
+const initialGarbageContainers = () => {
+  const { fillData, containers } = garbageContainersData;
+
+  // Map containers to add fillData to each container
+  return containers.map(container => ({
+    ...container,
+    fillData: fillData
+  }));
+}
+
 
 interface NodeInfo {
   id: string;
@@ -33,6 +46,31 @@ interface ServerResponse {
   xml: string;
 }
 
+// A timeseries which gives us the fill level of the garbage container over the day
+export type FillData = {
+  timestamp: string;
+  fillLevel: number;
+}[]
+
+// Waste type fill levels
+export interface WasteTypes {
+  glass: number;     // -1 means not available
+  aluminum: number;  // -1 means not available
+  general: number;   // -1 means not available
+}
+
+// Container location interface
+export interface ContainerLocation {
+  lng: number;
+  lat: number;
+  waste_types: WasteTypes;
+}
+
+// Full container info including fill data
+export interface GarbageContainer extends ContainerLocation {
+  fillData: FillData;
+}
+
 interface ClientState {
   roadmap: boolean;
   color1: string;
@@ -40,6 +78,8 @@ interface ClientState {
   graphData: Area[];
   selectedNode: NodeInfo | null;
   serverResponse: ServerResponse | null;
+  garbageContainers: GarbageContainer[];
+  setGarbageContainers: (garbageContainers: GarbageContainer[]) => void;
   setRoadmap: () => void;
   setGraphData: (graphData: Area[]) => void;
   setColor1: (color: string) => void;
@@ -55,6 +95,8 @@ export const useStore = create<ClientState>((set) => ({
   graphData: [],
   selectedNode: null,
   serverResponse: null,
+  garbageContainers: initialGarbageContainers(),
+  setGarbageContainers: (garbageContainers: GarbageContainer[]) => set({ garbageContainers }),
   setColor1: (color: string) => set({ color1: color }),
   setColor2: (color: string) => set({ color2: color }),
   setGraphData: (graphData: Area[]) => set({ graphData }),
@@ -64,3 +106,4 @@ export const useStore = create<ClientState>((set) => ({
   setRoadmap: () =>
     set((state: { roadmap: boolean }) => ({ roadmap: !state.roadmap })),
 }));
+
