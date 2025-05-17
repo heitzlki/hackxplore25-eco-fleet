@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Loader2, MapPin, RefreshCw, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
+import { Card, CardHeader } from '@/components/ui/card';
 
 interface RouteDisplayProps {
   mapRef: React.RefObject<mapboxgl.Map | null>;
@@ -183,7 +183,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
     <div className="absolute bottom-8 right-8 z-10">
       <div className="flex flex-col gap-2">
         {routeCreated && (
-          <Card className=" p-3 rounded-lg shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-300">
+          <Card className="p-6 rounded-lg shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-300">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 Collection Route
