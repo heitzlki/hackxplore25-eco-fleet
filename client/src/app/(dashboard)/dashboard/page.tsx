@@ -1,45 +1,43 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { environment } from '@/lib/environment';
-import { useStore } from '@/lib/store';
-import { createContainerMarker } from '@/lib/map-utils';
+import { useState, useEffect, useRef } from 'react';
+import MapView from '@/app/map/map-view';
 import { PopupInfo } from '@/lib/map-utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar } from '@/components/ui/calendar';
 import { X, CalendarIcon } from 'lucide-react';
+import { useStore } from '@/lib/store';
 
 export default function Dashboard() {
-  const mapRef = useRef<mapboxgl.Map | null>(null);
-  const mapContainerRef = useRef<HTMLDivElement>(null);
-  const userLocationMarkerRef = useRef<mapboxgl.Marker | null>(null);
-  const locationWatchIdRef = useRef<number | null>(null);
-  const popupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [center, setCenter] = useState<[number, number]>([8.403735115313623, 49.00791069535478]);
-  const [zoom, setZoom] = useState(16);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // Use the global store for popup state
+  const { 
+    mapViewState: { isPopupOpen, popupData },
+    setPopupOpen,
+    setPopupData
+  } = useStore();
+  
+  // Local UI state
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [isLocatingUser, setIsLocatingUser] = useState(false);
-  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
-  const [locationError, setLocationError] = useState<string | null>(null);
-  const [popupData, setPopupData] = useState<PopupInfo>({
-    title: 'Location Information',
-    description: 'No description available',
-    properties: {},
-    fillData: [],
-  });
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
-
-  // Get garbage containers from Zustand store
-  const { garbageContainers } = useStore();
-
-  // Function to open popup with data
-  const openPopup = (data: PopupInfo) => {
+  const popupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Update visibility when popup state changes
+  useEffect(() => {
+    if (isPopupOpen) {
+      // Add a small delay before showing the popup to ensure the DOM is updated
+      setTimeout(() => {
+        setIsPopupVisible(true);
+      }, 50);
+    } else {
+      setIsPopupVisible(false);
+    }
+  }, [isPopupOpen]);
+  
+  // Function to handle marker clicks
+  const handleMarkerClick = (data: PopupInfo) => {
     // Clear any existing timeout
     if (popupTimeoutRef.current) {
       clearTimeout(popupTimeoutRef.current);
@@ -47,12 +45,7 @@ export default function Dashboard() {
     }
     
     setPopupData(data);
-    setIsPopupOpen(true);
-    
-    // Add a small delay before showing the popup to ensure the DOM is updated
-    setTimeout(() => {
-      setIsPopupVisible(true);
-    }, 50);
+    setPopupOpen(true);
   };
 
   // Function to toggle calendar visibility
@@ -68,184 +61,27 @@ export default function Dashboard() {
     
     // Then remove it from the DOM after animation completes
     popupTimeoutRef.current = setTimeout(() => {
-      setIsPopupOpen(false);
+      setPopupOpen(false);
     }, 300); // Match this to the CSS transition duration
   };
-
-  // Function to update the user location marker on the map
-  const updateUserLocationMarker = (position: GeolocationPosition) => {
-    if (!mapRef.current) return;
-    
-    const { longitude, latitude } = position.coords;
-    const lngLat: [number, number] = [longitude, latitude];
-    
-    // Check if this is the first location update
-    const isFirstUpdate = !userLocation;
-    
-    // Update state
-    setUserLocation(lngLat);
-    setIsLocatingUser(false);
-    setLocationError(null);
-    
-    // Create or update the marker
-    if (!userLocationMarkerRef.current) {
-      // Create a pulsing dot element for the user location
-      const el = document.createElement('div');
-      el.className = 'user-location-marker';
-      el.style.width = '20px';
-      el.style.height = '20px';
-      el.style.borderRadius = '50%';
-      el.style.backgroundColor = '#4285F4';
-      el.style.border = '2px solid white';
-      el.style.boxShadow = '0 0 0 2px rgba(66, 133, 244, 0.3)';
-      el.style.animation = 'pulse 1.5s infinite';
-      
-      // Add the pulsing animation
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.5); }
-          70% { box-shadow: 0 0 0 15px rgba(66, 133, 244, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0); }
-        }
-      `;
-      document.head.appendChild(style);
-      
-      // Create and add the marker
-      const marker = new mapboxgl.Marker({ element: el })
-        .setLngLat(lngLat)
-        .addTo(mapRef.current);
-      
-      // Store the marker reference
-      userLocationMarkerRef.current = marker;
-    } else {
-      // Update existing marker position
-      userLocationMarkerRef.current.setLngLat(lngLat);
-    }
-    
-    // If this is the first location update, fly to the user's location
-    if (isFirstUpdate && mapRef.current) {
-      mapRef.current.flyTo({
-        center: lngLat,
-        zoom: 16,
-        pitch: 30,
-        bearing: 0,
-        speed: 1.2, // Faster animation for initial location
-        curve: 1.0,
-        essential: true,
-        duration: 3000,
-      });
-    }
-  };
-
-  // Function to start location tracking
-  const startLocationTracking = () => {
-    if (!navigator.geolocation) {
-      setLocationError('Geolocation is not supported by your browser');
-      return;
-    }
-
-    setIsLocatingUser(true);
-    
-    // Start watching position
-    locationWatchIdRef.current = navigator.geolocation.watchPosition(
-      // Success callback
-      (position) => {
-        updateUserLocationMarker(position);
-      },
-      // Error callback
-      (error) => {
-        console.error('Error getting location:', error);
-        setLocationError(`Error getting location: ${error.message}`);
-        setIsLocatingUser(false);
-      },
-      // Options
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 5000 // Accept positions up to 5 seconds old
-      }
-    );
-  };
   
-  // Function to stop tracking user location
-  const stopLocationTracking = () => {
-    if (locationWatchIdRef.current) {
-      navigator.geolocation.clearWatch(locationWatchIdRef.current);
-      locationWatchIdRef.current = null;
-      console.log("Location tracking stopped");
-    }
-  };
-
+  // Cleanup on unmount
   useEffect(() => {
-    if (!mapContainerRef.current || mapRef.current) return;
-
-    // Initialize the map with the token from environment
-    const initializeMap = async () => {
-      try {
-        // Set the Mapbox token from environment
-        const env = await environment();
-        mapboxgl.accessToken = env.mapBoxAccessToken || '';
-        
-        if (!mapContainerRef.current) return; // Safety check
-        
-        // Initialize the map without setting center/zoom initially
-        const map = new mapboxgl.Map({
-          container: mapContainerRef.current,
-          style: 'mapbox://styles/zhgr/cmarabpiy01pw01sl35e50m1p',
-          projection: 'globe',
-          // Start with a wider view until we get user location
-          zoom: 2,
-        });
-
-        // Add a load event handler
-        map.on('load', () => {
-          console.log('Map loaded');
-          
-          // Start location tracking immediately when map loads
-          startLocationTracking();
-          
-          // Add garbage container markers after map is loaded
-          if (garbageContainers && garbageContainers.length > 0) {
-            console.log(`Adding ${garbageContainers.length} garbage container markers`);
-            garbageContainers.forEach(container => {
-              // Create container marker with click handler
-              createContainerMarker(container, map, openPopup);
-            });
-          }
-        });
-
-        // Update state when map moves
-        map.on('move', () => {
-          const mapCenter = map.getCenter();
-          setCenter([mapCenter.lng, mapCenter.lat]);
-          setZoom(map.getZoom());
-        });
-
-        // Save map instance to ref
-        mapRef.current = map;
-      } catch (error) {
-        console.error('Error initializing map:', error);
-      }
-    };
-
-    initializeMap();
-
-    // Cleanup on unmount
     return () => {
-      stopLocationTracking();
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
+      if (popupTimeoutRef.current) {
+        clearTimeout(popupTimeoutRef.current);
       }
     };
-  }, [garbageContainers]);
+  }, []);
 
   return (
-    <div className="h-screen w-full relative">
-      <div ref={mapContainerRef} className="h-full w-full"></div>
-      
-      {/* Info Panel for container information using shadcn UI with animations */}
+    <MapView 
+      mode='dashboard'
+      enableLocationTracking={true}
+      className='h-screen w-full relative'
+      onMarkerClick={handleMarkerClick}
+    >
+      {/* Dashboard Mode Popup with Animation */}
       {isPopupOpen && (
         <div 
           className={`absolute top-4 right-4 z-50 w-80 transition-all duration-300 ease-in-out transform ${
@@ -364,6 +200,6 @@ export default function Dashboard() {
           )}
         </div>
       )}
-    </div>
+    </MapView>
   );
 }
