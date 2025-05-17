@@ -344,8 +344,8 @@ export default function Dashboard() {
               : 'opacity-0 translate-x-4 scale-95'
           }`}
         >
-          <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden bg-black text-white">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-50"></div>
+          <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden text-white">
+            <div className="absolute inset-0 bg-gradient-to-br to-transparent opacity-50"></div>
             <CardHeader className="pb-2 relative">
               <div className="flex justify-between items-start">
                 <div>

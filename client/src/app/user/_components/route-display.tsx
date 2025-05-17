@@ -11,9 +11,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Loader2, MapPin, RefreshCw, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 
 interface RouteDisplayProps {
-  mapRef: React.RefObject<mapboxgl.Map>;
+  mapRef: React.RefObject<mapboxgl.Map | null>;
   onRouteCreated?: (success: boolean) => void;
   onMarkerClick: (data: any) => void;
 }
@@ -115,20 +116,24 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
         );
 
         // Create a waypoint marker and store the reference
-        const marker = createWaypointMarker(
-          lng,
-          lat,
-          index,
-          container,
-          mapRef.current!,
-          onMarkerClick
-        );
-        
-        markersRef.current.push(marker);
+        if (mapRef.current) {
+          const marker = createWaypointMarker(
+            lng,
+            lat,
+            index,
+            container,
+            mapRef.current,
+            onMarkerClick
+          );
+          
+          markersRef.current.push(marker);
+        }
       });
 
       // Add the route to the map
-      addRouteToMap(mapRef.current, data, routeLayerId.current);
+      if (mapRef.current) {
+        addRouteToMap(mapRef.current, data, routeLayerId.current);
+      }
 
       // Extract route information if available
       if (data.routes && data.routes.length > 0) {
@@ -178,7 +183,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
     <div className="absolute bottom-8 right-8 z-10">
       <div className="flex flex-col gap-2">
         {routeCreated && (
-          <div className="bg-white dark:bg-gray-900 p-3 rounded-lg shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-300">
+          <Card className=" p-3 rounded-lg shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-300">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 Collection Route
@@ -230,7 +235,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
                 Refresh Route
               </Button>
             </div>
-          </div>
+          </Card>
         )}
         
         {!routeCreated && (
