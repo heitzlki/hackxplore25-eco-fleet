@@ -113,7 +113,7 @@ export const createContainerMarker = (
       "Longitude": container.lng,
       "Latitude": container.lat,
       "Max Fill Level": `${maxFillLevel}%`,
-      "containerIndex": container.index !== undefined ? container.index : null,
+      //"containerIndex": container.index !== undefined ? container.index : null,
     };
 
     // Add waste type information
