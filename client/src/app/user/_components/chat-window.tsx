@@ -95,7 +95,7 @@ export default function CardsChat() {
 
               const all_messages = [...messages, userMessage];
               setMessages(all_messages);
-              console.log(all_messages);
+              // console.log(all_messages);
               setInput('');
               setIsLoading(true);
 
