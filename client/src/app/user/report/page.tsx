@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ChatWindow from '@/app/(dashboard)/dashboard/_components/chat-window';
+import ChatWindow from '@/app/user/_components/chat-window';
 
 import { useStore } from '@/lib/store';
 
-import { SectionCards } from '@/app/(dashboard)/dashboard/_components/section-cards';
-import { DataTable } from '@/app/(dashboard)/dashboard/_components/data-table';
-import { ChartAreaInteractive } from '@/app/(dashboard)/dashboard/_components/chart-area-interactive';
+import { SectionCards } from '@/app/user/_components/section-cards';
+import { DataTable } from '@/app/user/_components/data-table';
+import { ChartAreaInteractive } from '@/app/user/_components/chart-area-interactive';
 
 export default function Chat() {
   return (

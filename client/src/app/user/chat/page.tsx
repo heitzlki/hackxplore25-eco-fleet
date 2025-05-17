@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ChatWindow from '@/app/(dashboard)/dashboard/_components/chat-window';
+import ChatWindow from '@/app/user/_components/chat-window';
 
 import { useStore } from '@/lib/store';
 

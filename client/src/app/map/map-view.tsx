@@ -69,7 +69,7 @@ export default function MapView({
       popupData,
       customPoints,
       isPlacingMode,
-      isLoadingRoute,
+      isLoadingRoute, 
       center: storeCenter,
       zoom: storeZoom,
     },
@@ -84,6 +84,9 @@ export default function MapView({
     setMapCenter,
     setMapZoom,
   } = useStore();
+  
+  // Reference to store container markers
+  const containerMarkersRef = useRef<mapboxgl.Marker[]>([]);
 
   // Use initial values from props or fall back to store values
   const center = initialCenter || storeCenter;
@@ -459,10 +462,77 @@ export default function MapView({
           duration: 6000, // Duration in milliseconds
         });
 
-        // Add garbage container markers
+        // Create garbage container markers but manage visibility based on zoom level
+        const zoomThreshold = 13; // Only show markers when zoomed in beyond this level
+        
+        // Clear any existing markers
+        containerMarkersRef.current.forEach(marker => marker.remove());
+        containerMarkersRef.current = [];
+        
+        // Create markers for all containers
         garbageContainers.forEach((container) => {
           // Create container marker with click handler
-          createContainerMarker(container, map, openPopup);
+          const marker = createContainerMarker(container, map, openPopup);
+          containerMarkersRef.current.push(marker);
+          
+          // Initially set visibility based on current zoom level
+          if (map.getZoom() < zoomThreshold) {
+            marker.getElement().style.display = 'none';
+          }
+        });
+        
+        // Add styles for fade transitions - we'll use direct opacity manipulation instead of classes
+        // for more precise control
+        
+        // Initialize markers with proper opacity based on current zoom
+        const updateMarkerOpacity = (zoom: number) => {
+          // Create a buffer zone for smoother transitions
+          const fadeStartZoom = zoomThreshold - 0.5;
+          const fadeEndZoom = zoomThreshold + 0.5;
+          
+          containerMarkersRef.current.forEach(marker => {
+            const el = marker.getElement();
+            
+            // Ensure transition property is set
+            el.style.transition = 'opacity 0.4s ease-in-out';
+            
+            if (zoom < fadeStartZoom) {
+              // Fully hidden - but fade out first
+              el.style.opacity = '0';
+              
+              // After transition completes, hide the element completely
+              setTimeout(() => {
+                // Only hide if we're still below the threshold
+                if (map.getZoom() < fadeStartZoom) {
+                  el.style.display = 'none';
+                }
+              }, 400); // Match transition duration
+            } 
+            else if (zoom > fadeEndZoom) {
+              // Fully visible
+              el.style.display = '';
+              el.style.opacity = '1';
+            }
+            else {
+              // In transition zone - calculate opacity based on zoom level
+              const opacity = (zoom - fadeStartZoom) / (fadeEndZoom - fadeStartZoom);
+              el.style.display = '';
+              el.style.opacity = opacity.toString();
+            }
+          });
+        };
+        
+        // Set initial opacity based on starting zoom level
+        updateMarkerOpacity(map.getZoom());
+        
+        // Add zoom change handler to show/hide markers with smooth transitions
+        map.on('zoom', () => {
+          updateMarkerOpacity(map.getZoom());
+        });
+        
+        // Also handle zoom end event to ensure markers are in the correct state
+        map.on('zoomend', () => {
+          updateMarkerOpacity(map.getZoom());
         });
       });
 

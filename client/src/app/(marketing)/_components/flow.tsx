@@ -63,12 +63,12 @@ import { useRouter } from 'next/navigation';
 
 import '@xyflow/react/dist/style.css';
 
-import AnnotationNode from '@/app/(dashboard)/dashboard/graph/_graph/_nodes/AnnotationNode';
-import InfoNode from '@/app/(dashboard)/dashboard/graph/_graph/_nodes/InfoNode';
-import FloatingEdge from '@/app/(dashboard)/dashboard/graph/_graph/_edges/FloatingEdge';
-import CenterNode from '@/app/(dashboard)/dashboard/graph/_graph/_nodes/CenterNode';
-import RoadmapNode from '@/app/(dashboard)/dashboard/graph/_graph/_nodes/RoadmapNode';
-import LoadingNode from '@/app/(dashboard)/dashboard/graph/_graph/_nodes/LoadingNode';
+import AnnotationNode from '@/app/user/graph/_graph/_nodes/AnnotationNode';
+import InfoNode from '@/app/user/graph/_graph/_nodes/InfoNode';
+import FloatingEdge from '@/app/user/graph/_graph/_edges/FloatingEdge';
+import CenterNode from '@/app/user/graph/_graph/_nodes/CenterNode';
+import RoadmapNode from '@/app/user/graph/_graph/_nodes/RoadmapNode';
+import LoadingNode from '@/app/user/graph/_graph/_nodes/LoadingNode';
 import { useStore } from '@/lib/store';
 
 const nodeTypes = {
