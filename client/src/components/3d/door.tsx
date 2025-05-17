@@ -99,7 +99,9 @@ type GLTFResult = GLTF & {
 };
 
 export function Door(props: React.JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/tech_door.gltf') as GLTFResult;
+  const { nodes, materials } = useGLTF(
+    '/tech_door.gltf'
+  ) as unknown as GLTFResult;
 
   return (
     <Center
