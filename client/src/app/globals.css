@@ -236,8 +236,8 @@
   }
   
   /* Dot colors */
-  .dot-bio { background-color: var(--color-green); }
+  .dot-bio { background-color: green; }
   .dot-recycling { background-color: #FFD700; } /* Yellow */
-  .dot-special { background-color: #4CC9F0; } /* Blue */
-  .dot-general { background-color: #9CA3AF; } /* Grey */
+  .dot-special { background-color: rgb(51, 89, 243); } /* Blue */
+  .dot-general { background-color: #6b717a; } /* Grey */
 }
