@@ -373,7 +373,7 @@ export const createCustomPointMarker = (
     event.stopPropagation();
 
     console.log('Marker clicked:', point);
-    console.log(isPlacingMode);
+    // console.log(isPlacingMode);
     if (isPlacingMode) {
       if (onRemovePoint) {
         // Show a brief "removing" animation
