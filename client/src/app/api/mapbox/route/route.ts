@@ -1,69 +1,71 @@
 import { NextResponse } from 'next/server';
-
-// Mock database
-const users = [
-  { id: '1', name: 'John Doe', email: 'john@example.com', role: 'admin' },
-  { id: '2', name: 'Jane Smith', email: 'jane@example.com', role: 'user' },
-  { id: '3', name: 'Bob Johnson', email: 'bob@example.com', role: 'user' }
-];
-
-// export const GET = async (request: Request) => {
-//   try {
-//     const { searchParams } = new URL(request.url);
-//     const role = searchParams.get('role');
-    
-//     // Filter users by role if provided
-//     if (role) {
-//       const filteredUsers = users.filter(user => user.role === role);
-//       return NextResponse.json(filteredUsers, { status: 200 });
-//     }
-    
-//     return NextResponse.json(users, { status: 200 });
-//   } catch (error) {
-//     return NextResponse.json(
-//       { error: 'Internal Server Error' },
-//       { status: 500 }
-//     );
-//   }
-// };
+import { environment } from '@/lib/environment';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     let waypointsParam = searchParams.get('waypoints');
-    let waypoints = waypointsParam ? waypointsParam.split(',') : [];
+    
+    // Check if waypoints is a string with semicolons (multiple points)
+    let waypoints: string[] = [];
+    
+    if (waypointsParam && waypointsParam.includes(';')) {
+      // The waypoints are already in format "lng,lat;lng,lat;lng,lat"
+      waypoints = waypointsParam.split(';');
+    } else if (waypointsParam) {
+      // The waypoints are in a different format, try to parse
+      waypoints = waypointsParam.split(',');
+      
+      // If we have an even number of coordinates, pair them properly
+      if (waypoints.length >= 4 && waypoints.length % 2 === 0) {
+        const pairedWaypoints: string[] = [];
+        for (let i = 0; i < waypoints.length; i += 2) {
+          pairedWaypoints.push(`${waypoints[i]},${waypoints[i + 1]}`);
+        }
+        waypoints = pairedWaypoints;
+      }
+    }
   
+    // Ensure we have at least 2 waypoints for a route
     if (!waypoints || waypoints.length < 2) {
-    //   return new Response('Missing start or end coordinates', { status: 400 });
-        // start = "8.403645%2C49.006882"
-        // end = "8.403645%2C49.006882"
-        waypoints = [
-            "8.403645%2C49.006882",
-            "8.403645%2C49.006882"
-        ];
+      // Use default waypoints for testing if none provided
+      // These should represent garbage container locations
+      waypoints = [
+        "8.403545,49.009544",
+        "8.404323,49.009504",
+        "8.403469,49.009014",
+        "8.404302,49.008968"
+      ];
     }
   
     try {
-    //   const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start};${end}?geometries=geojson&overview=full&access_token=${process.env.MAP_BOX_ACCESS_TOKEN}`;
-    const coordinates = waypoints.join(';');
-    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates}?geometries=geojson&overview=full&access_token=${process.env.MAP_BOX_ACCESS_TOKEN}`;
+      // Format: /directions/v5/{profile}/{coordinates}
+      const coordinates = waypoints.join(';');
+      const env = await environment();
       
-      console.log('Fetching Mapbox route:', url);
+      // Use the environment function to get the access token
+      const accessToken = env.mapBoxAccessToken;
+      
+      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates}?geometries=geojson&overview=full&steps=true&access_token=${accessToken}`;
+      
+      console.log('Fetching Mapbox route with waypoints:', waypoints.length);
       const res = await fetch(url);
-
       
       if (!res.ok) {
         const errorText = await res.text();
-        return new Response(errorText, { status: res.status });
+        console.error('Mapbox API error:', errorText);
+        return NextResponse.json(
+          { error: `Mapbox API error: ${res.status} ${res.statusText}` },
+          { status: res.status }
+        );
       }
   
       const data = await res.json();
-      return new Response(JSON.stringify(data), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      return NextResponse.json(data);
     } catch (error) {
       console.error('Error fetching Mapbox route:', error);
-      return new Response('Error fetching route', { status: 500 });
+      return NextResponse.json(
+        { error: 'Failed to fetch route from Mapbox API' },
+        { status: 500 }
+      );
     }
-  } 
+}
