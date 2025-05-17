@@ -89,6 +89,1806 @@
         "aluminum": 75,
         "general": 48
       }
+    },
+    {
+      "lat": 49.011538,
+      "lng": 8.399913,
+      "waste_types": {
+        "glass": 71,
+        "aluminum": -1,
+        "general": 82
+      }
+    },
+    {
+      "lat": 49.012811,
+      "lng": 8.398495,
+      "waste_types": {
+        "glass": 31,
+        "aluminum": 98,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.014617,
+      "lng": 8.392796,
+      "waste_types": {
+        "glass": 10,
+        "aluminum": 35,
+        "general": 75
+      }
+    },
+    {
+      "lat": 49.01194,
+      "lng": 8.394624,
+      "waste_types": {
+        "glass": 85,
+        "aluminum": 6,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.010064,
+      "lng": 8.395252,
+      "waste_types": {
+        "glass": 55,
+        "aluminum": -1,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.008951,
+      "lng": 8.398252,
+      "waste_types": {
+        "glass": 87,
+        "aluminum": -1,
+        "general": 94
+      }
+    },
+    {
+      "lat": 49.008594,
+      "lng": 8.400507,
+      "waste_types": {
+        "glass": 20,
+        "aluminum": 20,
+        "general": 75
+      }
+    },
+    {
+      "lat": 49.0097,
+      "lng": 8.402741,
+      "waste_types": {
+        "glass": 92,
+        "aluminum": -1,
+        "general": 78
+      }
+    },
+    {
+      "lat": 49.009523,
+      "lng": 8.406609,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 69,
+        "general": 36
+      }
+    },
+    {
+      "lat": 49.00728,
+      "lng": 8.405647,
+      "waste_types": {
+        "glass": 58,
+        "aluminum": 86,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.007823,
+      "lng": 8.409138,
+      "waste_types": {
+        "glass": 96,
+        "aluminum": 3,
+        "general": 75
+      }
+    },
+    {
+      "lat": 49.008523,
+      "lng": 8.411742,
+      "waste_types": {
+        "glass": 27,
+        "aluminum": 68,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.009422,
+      "lng": 8.411101,
+      "waste_types": {
+        "glass": 74,
+        "aluminum": 66,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.011053,
+      "lng": 8.409837,
+      "waste_types": {
+        "glass": 14,
+        "aluminum": -1,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.01246,
+      "lng": 8.409689,
+      "waste_types": {
+        "glass": 55,
+        "aluminum": 44,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.013521,
+      "lng": 8.412366,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 64,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.011229,
+      "lng": 8.413322,
+      "waste_types": {
+        "glass": 100,
+        "aluminum": 4,
+        "general": 65
+      }
+    },
+    {
+      "lat": 49.009333,
+      "lng": 8.413129,
+      "waste_types": {
+        "glass": 42,
+        "aluminum": 14,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.009181,
+      "lng": 8.416269,
+      "waste_types": {
+        "glass": 76,
+        "aluminum": 38,
+        "general": 6
+      }
+    },
+    {
+      "lat": 49.010939,
+      "lng": 8.417519,
+      "waste_types": {
+        "glass": 58,
+        "aluminum": 78,
+        "general": 44
+      }
+    },
+    {
+      "lat": 49.00634,
+      "lng": 8.412023,
+      "waste_types": {
+        "glass": 32,
+        "aluminum": 85,
+        "general": 7
+      }
+    },
+    {
+      "lat": 49.008391,
+      "lng": 8.414842,
+      "waste_types": {
+        "glass": 86,
+        "aluminum": 90,
+        "general": 83
+      }
+    },
+    {
+      "lat": 49.006119,
+      "lng": 8.410071,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 34,
+        "general": 43
+      }
+    },
+    {
+      "lat": 49.006609,
+      "lng": 8.409083,
+      "waste_types": {
+        "glass": 57,
+        "aluminum": 43,
+        "general": 60
+      }
+    },
+    {
+      "lat": 49.005786,
+      "lng": 8.406064,
+      "waste_types": {
+        "glass": 99,
+        "aluminum": 95,
+        "general": 66
+      }
+    },
+    {
+      "lat": 49.007629,
+      "lng": 8.399724,
+      "waste_types": {
+        "glass": 75,
+        "aluminum": 54,
+        "general": 96
+      }
+    },
+    {
+      "lat": 49.006493,
+      "lng": 8.40065,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 3,
+        "general": 54
+      }
+    },
+    {
+      "lat": 49.006516,
+      "lng": 8.398729,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 62,
+        "general": 64
+      }
+    },
+    {
+      "lat": 49.007158,
+      "lng": 8.396924,
+      "waste_types": {
+        "glass": 64,
+        "aluminum": -1,
+        "general": 30
+      }
+    },
+    {
+      "lat": 49.00802,
+      "lng": 8.394678,
+      "waste_types": {
+        "glass": 67,
+        "aluminum": 86,
+        "general": 87
+      }
+    },
+    {
+      "lat": 49.008491,
+      "lng": 8.393188,
+      "waste_types": {
+        "glass": 41,
+        "aluminum": -1,
+        "general": 1
+      }
+    },
+    {
+      "lat": 49.010747,
+      "lng": 8.389599,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 95,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.013382,
+      "lng": 8.390497,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": -1,
+        "general": 73
+      }
+    },
+    {
+      "lat": 49.010988,
+      "lng": 8.391944,
+      "waste_types": {
+        "glass": 62,
+        "aluminum": 41,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.009696,
+      "lng": 8.389653,
+      "waste_types": {
+        "glass": 3,
+        "aluminum": 74,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.008881,
+      "lng": 8.391688,
+      "waste_types": {
+        "glass": 11,
+        "aluminum": 8,
+        "general": 100
+      }
+    },
+    {
+      "lat": 49.005983,
+      "lng": 8.394454,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 71,
+        "general": 72
+      }
+    },
+    {
+      "lat": 49.007002,
+      "lng": 8.391368,
+      "waste_types": {
+        "glass": 21,
+        "aluminum": 46,
+        "general": 2
+      }
+    },
+    {
+      "lat": 49.008615,
+      "lng": 8.389993,
+      "waste_types": {
+        "glass": 90,
+        "aluminum": 8,
+        "general": 1
+      }
+    },
+    {
+      "lat": 49.014534,
+      "lng": 8.388059,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 11,
+        "general": 34
+      }
+    },
+    {
+      "lat": 49.012122,
+      "lng": 8.387469,
+      "waste_types": {
+        "glass": 4,
+        "aluminum": 6,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.005543,
+      "lng": 8.38924,
+      "waste_types": {
+        "glass": 64,
+        "aluminum": -1,
+        "general": 24
+      }
+    },
+    {
+      "lat": 49.007561,
+      "lng": 8.387008,
+      "waste_types": {
+        "glass": 42,
+        "aluminum": 6,
+        "general": 7
+      }
+    },
+    {
+      "lat": 49.010362,
+      "lng": 8.385545,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": -1,
+        "general": 64
+      }
+    },
+    {
+      "lat": 49.00926,
+      "lng": 8.386245,
+      "waste_types": {
+        "glass": 38,
+        "aluminum": 35,
+        "general": 82
+      }
+    },
+    {
+      "lat": 49.005573,
+      "lng": 8.38533,
+      "waste_types": {
+        "glass": 58,
+        "aluminum": 83,
+        "general": 56
+      }
+    },
+    {
+      "lat": 49.005135,
+      "lng": 8.401764,
+      "waste_types": {
+        "glass": 5,
+        "aluminum": 96,
+        "general": 6
+      }
+    },
+    {
+      "lat": 49.005263,
+      "lng": 8.396233,
+      "waste_types": {
+        "glass": 44,
+        "aluminum": 69,
+        "general": 51
+      }
+    },
+    {
+      "lat": 49.003442,
+      "lng": 8.396425,
+      "waste_types": {
+        "glass": 6,
+        "aluminum": 36,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.002492,
+      "lng": 8.397798,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": -1,
+        "general": 19
+      }
+    },
+    {
+      "lat": 49.00263,
+      "lng": 8.394588,
+      "waste_types": {
+        "glass": 71,
+        "aluminum": 27,
+        "general": 57
+      }
+    },
+    {
+      "lat": 49.00307,
+      "lng": 8.399388,
+      "waste_types": {
+        "glass": 59,
+        "aluminum": 46,
+        "general": 100
+      }
+    },
+    {
+      "lat": 49.0035,
+      "lng": 8.404288,
+      "waste_types": {
+        "glass": 16,
+        "aluminum": 42,
+        "general": 0
+      }
+    },
+    {
+      "lat": 49.00549,
+      "lng": 8.407438,
+      "waste_types": {
+        "glass": 69,
+        "aluminum": 14,
+        "general": 26
+      }
+    },
+    {
+      "lat": 49.003775,
+      "lng": 8.410574,
+      "waste_types": {
+        "glass": 40,
+        "aluminum": 94,
+        "general": 73
+      }
+    },
+    {
+      "lat": 49.00384,
+      "lng": 8.413214,
+      "waste_types": {
+        "glass": 44,
+        "aluminum": 35,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.004145,
+      "lng": 8.407865,
+      "waste_types": {
+        "glass": 43,
+        "aluminum": 30,
+        "general": 50
+      }
+    },
+    {
+      "lat": 49.001491,
+      "lng": 8.405759,
+      "waste_types": {
+        "glass": 76,
+        "aluminum": 2,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.000892,
+      "lng": 8.40802,
+      "waste_types": {
+        "glass": 21,
+        "aluminum": -1,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.001403,
+      "lng": 8.403186,
+      "waste_types": {
+        "glass": 2,
+        "aluminum": 49,
+        "general": 71
+      }
+    },
+    {
+      "lat": 49.000067,
+      "lng": 8.407602,
+      "waste_types": {
+        "glass": 100,
+        "aluminum": 60,
+        "general": 61
+      }
+    },
+    {
+      "lat": 48.999315,
+      "lng": 8.404291,
+      "waste_types": {
+        "glass": 71,
+        "aluminum": -1,
+        "general": 14
+      }
+    },
+    {
+      "lat": 48.998724,
+      "lng": 8.410601,
+      "waste_types": {
+        "glass": 30,
+        "aluminum": 68,
+        "general": 21
+      }
+    },
+    {
+      "lat": 49.002384,
+      "lng": 8.410556,
+      "waste_types": {
+        "glass": 3,
+        "aluminum": 8,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.000436,
+      "lng": 8.413172,
+      "waste_types": {
+        "glass": 11,
+        "aluminum": 80,
+        "general": -1
+      }
+    },
+    {
+      "lat": 48.999237,
+      "lng": 8.413357,
+      "waste_types": {
+        "glass": 4,
+        "aluminum": -1,
+        "general": 36
+      }
+    },
+    {
+      "lat": 48.999959,
+      "lng": 8.415494,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 62,
+        "general": 41
+      }
+    },
+    {
+      "lat": 49.001768,
+      "lng": 8.415588,
+      "waste_types": {
+        "glass": 74,
+        "aluminum": 79,
+        "general": 69
+      }
+    },
+    {
+      "lat": 49.002642,
+      "lng": 8.413524,
+      "waste_types": {
+        "glass": 62,
+        "aluminum": 8,
+        "general": 29
+      }
+    },
+    {
+      "lat": 49.00104,
+      "lng": 8.413222,
+      "waste_types": {
+        "glass": 26,
+        "aluminum": 34,
+        "general": 3
+      }
+    },
+    {
+      "lat": 49.002221,
+      "lng": 8.415862,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 53,
+        "general": 62
+      }
+    },
+    {
+      "lat": 49.001795,
+      "lng": 8.417218,
+      "waste_types": {
+        "glass": 56,
+        "aluminum": 14,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.003781,
+      "lng": 8.4156,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 66,
+        "general": 33
+      }
+    },
+    {
+      "lat": 49.004114,
+      "lng": 8.414962,
+      "waste_types": {
+        "glass": 9,
+        "aluminum": -1,
+        "general": 26
+      }
+    },
+    {
+      "lat": 49.00276,
+      "lng": 8.417117,
+      "waste_types": {
+        "glass": 90,
+        "aluminum": 14,
+        "general": 59
+      }
+    },
+    {
+      "lat": 49.001831,
+      "lng": 8.418537,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": -1,
+        "general": 21
+      }
+    },
+    {
+      "lat": 49.000375,
+      "lng": 8.420011,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 32,
+        "general": 11
+      }
+    },
+    {
+      "lat": 49.000524,
+      "lng": 8.418461,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 65,
+        "general": 87
+      }
+    },
+    {
+      "lat": 48.999921,
+      "lng": 8.416359,
+      "waste_types": {
+        "glass": 98,
+        "aluminum": 17,
+        "general": -1
+      }
+    },
+    {
+      "lat": 48.998589,
+      "lng": 8.415269,
+      "waste_types": {
+        "glass": 8,
+        "aluminum": -1,
+        "general": -1
+      }
+    },
+    {
+      "lat": 48.99829,
+      "lng": 8.408192,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 57,
+        "general": 29
+      }
+    },
+    {
+      "lat": 48.997579,
+      "lng": 8.406008,
+      "waste_types": {
+        "glass": 69,
+        "aluminum": 12,
+        "general": 14
+      }
+    },
+    {
+      "lat": 48.996061,
+      "lng": 8.408334,
+      "waste_types": {
+        "glass": 70,
+        "aluminum": 32,
+        "general": -1
+      }
+    },
+    {
+      "lat": 48.997013,
+      "lng": 8.410412,
+      "waste_types": {
+        "glass": 1,
+        "aluminum": 41,
+        "general": 31
+      }
+    },
+    {
+      "lat": 48.996699,
+      "lng": 8.40414,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 23,
+        "general": -1
+      }
+    },
+    {
+      "lat": 48.994657,
+      "lng": 8.402274,
+      "waste_types": {
+        "glass": 91,
+        "aluminum": 3,
+        "general": 43
+      }
+    },
+    {
+      "lat": 48.99523,
+      "lng": 8.401902,
+      "waste_types": {
+        "glass": 36,
+        "aluminum": -1,
+        "general": 1
+      }
+    },
+    {
+      "lat": 48.997035,
+      "lng": 8.397765,
+      "waste_types": {
+        "glass": 51,
+        "aluminum": 64,
+        "general": 50
+      }
+    },
+    {
+      "lat": 48.994388,
+      "lng": 8.39819,
+      "waste_types": {
+        "glass": 19,
+        "aluminum": 30,
+        "general": 84
+      }
+    },
+    {
+      "lat": 48.998837,
+      "lng": 8.398702,
+      "waste_types": {
+        "glass": 27,
+        "aluminum": 34,
+        "general": 87
+      }
+    },
+    {
+      "lat": 48.999128,
+      "lng": 8.402833,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 24,
+        "general": 9
+      }
+    },
+    {
+      "lat": 48.997934,
+      "lng": 8.403664,
+      "waste_types": {
+        "glass": 99,
+        "aluminum": -1,
+        "general": 4
+      }
+    },
+    {
+      "lat": 49.000016,
+      "lng": 8.396678,
+      "waste_types": {
+        "glass": 16,
+        "aluminum": 36,
+        "general": 5
+      }
+    },
+    {
+      "lat": 49.000635,
+      "lng": 8.394177,
+      "waste_types": {
+        "glass": 89,
+        "aluminum": -1,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.005223,
+      "lng": 8.392586,
+      "waste_types": {
+        "glass": 42,
+        "aluminum": 49,
+        "general": 69
+      }
+    },
+    {
+      "lat": 49.004415,
+      "lng": 8.389395,
+      "waste_types": {
+        "glass": 65,
+        "aluminum": 40,
+        "general": 29
+      }
+    },
+    {
+      "lat": 49.003144,
+      "lng": 8.390925,
+      "waste_types": {
+        "glass": 34,
+        "aluminum": 86,
+        "general": 18
+      }
+    },
+    {
+      "lat": 48.998389,
+      "lng": 8.396154,
+      "waste_types": {
+        "glass": 69,
+        "aluminum": 89,
+        "general": 17
+      }
+    },
+    {
+      "lat": 48.998601,
+      "lng": 8.3913,
+      "waste_types": {
+        "glass": 39,
+        "aluminum": -1,
+        "general": 77
+      }
+    },
+    {
+      "lat": 49.000579,
+      "lng": 8.390809,
+      "waste_types": {
+        "glass": 23,
+        "aluminum": -1,
+        "general": 5
+      }
+    },
+    {
+      "lat": 49.000966,
+      "lng": 8.388371,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 56,
+        "general": 65
+      }
+    },
+    {
+      "lat": 49.002091,
+      "lng": 8.387436,
+      "waste_types": {
+        "glass": 70,
+        "aluminum": 71,
+        "general": 75
+      }
+    },
+    {
+      "lat": 49.003269,
+      "lng": 8.389146,
+      "waste_types": {
+        "glass": 64,
+        "aluminum": -1,
+        "general": 28
+      }
+    },
+    {
+      "lat": 49.007994,
+      "lng": 8.381623,
+      "waste_types": {
+        "glass": 73,
+        "aluminum": 22,
+        "general": 25
+      }
+    },
+    {
+      "lat": 49.010474,
+      "lng": 8.382347,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 60,
+        "general": 66
+      }
+    },
+    {
+      "lat": 49.012215,
+      "lng": 8.419656,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 35,
+        "general": 4
+      }
+    },
+    {
+      "lat": 49.011754,
+      "lng": 8.42233,
+      "waste_types": {
+        "glass": 43,
+        "aluminum": 13,
+        "general": 66
+      }
+    },
+    {
+      "lat": 49.008563,
+      "lng": 8.420555,
+      "waste_types": {
+        "glass": 90,
+        "aluminum": -1,
+        "general": 95
+      }
+    },
+    {
+      "lat": 49.007935,
+      "lng": 8.423833,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 51,
+        "general": 79
+      }
+    },
+    {
+      "lat": 49.004764,
+      "lng": 8.418845,
+      "waste_types": {
+        "glass": 45,
+        "aluminum": 57,
+        "general": 46
+      }
+    },
+    {
+      "lat": 49.006717,
+      "lng": 8.417657,
+      "waste_types": {
+        "glass": 32,
+        "aluminum": 0,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.006301,
+      "lng": 8.421728,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 10,
+        "general": 64
+      }
+    },
+    {
+      "lat": 49.004504,
+      "lng": 8.424133,
+      "waste_types": {
+        "glass": 30,
+        "aluminum": 15,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.00542,
+      "lng": 8.426799,
+      "waste_types": {
+        "glass": 9,
+        "aluminum": -1,
+        "general": 14
+      }
+    },
+    {
+      "lat": 49.008748,
+      "lng": 8.427291,
+      "waste_types": {
+        "glass": 47,
+        "aluminum": 46,
+        "general": 91
+      }
+    },
+    {
+      "lat": 49.010271,
+      "lng": 8.425791,
+      "waste_types": {
+        "glass": 36,
+        "aluminum": -1,
+        "general": 92
+      }
+    },
+    {
+      "lat": 49.011132,
+      "lng": 8.429336,
+      "waste_types": {
+        "glass": 55,
+        "aluminum": -1,
+        "general": 69
+      }
+    },
+    {
+      "lat": 49.009204,
+      "lng": 8.432197,
+      "waste_types": {
+        "glass": 50,
+        "aluminum": 38,
+        "general": 86
+      }
+    },
+    {
+      "lat": 49.013399,
+      "lng": 8.429084,
+      "waste_types": {
+        "glass": 76,
+        "aluminum": 68,
+        "general": 57
+      }
+    },
+    {
+      "lat": 49.006939,
+      "lng": 8.428914,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 62,
+        "general": 42
+      }
+    },
+    {
+      "lat": 49.006511,
+      "lng": 8.431474,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 89,
+        "general": 35
+      }
+    },
+    {
+      "lat": 49.01239,
+      "lng": 8.424323,
+      "waste_types": {
+        "glass": 0,
+        "aluminum": 76,
+        "general": 93
+      }
+    },
+    {
+      "lat": 49.014432,
+      "lng": 8.427576,
+      "waste_types": {
+        "glass": 79,
+        "aluminum": 67,
+        "general": 35
+      }
+    },
+    {
+      "lat": 49.014967,
+      "lng": 8.423007,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 31,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.016064,
+      "lng": 8.424453,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 86,
+        "general": 62
+      }
+    },
+    {
+      "lat": 49.017831,
+      "lng": 8.422426,
+      "waste_types": {
+        "glass": 41,
+        "aluminum": 59,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.016079,
+      "lng": 8.422267,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 18,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.019593,
+      "lng": 8.423511,
+      "waste_types": {
+        "glass": 34,
+        "aluminum": 79,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.022795,
+      "lng": 8.42603,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": -1,
+        "general": 75
+      }
+    },
+    {
+      "lat": 49.022363,
+      "lng": 8.421948,
+      "waste_types": {
+        "glass": 32,
+        "aluminum": 76,
+        "general": 96
+      }
+    },
+    {
+      "lat": 49.024827,
+      "lng": 8.429224,
+      "waste_types": {
+        "glass": 11,
+        "aluminum": -1,
+        "general": 24
+      }
+    },
+    {
+      "lat": 49.014453,
+      "lng": 8.433688,
+      "waste_types": {
+        "glass": 26,
+        "aluminum": 97,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.011676,
+      "lng": 8.436369,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": -1,
+        "general": 41
+      }
+    },
+    {
+      "lat": 49.011524,
+      "lng": 8.432971,
+      "waste_types": {
+        "glass": 28,
+        "aluminum": -1,
+        "general": 40
+      }
+    },
+    {
+      "lat": 49.009171,
+      "lng": 8.43745,
+      "waste_types": {
+        "glass": 8,
+        "aluminum": 15,
+        "general": 11
+      }
+    },
+    {
+      "lat": 49.007302,
+      "lng": 8.436735,
+      "waste_types": {
+        "glass": 59,
+        "aluminum": -1,
+        "general": 89
+      }
+    },
+    {
+      "lat": 49.00696,
+      "lng": 8.439127,
+      "waste_types": {
+        "glass": 39,
+        "aluminum": 94,
+        "general": 14
+      }
+    },
+    {
+      "lat": 49.005748,
+      "lng": 8.433021,
+      "waste_types": {
+        "glass": 41,
+        "aluminum": -1,
+        "general": 34
+      }
+    },
+    {
+      "lat": 49.003848,
+      "lng": 8.430085,
+      "waste_types": {
+        "glass": 4,
+        "aluminum": 60,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.001689,
+      "lng": 8.426082,
+      "waste_types": {
+        "glass": 32,
+        "aluminum": 57,
+        "general": 81
+      }
+    },
+    {
+      "lat": 49.001219,
+      "lng": 8.423225,
+      "waste_types": {
+        "glass": 72,
+        "aluminum": 63,
+        "general": 31
+      }
+    },
+    {
+      "lat": 49.014524,
+      "lng": 8.384841,
+      "waste_types": {
+        "glass": 22,
+        "aluminum": 51,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.01368,
+      "lng": 8.383082,
+      "waste_types": {
+        "glass": 39,
+        "aluminum": 41,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.013707,
+      "lng": 8.3752,
+      "waste_types": {
+        "glass": 5,
+        "aluminum": -1,
+        "general": 57
+      }
+    },
+    {
+      "lat": 49.014937,
+      "lng": 8.378366,
+      "waste_types": {
+        "glass": 14,
+        "aluminum": -1,
+        "general": 70
+      }
+    },
+    {
+      "lat": 49.012853,
+      "lng": 8.379294,
+      "waste_types": {
+        "glass": 42,
+        "aluminum": 13,
+        "general": 23
+      }
+    },
+    {
+      "lat": 49.011118,
+      "lng": 8.377955,
+      "waste_types": {
+        "glass": 65,
+        "aluminum": 7,
+        "general": 79
+      }
+    },
+    {
+      "lat": 49.011221,
+      "lng": 8.374976,
+      "waste_types": {
+        "glass": 27,
+        "aluminum": 96,
+        "general": 55
+      }
+    },
+    {
+      "lat": 49.009286,
+      "lng": 8.379423,
+      "waste_types": {
+        "glass": 4,
+        "aluminum": 8,
+        "general": 31
+      }
+    },
+    {
+      "lat": 49.009405,
+      "lng": 8.37632,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": -1,
+        "general": 94
+      }
+    },
+    {
+      "lat": 49.008185,
+      "lng": 8.377125,
+      "waste_types": {
+        "glass": 97,
+        "aluminum": 34,
+        "general": 58
+      }
+    },
+    {
+      "lat": 49.007267,
+      "lng": 8.378994,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 14,
+        "general": 34
+      }
+    },
+    {
+      "lat": 49.005645,
+      "lng": 8.380726,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": -1,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.00506,
+      "lng": 8.380435,
+      "waste_types": {
+        "glass": 80,
+        "aluminum": 56,
+        "general": 93
+      }
+    },
+    {
+      "lat": 49.004491,
+      "lng": 8.383255,
+      "waste_types": {
+        "glass": 71,
+        "aluminum": -1,
+        "general": 43
+      }
+    },
+    {
+      "lat": 49.002467,
+      "lng": 8.381442,
+      "waste_types": {
+        "glass": 24,
+        "aluminum": 14,
+        "general": 84
+      }
+    },
+    {
+      "lat": 49.001246,
+      "lng": 8.384181,
+      "waste_types": {
+        "glass": 83,
+        "aluminum": 50,
+        "general": 1
+      }
+    },
+    {
+      "lat": 49.000259,
+      "lng": 8.382423,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": -1,
+        "general": 75
+      }
+    },
+    {
+      "lat": 48.998992,
+      "lng": 8.383944,
+      "waste_types": {
+        "glass": 87,
+        "aluminum": 60,
+        "general": 10
+      }
+    },
+    {
+      "lat": 49.000939,
+      "lng": 8.37795,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 88,
+        "general": 60
+      }
+    },
+    {
+      "lat": 48.999296,
+      "lng": 8.377342,
+      "waste_types": {
+        "glass": 15,
+        "aluminum": 92,
+        "general": -1
+      }
+    },
+    {
+      "lat": 48.997881,
+      "lng": 8.379524,
+      "waste_types": {
+        "glass": 25,
+        "aluminum": 29,
+        "general": 77
+      }
+    },
+    {
+      "lat": 48.996477,
+      "lng": 8.380858,
+      "waste_types": {
+        "glass": 30,
+        "aluminum": 36,
+        "general": 86
+      }
+    },
+    {
+      "lat": 48.997525,
+      "lng": 8.385011,
+      "waste_types": {
+        "glass": 96,
+        "aluminum": 97,
+        "general": -1
+      }
+    },
+    {
+      "lat": 48.995131,
+      "lng": 8.389511,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 63,
+        "general": 61
+      }
+    },
+    {
+      "lat": 48.994868,
+      "lng": 8.39475,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 58,
+        "general": 100
+      }
+    },
+    {
+      "lat": 48.997147,
+      "lng": 8.392882,
+      "waste_types": {
+        "glass": 54,
+        "aluminum": -1,
+        "general": 11
+      }
+    },
+    {
+      "lat": 48.992785,
+      "lng": 8.393197,
+      "waste_types": {
+        "glass": 39,
+        "aluminum": 71,
+        "general": 72
+      }
+    },
+    {
+      "lat": 48.99314,
+      "lng": 8.385996,
+      "waste_types": {
+        "glass": 94,
+        "aluminum": 89,
+        "general": 94
+      }
+    },
+    {
+      "lat": 48.993488,
+      "lng": 8.394842,
+      "waste_types": {
+        "glass": 57,
+        "aluminum": 60,
+        "general": 47
+      }
+    },
+    {
+      "lat": 48.993763,
+      "lng": 8.391835,
+      "waste_types": {
+        "glass": 73,
+        "aluminum": -1,
+        "general": 72
+      }
+    },
+    {
+      "lat": 48.993902,
+      "lng": 8.388725,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 57,
+        "general": 12
+      }
+    },
+    {
+      "lat": 48.991697,
+      "lng": 8.388577,
+      "waste_types": {
+        "glass": 41,
+        "aluminum": 53,
+        "general": 45
+      }
+    },
+    {
+      "lat": 48.993335,
+      "lng": 8.382185,
+      "waste_types": {
+        "glass": 67,
+        "aluminum": 91,
+        "general": 99
+      }
+    },
+    {
+      "lat": 49.004871,
+      "lng": 8.375324,
+      "waste_types": {
+        "glass": 2,
+        "aluminum": 77,
+        "general": 88
+      }
+    },
+    {
+      "lat": 49.003788,
+      "lng": 8.372899,
+      "waste_types": {
+        "glass": 47,
+        "aluminum": 62,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.0071,
+      "lng": 8.371659,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": -1,
+        "general": 77
+      }
+    },
+    {
+      "lat": 49.004595,
+      "lng": 8.370315,
+      "waste_types": {
+        "glass": 93,
+        "aluminum": 88,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.005645,
+      "lng": 8.368774,
+      "waste_types": {
+        "glass": 48,
+        "aluminum": 70,
+        "general": 11
+      }
+    },
+    {
+      "lat": 49.007709,
+      "lng": 8.369483,
+      "waste_types": {
+        "glass": 51,
+        "aluminum": 8,
+        "general": 8
+      }
+    },
+    {
+      "lat": 49.00981,
+      "lng": 8.372002,
+      "waste_types": {
+        "glass": 82,
+        "aluminum": 40,
+        "general": 86
+      }
+    },
+    {
+      "lat": 49.011796,
+      "lng": 8.362896,
+      "waste_types": {
+        "glass": 88,
+        "aluminum": 57,
+        "general": 8
+      }
+    },
+    {
+      "lat": 49.008637,
+      "lng": 8.362337,
+      "waste_types": {
+        "glass": 82,
+        "aluminum": 96,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.009943,
+      "lng": 8.365875,
+      "waste_types": {
+        "glass": 41,
+        "aluminum": 78,
+        "general": 25
+      }
+    },
+    {
+      "lat": 49.014009,
+      "lng": 8.3704,
+      "waste_types": {
+        "glass": 100,
+        "aluminum": 75,
+        "general": 80
+      }
+    },
+    {
+      "lat": 49.016,
+      "lng": 8.369436,
+      "waste_types": {
+        "glass": 1,
+        "aluminum": 3,
+        "general": 26
+      }
+    },
+    {
+      "lat": 49.014373,
+      "lng": 8.366269,
+      "waste_types": {
+        "glass": 25,
+        "aluminum": 10,
+        "general": 11
+      }
+    },
+    {
+      "lat": 49.012401,
+      "lng": 8.367486,
+      "waste_types": {
+        "glass": 41,
+        "aluminum": 32,
+        "general": 22
+      }
+    },
+    {
+      "lat": 49.011451,
+      "lng": 8.361636,
+      "waste_types": {
+        "glass": 6,
+        "aluminum": 3,
+        "general": 19
+      }
+    },
+    {
+      "lat": 48.997089,
+      "lng": 8.375709,
+      "waste_types": {
+        "glass": 84,
+        "aluminum": 82,
+        "general": 6
+      }
+    },
+    {
+      "lat": 49.016661,
+      "lng": 8.375592,
+      "waste_types": {
+        "glass": -1,
+        "aluminum": 54,
+        "general": 80
+      }
+    },
+    {
+      "lat": 49.0146,
+      "lng": 8.397756,
+      "waste_types": {
+        "glass": 99,
+        "aluminum": 80,
+        "general": 93
+      }
+    },
+    {
+      "lat": 49.016792,
+      "lng": 8.379618,
+      "waste_types": {
+        "glass": 78,
+        "aluminum": 7,
+        "general": 81
+      }
+    },
+    {
+      "lat": 49.016145,
+      "lng": 8.362526,
+      "waste_types": {
+        "glass": 43,
+        "aluminum": 36,
+        "general": 33
+      }
+    },
+    {
+      "lat": 49.014895,
+      "lng": 8.360878,
+      "waste_types": {
+        "glass": 67,
+        "aluminum": 55,
+        "general": 20
+      }
+    },
+    {
+      "lat": 49.012922,
+      "lng": 8.359643,
+      "waste_types": {
+        "glass": 22,
+        "aluminum": -1,
+        "general": 30
+      }
+    },
+    {
+      "lat": 49.012765,
+      "lng": 8.356063,
+      "waste_types": {
+        "glass": 96,
+        "aluminum": 54,
+        "general": 84
+      }
+    },
+    {
+      "lat": 49.009833,
+      "lng": 8.35616,
+      "waste_types": {
+        "glass": 29,
+        "aluminum": 21,
+        "general": 18
+      }
+    },
+    {
+      "lat": 49.006873,
+      "lng": 8.366245,
+      "waste_types": {
+        "glass": 73,
+        "aluminum": 87,
+        "general": -1
+      }
+    },
+    {
+      "lat": 49.016153,
+      "lng": 8.414831,
+      "waste_types": {
+        "glass": 69,
+        "aluminum": -1,
+        "general": -1
+      }
     }
   ]
 }
