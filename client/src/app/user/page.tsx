@@ -548,7 +548,7 @@ export default function Dashboard() {
                         <span className={`${isMobile ? 'text-base' : 'text-sm'} text-gray-700 dark:text-gray-300`}>{item.key}</span>
                       </div>
                       <div className="flex items-center">
-                        <Badge className={`font-normal bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100 mr-2 ${isMobile ? 'text-sm px-2 py-1' : ''}`}>
+                        <Badge className={`font-normal bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100 mr-2 ${isMobile ? 'text-sm px-2 py-1 invisible' : ''}`}>
                           {item.value}
                         </Badge>
                         {expandedWasteType === item.key ? (

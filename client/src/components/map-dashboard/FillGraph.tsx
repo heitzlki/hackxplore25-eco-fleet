@@ -10,7 +10,7 @@ export default function FillGraph({ chartData }: { chartData: FillData }) {
     },
   }
 
-  console.log(chartData);
+  // console.log(chartData);
 
   return <ChartContainer config={chartConfig}>
       <AreaChart

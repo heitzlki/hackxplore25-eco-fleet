@@ -58,15 +58,37 @@ export async function apiFetch<T = any>(
  */
 export const UserApi = {
   getAll: () => apiFetch<any[]>('/api/users'),
-  
+
   getById: (id: string) => apiFetch<any>(`/api/users/${id}`),
-  
-  create: (userData: { name: string; email: string; role?: string }) => 
+
+  create: (userData: { name: string; email: string; role?: string }) =>
     apiFetch<any>('/api/users', { method: 'POST', body: userData }),
-  
-  update: (id: string, userData: Partial<{ name: string; email: string; role: string }>) => 
+
+  update: (id: string, userData: Partial<{ name: string; email: string; role: string }>) =>
     apiFetch<any>(`/api/users/${id}`, { method: 'PUT', body: userData }),
-  
-  delete: (id: string) => 
+
+  delete: (id: string) =>
     apiFetch<any>(`/api/users/${id}`, { method: 'DELETE' }),
+};
+
+import { GarbageContainer } from './store';
+
+/**
+ * Container API functions
+ */
+export const ContainerApi = {
+  /**
+   * Fetches all container data from Firebase through our API
+   */
+  getAll: () => apiFetch<GarbageContainer[]>('/api/firebase/containers'),
+
+  /**
+   * Fetches a specific container by ID
+   */
+  getById: (id: string) => apiFetch<GarbageContainer>(`/api/firebase/containers?id=${id}`),
+
+  /**
+   * Fetches a limited number of containers
+   */
+  getLimited: (limit: number) => apiFetch<GarbageContainer[]>(`/api/firebase/containers?limit=${limit}`),
 };

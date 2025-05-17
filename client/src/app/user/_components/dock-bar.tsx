@@ -45,7 +45,7 @@ const DATA = {
 
 export default function DockBar() {
   const { roadmap, setRoadmap } = useStore();
-  console.log(roadmap);
+  // console.log(roadmap);
 
   return (
     <div className='fixed w-full top-0 z-50 px-4 py-5'>
