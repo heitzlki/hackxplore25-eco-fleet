@@ -576,7 +576,6 @@ export default function Page() {
   return (
     <div className="h-screen w-screen relative overflow-hidden cursor-none">
       <div ref={mapContainerRef} className="h-full w-full relative z-0"></div>
-      <Pointer className="fill-blue-500" />
       
       {/* Control buttons for map features */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
