@@ -84,10 +84,10 @@ export default function Dashboard() {
       {/* Dashboard Mode Popup with Animation */}
       {isPopupOpen && (
         <div 
-          className={`absolute top-4 right-4 z-50 w-80 transition-all duration-300 ease-in-out transform ${
+          className={`absolute top-4 left-4 z-50 w-80 transition-all duration-300 ease-in-out transform ${
             isPopupVisible 
-              ? 'opacity-100 translate-y-0 scale-100' 
-              : 'opacity-0 -translate-y-4 scale-95'
+              ? 'opacity-100 translate-x-0 scale-100' 
+              : 'opacity-0 -translate-x-4 scale-95'
           }`}
         >
           <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden">
@@ -125,8 +125,8 @@ export default function Dashboard() {
               
               <style jsx global>{`
                 @keyframes fadeIn {
-                  from { opacity: 0; transform: translateY(8px); }
-                  to { opacity: 1; transform: translateY(0); }
+                  from { opacity: 0; transform: translateX(8px); }
+                  to { opacity: 1; transform: translateX(0); }
                 }
               `}</style>
             </CardContent>
@@ -155,7 +155,7 @@ export default function Dashboard() {
           {/* Calendar popup */}
           {showCalendar && (
             <div 
-              className="mt-2 w-full transition-all duration-300 ease-in-out transform animate-in fade-in slide-in-from-top-2"
+              className="mt-2 w-full transition-all duration-300 ease-in-out transform animate-in fade-in slide-in-from-left-2"
             >
               <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden">
                 <CardHeader className="pb-2">
