@@ -1,0 +1,38 @@
+{
+  "fillData": [
+    { "timestamp": "00:00", "fillLevel": 0 },
+    { "timestamp": "01:00", "fillLevel": 0.5 },
+    { "timestamp": "02:00", "fillLevel": 0.75 },
+    { "timestamp": "03:00", "fillLevel": 0.9 },
+    { "timestamp": "04:00", "fillLevel": 0.95 },
+    { "timestamp": "05:00", "fillLevel": 0.9 },
+    { "timestamp": "06:00", "fillLevel": 0 },
+    { "timestamp": "07:00", "fillLevel": 0.1 },
+    { "timestamp": "08:00", "fillLevel": 0.1 },
+    { "timestamp": "09:00", "fillLevel": 0.1 },
+    { "timestamp": "10:00", "fillLevel": 0.2 },
+    { "timestamp": "11:00", "fillLevel": 0.2 },
+    { "timestamp": "12:00", "fillLevel": 0.2 },
+    { "timestamp": "13:00", "fillLevel": 0.2 },
+    { "timestamp": "14:00", "fillLevel": 0.2 },
+    { "timestamp": "15:00", "fillLevel": 0.2 },
+    { "timestamp": "16:00", "fillLevel": 0.2 },
+    { "timestamp": "17:00", "fillLevel": 0.2 },
+    { "timestamp": "18:00", "fillLevel": 0.3 },
+    { "timestamp": "19:00", "fillLevel": 0.4 },
+    { "timestamp": "20:00", "fillLevel": 0.5 },
+    { "timestamp": "21:00", "fillLevel": 0.5 },
+    { "timestamp": "22:00", "fillLevel": 0.6 },
+    { "timestamp": "23:00", "fillLevel": 0.8 },
+    { "timestamp": "24:00", "fillLevel": 0.9 }
+  ],
+  "containers": [
+    { "lat": 49.009544, "lng": 8.403545, "current_level": 75 },
+    { "lat": 49.009504, "lng": 8.404323, "current_level": 32 },
+    { "lat": 49.009014, "lng": 8.403469, "current_level": 88 },
+    { "lat": 49.008968, "lng": 8.404302, "current_level": 45 },
+    { "lat": 49.008260, "lng": 8.403522, "current_level": 12 },
+    { "lat": 49.008241, "lng": 8.404078, "current_level": 95 },
+    { "lat": 49.009753, "lng": 8.401409, "current_level": 60 }
+  ]
+}

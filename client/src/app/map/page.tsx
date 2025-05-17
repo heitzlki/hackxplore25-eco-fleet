@@ -4,7 +4,7 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { environment } from "@/lib/environment";
 import { MapPopup } from "@/components/ui/map-popup";
-import { FillData, useStore } from "@/lib/store"; // Import the Zustand store hook
+import { FillData, GarbageContainer, useStore } from "@/lib/store"; // Import types and store hook
 import { Pointer } from "@/components/magicui/pointer";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
@@ -82,6 +82,10 @@ export default function Page() {
       // Highlight the used waypoints with an order index
       waypoints.forEach((waypoint, index) => {
         const [lng, lat] = waypoint.split(',').map(Number);
+        // Find the container to get its current_level
+        const container = garbageContainers.find(c => c.lng === lng && c.lat === lat);
+        const fillLevel = container ? container.current_level : 0;
+
         // Create a marker element with an index label
         const el = document.createElement('div');
         el.style.backgroundColor = '#f00';
@@ -103,13 +107,16 @@ export default function Page() {
         marker.getElement().addEventListener('click', () => {
           setPopupData({
             title: "Waypoint",
-            description: `Waypoint ${index + 1}`,
+            description: `Waypoint ${index + 1}${fillLevel ? ` - Fill Level: ${fillLevel}%` : ''}`,
             properties: {
               "Longitude": lng,
               "Latitude": lat,
-              "Order": index + 1
+              "Order": index + 1,
+              "Fill Level": container ? `${container.current_level}%` : 'Unknown',
+              "Status": container && container.current_level > 80 ? "Nearly Full" :
+                       container && container.current_level > 50 ? "Half Full" : "Available"
             },
-            fillData: []
+            fillData: container ? container.fillData : []
           });
           setIsPopupOpen(true);
         });
@@ -363,17 +370,32 @@ export default function Page() {
       
       // Add garbage container markers
       garbageContainers.forEach((container) => {
-        const marker = new mapboxgl.Marker({ color: '#000' })
+        // Determine marker color based on fill level
+        const fillLevel = container.current_level;
+        let markerColor;
+
+        if (fillLevel < 30) {
+          markerColor = '#4CAF50'; // Green for low fill level
+        } else if (fillLevel < 70) {
+          markerColor = '#FF9800'; // Orange for medium fill level
+        } else {
+          markerColor = '#F44336'; // Red for high fill level
+        }
+
+        const marker = new mapboxgl.Marker({ color: markerColor })
           .setLngLat([container.lng, container.lat])
           .addTo(map);
-          
+
         marker.getElement().addEventListener('click', () => {
           setPopupData({
             title: "Garbage Container",
-            description: "Location details for this container",
+            description: `Container Fill Level: ${container.current_level}%`,
             properties: {
               "Longitude": container.lng,
-              "Latitude": container.lat
+              "Latitude": container.lat,
+              "Fill Level": `${container.current_level}%`,
+              "Status": container.current_level > 80 ? "Nearly Full" :
+                        container.current_level > 50 ? "Half Full" : "Available"
             },
             fillData: container.fillData
           });
