@@ -30,6 +30,7 @@ export default function Dashboard() {
   const [isRecyclingPopupOpen, setIsRecyclingPopupOpen] = useState(false);
   const [isRecyclingPopupVisible, setIsRecyclingPopupVisible] = useState(false);
   const [showRecyclingCalendar, setShowRecyclingCalendar] = useState(false);
+  const [recyclingDate, setRecyclingDate] = useState<Date | undefined>(new Date());
   const recyclingPopupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Update visibility when popup state changes
@@ -171,7 +172,7 @@ export default function Dashboard() {
           }`}
         >
           <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50"></div>
+            {/* Removed gradient background for consistency */}
             <CardHeader className="pb-2 relative">
               <div className="flex justify-between items-start">
                 <div>
@@ -345,7 +346,7 @@ export default function Dashboard() {
           }`}
         >
           <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden text-white">
-            <div className="absolute inset-0 bg-gradient-to-br to-transparent opacity-50"></div>
+            {/* Removed gradient background for consistency */}
             <CardHeader className="pb-2 relative">
               <div className="flex justify-between items-start">
                 <div>
