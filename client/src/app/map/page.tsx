@@ -35,7 +35,7 @@ export default function Page() {
   const [center, setCenter] = useState<any>([
     8.403735115313623, 49.00791069535478,
   ]);
-  const [zoom, setZoom] = useState(17.5);
+  const [zoom, setZoom] = useState(14);
   const [isLoadingRoute, setIsLoadingRoute] = useState(false);
   const [customPoints, setCustomPoints] = useState<CustomPoint[]>([]);
   const [isPlacingMode, setIsPlacingMode] = useState(false);
@@ -281,6 +281,8 @@ export default function Page() {
         map.flyTo({
           center: center,
           zoom: zoom,
+          pitch: 30,
+          bearing: 0,
           speed: 0.8, // Animation speed (0.2 is very slow, 1.2 is very fast)
           curve: 1.0, // Animation curve (1 is linear)
           essential: true, // This animation is considered essential for the user experience
