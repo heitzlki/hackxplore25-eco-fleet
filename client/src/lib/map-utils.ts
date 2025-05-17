@@ -429,7 +429,7 @@ export const addRouteToMap = (
         'line-cap': 'round'
       },
       paint: {
-        'line-color': '#000',
+        'line-color': '#f20000',
         'line-width': 8,
         'line-opacity': 1
       }
