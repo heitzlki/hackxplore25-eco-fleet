@@ -425,13 +425,13 @@ export const addRouteToMap = (
       type: 'line',
       source: layerId,
       layout: {
-        'line-join': 'round',
-        'line-cap': 'round'
+      'line-join': 'round',
+      'line-cap': 'round'
       },
       paint: {
-        'line-color': '#f20000',
-        'line-width': 8,
-        'line-opacity': 1
+      'line-color': '#222225',
+      'line-width': 5,
+      'line-opacity': 0.7 // Changed from 1 to 0.75 for slight transparency
       }
     });
   }
