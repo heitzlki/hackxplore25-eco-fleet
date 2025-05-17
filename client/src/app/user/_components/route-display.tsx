@@ -26,8 +26,47 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
   const [routeDuration, setRouteDuration] = useState<number | null>(null);
   const routeLayerId = useRef<string>('user-route-layer');
   const markersRef = useRef<mapboxgl.Marker[]>([]);
-  
+  const regularMarkersRef = useRef<HTMLElement[]>([]);
+
   const { garbageContainers } = useStore();
+
+  // Function to collect all regular container markers
+  const collectRegularMarkers = () => {
+    if (!mapRef.current) return;
+
+    // Store references to all regular container markers
+    regularMarkersRef.current = [];
+    const markers = document.querySelectorAll('.mapboxgl-marker');
+
+    markers.forEach(marker => {
+      // Skip waypoint markers which we'll add later
+      regularMarkersRef.current.push(marker as HTMLElement);
+    });
+    console.log(markers)
+  };
+
+  // Function to fade out regular markers
+  const fadeOutRegularMarkers = () => {
+    console.log('Fading out regular markers');
+    // Collect regular markers if we haven't yet
+    if (regularMarkersRef.current.length === 0) {
+      collectRegularMarkers();
+    }
+
+    console.log('Regular markers:', regularMarkersRef.current);
+
+    // Fade out all regular markers with a nice transition
+    regularMarkersRef.current.forEach(marker => {
+      marker.style.visibility = 'hidden';
+    });
+  };
+
+  // Function to fade in regular markers
+  const fadeInRegularMarkers = () => {
+    regularMarkersRef.current.forEach(marker => {
+      marker.style.visibility = 'visible';
+    });
+  };
 
   // Function to clear the current route
   const clearRoute = () => {
@@ -43,10 +82,13 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
     markersRef.current.forEach(marker => marker.remove());
     markersRef.current = [];
 
+    // Fade regular markers back in
+    fadeInRegularMarkers();
+
     setRouteCreated(false);
     setRouteDistance(null);
     setRouteDuration(null);
-    
+
     if (onRouteCreated) {
       onRouteCreated(false);
     }
@@ -58,6 +100,9 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
 
     setIsLoading(true);
     clearRoute(); // Clear any existing route
+
+    // Collect and fade out regular markers
+    collectRegularMarkers();
 
     try {
       // Take only the first 5 waste containers (or all if less than 5)
@@ -89,7 +134,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
       const waypoints = [
         // 8.35819419195883, 49.01541816015043
         // `${routeContainers[0].lng},${routeContainers[0].lat}`,
-        "8.35819419195883,49.01541816015043",
+        "8.35869419195883,49.01571816015043",
         ...routeContainers.map(
         (container) => `${container.lng},${container.lat}`
         ),
@@ -146,6 +191,9 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
         }
       }
 
+      // Now that route and waypoints are created, fade out regular markers
+      fadeOutRegularMarkers();
+
       setRouteCreated(true);
       if (onRouteCreated) {
         onRouteCreated(true);
@@ -178,6 +226,16 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
       return `${hours} h ${remainingMinutes} min`;
     }
   };
+
+  // Ensure we restore marker opacity when component unmounts
+  useEffect(() => {
+    return () => {
+      // Clean up by restoring opacity to all markers
+      if (regularMarkersRef.current.length > 0) {
+        fadeInRegularMarkers();
+      }
+    };
+  }, []);
 
   return (
     <div className="absolute bottom-8 right-8 z-10">
