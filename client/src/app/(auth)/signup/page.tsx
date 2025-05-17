@@ -14,9 +14,13 @@ import { Label } from '@/components/ui/label';
 import { MagicCard } from '@/components/magicui/magic-card';
 import { useTheme } from 'next-themes';
 import Logo from '@/components/custom/logo';
+import { useRouter } from 'next/navigation';
 
 export default function Signup() {
   const { theme } = useTheme();
+  const router = useRouter();
+
+
   return (
     <div className='flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10'>
       <div className='flex w-full max-w-sm flex-col gap-6'>
@@ -54,7 +58,9 @@ export default function Signup() {
               </form>
             </CardContent>
             <CardFooter className='p-4 border-t border-border [.border-t]:pt-4'>
-              <Button className='w-full'>Sign Up</Button>
+              <Button className='w-full' onClick={() => {
+                router.push('/login');
+              }}>Sign Up</Button>
             </CardFooter>
           </MagicCard>
         </Card>
