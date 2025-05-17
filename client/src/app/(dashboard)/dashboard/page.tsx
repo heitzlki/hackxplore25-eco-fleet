@@ -10,7 +10,8 @@ import { PopupInfo } from '@/lib/map-utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { X } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
+import { X, CalendarIcon } from 'lucide-react';
 
 export default function Dashboard() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -31,6 +32,8 @@ export default function Dashboard() {
     properties: {},
     fillData: [],
   });
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [showCalendar, setShowCalendar] = useState(false);
 
   // Get garbage containers from Zustand store
   const { garbageContainers } = useStore();
@@ -52,10 +55,16 @@ export default function Dashboard() {
     }, 50);
   };
 
+  // Function to toggle calendar visibility
+  const toggleCalendar = () => {
+    setShowCalendar(prev => !prev);
+  };
+
   // Function to close the popup with animation
   const closePopup = () => {
     // First hide the popup with animation
     setIsPopupVisible(false);
+    setShowCalendar(false);
     
     // Then remove it from the DOM after animation completes
     popupTimeoutRef.current = setTimeout(() => {
@@ -286,7 +295,16 @@ export default function Dashboard() {
               `}</style>
             </CardContent>
             
-            <CardFooter className="pt-0 flex justify-end relative">
+            <CardFooter className="pt-0 flex justify-between items-center relative">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={toggleCalendar}
+                className="flex items-center gap-2 transition-all hover:bg-primary hover:text-primary-foreground"
+              >
+                <CalendarIcon className="h-4 w-4" />
+                {showCalendar ? 'Hide Calendar' : 'Show Calendar'}
+              </Button>
               <Button 
                 variant="outline" 
                 size="sm" 
@@ -297,6 +315,53 @@ export default function Dashboard() {
               </Button>
             </CardFooter>
           </Card>
+          
+          {/* Calendar popup */}
+          {showCalendar && (
+            <div 
+              className="mt-2 w-full transition-all duration-300 ease-in-out transform animate-in fade-in slide-in-from-top-2"
+            >
+              <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium">Schedule Pickup</CardTitle>
+                  <CardDescription className="text-xs">
+                    Select a date for container pickup
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    className="rounded-md border"
+                    disabled={(date) => {
+                      // Disable past dates and weekends
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
+                      const day = date.getDay();
+                      return date < today || day === 0 || day === 6;
+                    }}
+                    initialFocus
+                  />
+                </CardContent>
+                <CardFooter className="pt-0 flex justify-end">
+                  {date && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground">
+                        Selected: {date.toLocaleDateString()}
+                      </span>
+                      <Button 
+                        size="sm" 
+                        className="bg-primary text-primary-foreground hover:bg-primary/90"
+                      >
+                        Confirm Pickup
+                      </Button>
+                    </div>
+                  )}
+                </CardFooter>
+              </Card>
+            </div>
+          )}
         </div>
       )}
     </div>
