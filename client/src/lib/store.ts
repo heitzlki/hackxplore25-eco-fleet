@@ -146,7 +146,8 @@ export const useStore = create<ClientState>((set) => ({
     customPoints: [],
     isPlacingMode: false,
     isLoadingRoute: false,
-    center: [8.403735115313623, 49.00791069535478],
+    center: [8.388105, 49.001576],
+
     zoom: 16,
   },
   setGarbageContainers: (garbageContainers: GarbageContainer[]) =>

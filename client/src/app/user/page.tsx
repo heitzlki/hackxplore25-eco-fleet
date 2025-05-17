@@ -201,7 +201,7 @@ export default function Dashboard() {
       </div>
 
       {/* Mobile Recycling Guide Button - This will be shown side by side with route button */}
-      <div className="fixed bottom-4 left-4 z-50 md:hidden block w-[45%]">
+      <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+16px)] left-4 z-50 md:hidden block w-[45%]">
         <Button
           onClick={toggleRecyclingPopup}
           className="w-full h-12 text-base rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-lg"
@@ -472,93 +472,102 @@ export default function Dashboard() {
         >
           <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
             {/* Adaptive background for light/dark modes */}
-            <CardHeader className="pb-2 relative">
+            <CardHeader className={`${isMobile ? 'pb-3 pt-4' : 'pb-2'} relative`}>
               <div className="flex justify-between items-start">
                 <div>
-                  <CardTitle className="text-lg font-semibold">Recycling Guide</CardTitle>
-                  <CardDescription className="text-sm mt-1 text-gray-600 dark:text-gray-300">How to recycle different materials</CardDescription>
-                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">Click on any item for detailed guidelines</p>
+                  <CardTitle className={`${isMobile ? 'text-xl' : 'text-lg'} font-semibold`}>Recycling Guide</CardTitle>
+                  <CardDescription className={`${isMobile ? 'text-base' : 'text-sm'} mt-1 text-gray-600 dark:text-gray-300`}>How to recycle different materials</CardDescription>
+                  <p className={`${isMobile ? 'text-sm' : 'text-xs'} text-blue-600 dark:text-blue-400 mt-1`}>Tap on any item for detailed guidelines</p>
                 </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-blue-100/50 dark:hover:bg-blue-500/10" onClick={closeRecyclingPopup}>
-                  <X className="h-4 w-4" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`${isMobile ? 'h-10 w-10' : 'h-8 w-8'} rounded-full hover:bg-blue-100/50 dark:hover:bg-blue-500/10`}
+                  onClick={closeRecyclingPopup}
+                >
+                  <X className={`${isMobile ? 'h-5 w-5' : 'h-4 w-4'}`} />
                 </Button>
               </div>
             </CardHeader>
-            
+
             <CardContent className="pt-0 relative">
               <div className="grid gap-2">
                 {[
-                  { 
-                    key: "Glass", 
+                  {
+                    key: "Glass",
                     value: "Rinse and separate by color",
                     details: "Clean glass items should be separated by color (clear, green, brown). Remove any non-glass parts like metal lids or plastic caps. Broken glass should be wrapped and labeled clearly before disposal.",
                     link: "https://citywebsite.gov/recycling/glass"
                   },
-                  { 
-                    key: "Aluminum", 
+                  {
+                    key: "Aluminum",
                     value: "Rinse, remove labels",
                     details: "Rinse aluminum cans and containers to remove food residue. Crush if possible to save space. Aluminum foil should be cleaned and rolled into a ball before recycling.",
                     link: "https://citywebsite.gov/recycling/metal"
                   },
-                  { 
-                    key: "Paper", 
+                  {
+                    key: "Paper",
                     value: "Keep dry, bundle together",
                     details: "Flatten cardboard boxes. Remove staples, paper clips, and plastic wrapping. \n \nCollected every Tuesday \nNext collections: \n Mi. den 11.06.2025 \n",
                     link: "https://citywebsite.gov/recycling/paper"
                   },
-                  { 
-                    key: "Plastic", 
+                  {
+                    key: "Plastic",
                     value: "Check recycling number",
                     details: "Look for the recycling number (1-7) inside the triangle symbol. Most municipalities accept #1 (PET) and #2 (HDPE). Rinse containers and remove caps. Plastic bags usually require special recycling at grocery stores.",
                     link: "https://citywebsite.gov/recycling/plastic"
                   },
-                  { 
-                    key: "Batteries", 
+                  {
+                    key: "Batteries",
                     value: "Special collection points",
                     details: "Never dispose of batteries in regular trash. Household batteries can be taken to designated collection points. Rechargeable and lithium-ion batteries should be taken to electronic retailers or hazardous waste facilities.",
                     link: "https://tsk.karlsruhe.de/unsere-leistungen/entsorgungseinrichtungen#c168089"
                   },
-                  { 
-                    key: "Electronics", 
+                  {
+                    key: "Electronics",
                     value: "Return to collection center",
                     details: "Electronics contain hazardous materials and valuable recyclable components. Take to designated e-waste collection centers. Some retailers offer take-back programs for old electronics. Wipe personal data before recycling computers and phones.",
                     link: "https://tsk.karlsruhe.de/unsere-leistungen/entsorgungseinrichtungen#c168023"
                   }
                 ].map((item, index) => (
-                  <div key={item.key} className="mb-2">
-                    <div 
-                      className={`flex justify-between items-center cursor-pointer ${expandedWasteType === item.key ? 'bg-blue-100 dark:bg-blue-800/40 rounded-t-md border-t border-l border-r border-blue-300 dark:border-blue-700' : 'hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-md'} p-1`}
+                  <div key={item.key} className={`${isMobile ? 'mb-3' : 'mb-2'}`}>
+                    <div
+                      className={`flex justify-between items-center cursor-pointer ${
+                        expandedWasteType === item.key
+                          ? 'bg-blue-100 dark:bg-blue-800/40 rounded-t-md border-t border-l border-r border-blue-300 dark:border-blue-700'
+                          : 'hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-md'
+                      } ${isMobile ? 'p-3' : 'p-1'}`}
                       onClick={() => toggleWasteTypeDetails(item.key)}
-                      style={{ 
+                      style={{
                         animation: `fadeInRight 0.3s ease-out forwards ${index * 0.05 + 0.1}s`,
-                        opacity: 0 
+                        opacity: 0
                       }}
                     >
                       <div className="flex items-center">
-                        <Info className="h-3 w-3 text-blue-600 dark:text-blue-400 mr-1.5" />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">{item.key}</span>
+                        <Info className={`${isMobile ? 'h-5 w-5' : 'h-3 w-3'} text-blue-600 dark:text-blue-400 mr-2`} />
+                        <span className={`${isMobile ? 'text-base' : 'text-sm'} text-gray-700 dark:text-gray-300`}>{item.key}</span>
                       </div>
                       <div className="flex items-center">
-                        <Badge className="font-normal bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100 mr-2">
+                        <Badge className={`font-normal bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100 mr-2 ${isMobile ? 'text-sm px-2 py-1' : ''}`}>
                           {item.value}
                         </Badge>
                         {expandedWasteType === item.key ? (
-                          <ChevronUp className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                          <ChevronUp className={`${isMobile ? 'h-5 w-5' : 'h-4 w-4'} text-gray-500 dark:text-gray-400`} />
                         ) : (
-                          <ChevronDown className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                          <ChevronDown className={`${isMobile ? 'h-5 w-5' : 'h-4 w-4'} text-gray-500 dark:text-gray-400`} />
                         )}
                       </div>
                     </div>
-                    
+
                     {expandedWasteType === item.key && (
-                      <div 
-                        className="text-sm text-gray-600 dark:text-gray-400 mt-0 p-3 border border-blue-300 dark:border-blue-700 rounded-b-md bg-blue-50/80 dark:bg-blue-900/20 animate-in fade-in slide-in-from-top-2 duration-200"
+                      <div
+                        className={`${isMobile ? 'text-base p-4' : 'text-sm p-3'} text-gray-600 dark:text-gray-400 mt-0 border border-blue-300 dark:border-blue-700 rounded-b-md bg-blue-50/80 dark:bg-blue-900/20 animate-in fade-in slide-in-from-top-2 duration-200`}
                       >
-                        <p className="mb-2">{item.details}</p>
+                        <p className="mb-3">{item.details}</p>
                         {item.key === "Plastic" && (
-                          <div className="mb-2 bg-blue-100/90 dark:bg-blue-950/50 p-2 rounded-md">
-                            <span className="font-semibold text-xs text-blue-700 dark:text-blue-300">Plastic Recycling Numbers:</span>
-                            <ul className="text-xs list-disc ml-4 mt-1">
+                          <div className={`mb-3 bg-blue-100/90 dark:bg-blue-950/50 ${isMobile ? 'p-3' : 'p-2'} rounded-md`}>
+                            <span className={`font-semibold ${isMobile ? 'text-sm' : 'text-xs'} text-blue-700 dark:text-blue-300`}>Plastic Recycling Numbers:</span>
+                            <ul className={`${isMobile ? 'text-sm' : 'text-xs'} list-disc ml-5 mt-2 space-y-1`}>
                               <li>#1 (PET): Water bottles, soda bottles</li>
                               <li>#2 (HDPE): Milk jugs, detergent bottles</li>
                               <li>#5 (PP): Yogurt containers, bottle caps</li>
@@ -566,29 +575,29 @@ export default function Dashboard() {
                           </div>
                         )}
                         {item.key === "Batteries" && (
-                          <div className="mb-2 bg-blue-100/90 dark:bg-blue-950/50 p-2 rounded-md">
-                            <span className="font-semibold text-xs text-blue-700 dark:text-blue-300">Local Drop-off Locations Südweststadt:</span>
-                            <ul className="text-xs list-disc ml-4 mt-1">
+                          <div className={`mb-3 bg-blue-100/90 dark:bg-blue-950/50 ${isMobile ? 'p-3' : 'p-2'} rounded-md`}>
+                            <span className={`font-semibold ${isMobile ? 'text-sm' : 'text-xs'} text-blue-700 dark:text-blue-300`}>Local Drop-off Locations Südweststadt:</span>
+                            <ul className={`${isMobile ? 'text-sm' : 'text-xs'} list-disc ml-5 mt-2 space-y-1`}>
                               <li>Bahnhof­straße gegenüber Nr. 42</li>
                               <li>Beiert­hei­mer Allee 2 (vor Landrat­samt)</li>
                               <li>Ernst-Frey-Straße/­Stein­häu­ser­straße</li>
                             </ul>
                           </div>
                         )}
-                        <a 
-                          href={item.link} 
-                          target="_blank" 
+                        <a
+                          href={item.link}
+                          target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center text-xs mt-2"
+                          className={`text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center ${isMobile ? 'text-sm py-2' : 'text-xs'} mt-2`}
                         >
-                          More dropoff locations <ExternalLink className="h-3 w-3 ml-1" />
+                          More dropoff locations <ExternalLink className={`${isMobile ? 'h-4 w-4 ml-2' : 'h-3 w-3 ml-1'}`} />
                         </a>
                       </div>
                     )}
                   </div>
                 ))}
               </div>
-              
+
               <style jsx global>{`
                 @keyframes fadeInRight {
                   from { opacity: 0; transform: translateX(-8px); }
@@ -596,13 +605,13 @@ export default function Dashboard() {
                 }
               `}</style>
             </CardContent>
-            
-            <CardFooter className="pt-0 flex justify-between items-center relative">
-              <Button 
-                variant="outline" 
-                size="sm" 
+
+            <CardFooter className={`${isMobile ? 'pt-2 pb-5' : 'pt-0'} flex justify-center items-center relative`}>
+              <Button
+                variant="outline"
+                size={isMobile ? "default" : "sm"}
                 onClick={closeRecyclingPopup}
-                className="transition-all hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-500 dark:hover:text-white border-gray-300 dark:border-gray-600"
+                className={`${isMobile ? 'h-12 text-base px-8' : ''} transition-all hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-500 dark:hover:text-white border-gray-300 dark:border-gray-600`}
               >
                 Close
               </Button>
