@@ -169,22 +169,37 @@ export const createWaypointMarker = (
   // Calculate max fill level from waste types
   const maxFillLevel = container ? getMaxFillLevel(container.waste_types) : 0;
 
-  // Create a marker element with an index label
+  // Create a marker element with an index label - make it more visible since we're fading other markers
   const el = document.createElement('div');
-  el.style.backgroundColor = 'transparent';
-  el.style.width = '24px';
-  el.style.height = '24px';
+  el.style.backgroundColor = '#f20000';
+  el.style.width = '28px';
+  el.style.height = '28px';
   el.style.borderRadius = '50%';
-  el.style.position = 'absolute';
-  el.style.right = '12px';
-  el.style.bottom = '12px';
+  el.style.border = '2px solid white';
+  el.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
   el.style.display = 'flex';
   el.style.justifyContent = 'center';
   el.style.alignItems = 'center';
   el.style.color = '#fff';
   el.style.fontSize = '12px';
   el.style.fontWeight = 'bold';
+  el.style.zIndex = '100'; // Ensure it's above other markers
   el.textContent = (index + 1).toString();
+  // Add a pulse animation for better visibility
+  el.style.animation = 'pulse-waypoint 2s infinite';
+  // Add styles for the pulse animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes pulse-waypoint {
+      0% { box-shadow: 0 0 0 0 rgba(242, 0, 0, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(242, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(242, 0, 0, 0); }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Add a data attribute to identify this as a waypoint marker
+  el.setAttribute('data-waypoint', 'true');
 
   const marker = new mapboxgl.Marker({ element: el })
     .setLngLat([lng, lat])
