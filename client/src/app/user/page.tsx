@@ -115,7 +115,12 @@ export default function Dashboard() {
               <div className="flex justify-between items-start">
                 <div>
                   <CardTitle className="text-lg font-semibold">{popupData.title}</CardTitle>
-                  <CardDescription className="text-sm mt-1">{popupData.description} {JSON.stringify(popupData, null, 2)}</CardDescription>
+                  <CardDescription className="text-sm mt-1">{popupData.description}</CardDescription>
+                  {/* {popupData.properties.containerIndex !== undefined && (
+                    <div className="text-xs text-muted-foreground mt-1">
+                      Container Index: {popupData.properties.containerIndex}
+                    </div>
+                  )} */}
                 </div>
                 <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-primary/10" onClick={closePopup}>
                   <X className="h-4 w-4" />

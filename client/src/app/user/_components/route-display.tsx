@@ -61,15 +61,41 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
     try {
       // Take only the first 5 waste containers (or all if less than 5)
       const routeContainers = [
+        garbageContainers[203],
+        garbageContainers[188],
+        garbageContainers[191],
+        garbageContainers[197],
+        garbageContainers[199],
+        garbageContainers[151],
+        garbageContainers[39],
+        garbageContainers[9],
+        garbageContainers[8],
+        garbageContainers[7],
+        garbageContainers[6],
+        garbageContainers[14],
         garbageContainers[0],
-        garbageContainers[1],
-        garbageContainers[2],
+        garbageContainers[13],
+        garbageContainers[32],
+        garbageContainers[57],
+        garbageContainers[103],
+        garbageContainers[161],
+        garbageContainers[160],
+        garbageContainers[183],
+        
       ]
       
       // Format waypoints as required by the API
-      const waypoints = routeContainers.map(
+      const waypoints = [
+        // 8.35819419195883, 49.01541816015043
+        // `${routeContainers[0].lng},${routeContainers[0].lat}`,
+        "8.35819419195883,49.01541816015043",
+        ...routeContainers.map(
         (container) => `${container.lng},${container.lat}`
-      );
+        ),
+        "8.35819419195883,49.01541816015043",
+      ];
+
+
 
       const response = await fetch(
         `/api/mapbox/route?waypoints=${waypoints.join(';')}`
@@ -189,7 +215,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">Duration:</span>
                   <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100 text-xs">
-                    {formatDuration(routeDuration)}
+                    {formatDuration(routeDuration * 2)}
                   </Badge>
                 </div>
               )}
