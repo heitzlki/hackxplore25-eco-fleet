@@ -105,26 +105,25 @@ export const createContainerMarker = (
       "Longitude": container.lng,
       "Latitude": container.lat,
       "Max Fill Level": `${maxFillLevel}%`,
-      "Status": getStatusFromLevel(maxFillLevel)
     };
 
     // Add waste type information
     // Glass
     if (glass >= 0) {
       properties["Glass"] = `${glass}%`;
-      properties["Glass Status"] = getStatusFromLevel(glass);
+      // properties["Glass Status"] = getStatusFromLevel(glass);
     }
 
     // Aluminum
     if (aluminum >= 0) {
       properties["Aluminum"] = `${aluminum}%`;
-      properties["Aluminum Status"] = getStatusFromLevel(aluminum);
+      // properties["Aluminum Status"] = getStatusFromLevel(aluminum);
     }
 
     // General waste
     if (general >= 0) {
       properties["General Waste"] = `${general}%`;
-      properties["General Status"] = getStatusFromLevel(general);
+      // properties["General Status"] = getStatusFromLevel(general);
     }
 
     // Generate description based on available waste types
@@ -186,7 +185,7 @@ export const createWaypointMarker = (
       "Latitude": lat,
       "Order": index + 1,
       "Max Fill Level": maxFillLevel ? `${maxFillLevel}%` : 'Unknown',
-      "Status": getStatusFromLevel(maxFillLevel)
+      // "Status": getStatusFromLevel(maxFillLevel)
     };
 
     // Add waste type information if available
@@ -198,19 +197,19 @@ export const createWaypointMarker = (
       // Glass
       if (glass >= 0) {
         waypointProperties["Glass"] = `${glass}%`;
-        waypointProperties["Glass Status"] = getStatusFromLevel(glass);
+        // waypointProperties["Glass Status"] = getStatusFromLevel(glass);
       }
 
       // Aluminum
       if (aluminum >= 0) {
         waypointProperties["Aluminum"] = `${aluminum}%`;
-        waypointProperties["Aluminum Status"] = getStatusFromLevel(aluminum);
+        // waypointProperties["Aluminum Status"] = getStatusFromLevel(aluminum);
       }
 
       // General waste
       if (general >= 0) {
         waypointProperties["General Waste"] = `${general}%`;
-        waypointProperties["General Status"] = getStatusFromLevel(general);
+        // waypointProperties["General Status"] = getStatusFromLevel(general);
       }
 
       // Enhanced description with waste types

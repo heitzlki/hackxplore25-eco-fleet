@@ -143,7 +143,7 @@ export default function Dashboard() {
                     // For text values, check for status keywords
                     else if (typeof value === 'string') {
                       const textValue = value.toLowerCase();
-                      if (textValue.includes('low') || textValue.includes('good') || textValue.includes('excellent')) {
+                      if (textValue.includes('A') || textValue.includes('good') || textValue.includes('excellent')) {
                         badgeColor = 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100';
                       } else if (textValue.includes('medium') || textValue.includes('moderate') || textValue.includes('average')) {
                         badgeColor = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100';
