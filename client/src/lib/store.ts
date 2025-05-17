@@ -3,29 +3,6 @@ import { create } from 'zustand';
 import garbageContainersData from '@/data/garbageContainers.json';
 import { ContainerApi } from './api-utils';
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref, get } from "firebase/database";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCOVyqWUsM8kZRDIewyDdCYL2kvXauLDQI",
-  authDomain: "hackxplore-3deb8.firebaseapp.com",
-  projectId: "hackxplore-3deb8",
-  storageBucket: "hackxplore-3deb8.firebasestorage.app",
-  messagingSenderId: "505386861890",
-  appId: "1:505386861890:web:28109a0e9098245e3474db",
-  measurementId: "G-3ZD86YEMB5"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
-
 // Fetch garbage containers from our API endpoint
 const initialGarbageContainers = async () => {
   console.log("Fetching garbage containers from API...");
@@ -33,6 +10,7 @@ const initialGarbageContainers = async () => {
   try {
     const data = await ContainerApi.getAll();
     console.log("Garbage containers data fetched successfully.");
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching garbage containers:", error);
@@ -154,93 +132,96 @@ interface ClientState {
   setMapZoom: (zoom: number) => void;
 }
 
-export const useStore = create<ClientState>((set) => ({
-  roadmap: false,
-  color1: 'hsl(313.2,100%,50%)',
-  color2: 'hsl(122.4,100%,58.5%)',
-  graphData: [],
-  selectedNode: null,
-  serverResponse: null,
-  garbageContainers: initialGarbageContainers(),
-  // Initialize map view state
-  mapViewState: {
-    isPopupOpen: false,
-    popupData: {
-      title: 'Location Information',
-      description: 'No description available',
-      properties: {},
-      fillData: [],
-    },
-    customPoints: [],
-    isPlacingMode: false,
-    isLoadingRoute: false,
-    center: [8.388105, 49.001576],
+export const useStore = create<ClientState>((set) => {
+  // kick off async fetch and update the store once data arrives
+  initialGarbageContainers().then((containers) =>
+    set({ garbageContainers: containers })
+  );
 
-    zoom: 16,
-  },
-  setGarbageContainers: (garbageContainers: GarbageContainer[]) =>
-    set({ garbageContainers }),
-  setColor1: (color: string) => set({ color1: color }),
-  setColor2: (color: string) => set({ color2: color }),
-  setGraphData: (graphData: Area[]) => set({ graphData }),
-  setSelectedNode: (node: NodeInfo | null) => set({ selectedNode: node }),
-  setServerResponse: (response: ServerResponse | null) =>
-    set({ serverResponse: response }),
-  setRoadmap: () =>
-    set((state: { roadmap: boolean }) => ({ roadmap: !state.roadmap })),
-  // Map view state actions
-  setPopupOpen: (isOpen: boolean) =>
-    set((state) => ({
-      mapViewState: { ...state.mapViewState, isPopupOpen: isOpen },
-    })),
-  setPopupData: (data: PopupInfo) =>
-    set((state) => ({
-      mapViewState: { ...state.mapViewState, popupData: data },
-    })),
-  addCustomPoint: (point: CustomPoint) =>
-    set((state) => ({
-      mapViewState: {
-        ...state.mapViewState,
-        customPoints: [...state.mapViewState.customPoints, point],
+  return {
+    roadmap: false,
+    color1: 'hsl(313.2,100%,50%)',
+    color2: 'hsl(122.4,100%,58.5%)',
+    graphData: [],
+    selectedNode: null,
+    serverResponse: null,
+    // start with an empty array; will be replaced when the promise resolves
+    garbageContainers: [],
+    mapViewState: {
+      isPopupOpen: false,
+      popupData: {
+        title: 'Location Information',
+        description: 'No description available',
+        properties: {},
+        fillData: [],
       },
-    })),
-  removeCustomPoint: (pointToRemove: CustomPoint) =>
-    set((state) => ({
-      mapViewState: {
-        ...state.mapViewState,
-        customPoints: state.mapViewState.customPoints.filter(
-          (point) =>
-            !(
-              point.lng === pointToRemove.lng && point.lat === pointToRemove.lat
-            )
-        ),
-      },
-    })),
-  clearCustomPoints: () =>
-    set((state) => ({
-      mapViewState: { ...state.mapViewState, customPoints: [] },
-    })),
-  setPlacingMode: (isPlacing: boolean) =>
-    set((state) => ({
-      mapViewState: { ...state.mapViewState, isPlacingMode: isPlacing },
-    })),
-  togglePlacingMode: () =>
-    set((state) => ({
-      mapViewState: {
-        ...state.mapViewState,
-        isPlacingMode: !state.mapViewState.isPlacingMode,
-      },
-    })),
-  setLoadingRoute: (isLoading: boolean) =>
-    set((state) => ({
-      mapViewState: { ...state.mapViewState, isLoadingRoute: isLoading },
-    })),
-  setMapCenter: (center: [number, number]) =>
-    set((state) => ({
-      mapViewState: { ...state.mapViewState, center },
-    })),
-  setMapZoom: (zoom: number) =>
-    set((state) => ({
-      mapViewState: { ...state.mapViewState, zoom },
-    })),
-}));
+      customPoints: [],
+      isPlacingMode: false,
+      isLoadingRoute: false,
+      center: [8.388105, 49.001576],
+      zoom: 16,
+    },
+    setGarbageContainers: (garbageContainers: GarbageContainer[]) =>
+      set({ garbageContainers }),
+    setColor1: (color: string) => set({ color1: color }),
+    setColor2: (color: string) => set({ color2: color }),
+    setGraphData: (graphData: Area[]) => set({ graphData }),
+    setSelectedNode: (node: NodeInfo | null) => set({ selectedNode: node }),
+    setServerResponse: (response: ServerResponse | null) =>
+      set({ serverResponse: response }),
+    setRoadmap: () =>
+      set((state) => ({ roadmap: !state.roadmap })),
+    setPopupOpen: (isOpen: boolean) =>
+      set((state) => ({
+        mapViewState: { ...state.mapViewState, isPopupOpen: isOpen },
+      })),
+    setPopupData: (data: PopupInfo) =>
+      set((state) => ({
+        mapViewState: { ...state.mapViewState, popupData: data },
+      })),
+    addCustomPoint: (point: CustomPoint) =>
+      set((state) => ({
+        mapViewState: {
+          ...state.mapViewState,
+          customPoints: [...state.mapViewState.customPoints, point],
+        },
+      })),
+    removeCustomPoint: (pointToRemove: CustomPoint) =>
+      set((state) => ({
+        mapViewState: {
+          ...state.mapViewState,
+          customPoints: state.mapViewState.customPoints.filter(
+            (pt) =>
+              pt.lng !== pointToRemove.lng || pt.lat !== pointToRemove.lat
+          ),
+        },
+      })),
+    clearCustomPoints: () =>
+      set((state) => ({
+        mapViewState: { ...state.mapViewState, customPoints: [] },
+      })),
+    setPlacingMode: (isPlacing: boolean) =>
+      set((state) => ({
+        mapViewState: { ...state.mapViewState, isPlacingMode: isPlacing },
+      })),
+    togglePlacingMode: () =>
+      set((state) => ({
+        mapViewState: {
+          ...state.mapViewState,
+          isPlacingMode: !state.mapViewState.isPlacingMode,
+        },
+      })),
+    setLoadingRoute: (isLoading: boolean) =>
+      set((state) => ({
+        mapViewState: { ...state.mapViewState, isLoadingRoute: isLoading },
+      })),
+    setMapCenter: (center: [number, number]) =>
+      set((state) => ({
+        mapViewState: { ...state.mapViewState, center },
+      })),
+    setMapZoom: (zoom: number) =>
+      set((state) => ({
+        mapViewState: { ...state.mapViewState, zoom },
+      })),
+  };
+});
