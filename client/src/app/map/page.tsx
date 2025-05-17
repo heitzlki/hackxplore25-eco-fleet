@@ -268,14 +268,15 @@ export default function Page() {
         style: 'mapbox://styles/zhgr/cmarabpiy01pw01sl35e50m1p',
         projection: 'globe',
         // center: center,
-        zoom: zoom,
-        antialias: true,
-        pitch: 30,
-        bearing: 0,
+        // zoom: zoom,
+        // antialias: true,
+        // pitch: 30,
+        // bearing: 0,
       });
 
       // Add a load event to trigger the flyTo animation once the map is ready
       map.on('load', () => {
+        console.log('Map loaded');
         // Fly to the initial location with a smooth animation
         map.flyTo({
           center: center,
@@ -283,7 +284,7 @@ export default function Page() {
           speed: 0.8, // Animation speed (0.2 is very slow, 1.2 is very fast)
           curve: 1.0, // Animation curve (1 is linear)
           essential: true, // This animation is considered essential for the user experience
-          duration: 3000, // Duration in milliseconds
+          duration: 6000, // Duration in milliseconds
         });
       });
 
