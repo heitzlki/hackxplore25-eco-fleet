@@ -48,6 +48,7 @@ export default function Dashboard() {
     setPopupOpen,
     setPopupData
   } = useStore();
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
   // Bin UI state
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -188,9 +189,9 @@ export default function Dashboard() {
         />
       )}
       
-      {/* UI Controls Layer */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Open Recycling Guide Button */}
+      {/* UI Controls Layer - Desktop only */}
+      <div className="absolute inset-0 pointer-events-none md:block hidden">
+        {/* Open Recycling Guide Button - Desktop position */}
         <Button
           className="absolute top-4 right-4 z-50 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg pointer-events-auto"
           onClick={toggleRecyclingPopup}
@@ -199,12 +200,24 @@ export default function Dashboard() {
         </Button>
       </div>
 
+      {/* Mobile Recycling Guide Button - This will be shown side by side with route button */}
+      <div className="fixed bottom-4 left-4 z-50 md:hidden block w-[45%]">
+        <Button
+          onClick={toggleRecyclingPopup}
+          className="w-full h-12 text-base rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-lg"
+          size="lg"
+        >
+          <Info className="h-5 w-5 mr-1" />
+          Guide
+        </Button>
+      </div>
+
       {/* Dashboard Mode Popup with Animation */}
       {isPopupOpen && (
-        <div 
-          className={`absolute top-4 left-4 z-50 w-80 transition-all duration-300 ease-in-out transform ${
-            isPopupVisible 
-              ? 'opacity-100 translate-x-0 scale-100' 
+        <div
+          className={`${isMobile ? 'fixed top-4 left-4 right-4 md:left-auto md:right-auto md:w-80' : 'absolute top-4 left-4 w-80'} z-50 transition-all duration-300 ease-in-out transform ${
+            isPopupVisible
+              ? 'opacity-100 translate-x-0 scale-100'
               : 'opacity-0 -translate-x-4 scale-95'
           }`}
         >
@@ -450,10 +463,10 @@ export default function Dashboard() {
 
       {/* Recycling Information Popup */}
       {isRecyclingPopupOpen && (
-        <div 
-          className={`absolute top-4 right-4 z-50 w-80 transition-all duration-300 ease-in-out transform ${
-            isRecyclingPopupVisible 
-              ? 'opacity-100 translate-x-0 scale-100' 
+        <div
+          className={`${isMobile ? 'fixed top-4 left-4 right-4 md:left-auto md:right-auto md:w-80' : 'absolute top-4 right-4 w-80'} z-50 transition-all duration-300 ease-in-out transform ${
+            isRecyclingPopupVisible
+              ? 'opacity-100 translate-x-0 scale-100'
               : 'opacity-0 translate-x-4 scale-95'
           }`}
         >

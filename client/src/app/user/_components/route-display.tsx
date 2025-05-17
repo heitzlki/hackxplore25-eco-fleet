@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Loader2, MapPin, RefreshCw, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardHeader } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 
 interface RouteDisplayProps {
   mapRef: React.RefObject<mapboxgl.Map | null>;
@@ -42,18 +42,14 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
       // Skip waypoint markers which we'll add later
       regularMarkersRef.current.push(marker as HTMLElement);
     });
-    console.log(markers)
   };
 
   // Function to fade out regular markers
   const fadeOutRegularMarkers = () => {
-    console.log('Fading out regular markers');
     // Collect regular markers if we haven't yet
     if (regularMarkersRef.current.length === 0) {
       collectRegularMarkers();
     }
-
-    console.log('Regular markers:', regularMarkersRef.current);
 
     // Fade out all regular markers with a nice transition
     regularMarkersRef.current.forEach(marker => {
@@ -127,21 +123,16 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
         garbageContainers[161],
         garbageContainers[160],
         garbageContainers[183],
-        
-      ]
+      ];
       
       // Format waypoints as required by the API
       const waypoints = [
-        // 8.35819419195883, 49.01541816015043
-        // `${routeContainers[0].lng},${routeContainers[0].lat}`,
         "8.35869419195883,49.01571816015043",
         ...routeContainers.map(
-        (container) => `${container.lng},${container.lat}`
+          (container) => `${container.lng},${container.lat}`
         ),
         "8.35819419195883,49.01541816015043",
       ];
-
-
 
       const response = await fetch(
         `/api/mapbox/route?waypoints=${waypoints.join(';')}`
@@ -245,22 +236,23 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
+    
     // Check initially
     checkMobile();
-
+    
     // Add resize listener
     window.addEventListener('resize', checkMobile);
-
+    
     // Clean up
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   return (
-    <div className={`${isMobile ? 'fixed inset-x-0 bottom-0 z-10 px-4 pb-4 pt-2' : 'absolute bottom-8 right-8 z-10'}`}>
-      <div className="flex flex-col gap-2">
-        {routeCreated && (
-          <Card className={`${isMobile ? 'w-full max-w-md mx-auto rounded-xl shadow-xl' : 'rounded-lg shadow-lg'} p-4 animate-in fade-in slide-in-from-bottom-5 duration-300 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm`}>
+    <>
+      {/* Main route info card - shown when route is active (both mobile and desktop) */}
+      {routeCreated && (
+        <div className={`${isMobile ? 'fixed inset-x-0 bottom-0 z-100 px-4 pb-4 pt-2' : 'absolute bottom-8 right-8 z-10'}`}>
+          <Card className={`${isMobile ? 'w-full max-w-md mx-auto rounded-xl shadow-xl z-100' : 'rounded-lg shadow-lg'} p-4 animate-in fade-in slide-in-from-bottom-5 duration-300 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm`}>
             <div className="flex items-center justify-between mb-2">
               <h3 className={`${isMobile ? 'text-base' : 'text-sm'} font-semibold text-gray-700 dark:text-gray-300`}>
                 Collection Route
@@ -274,7 +266,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
                 <X className={`${isMobile ? 'h-4 w-4' : 'h-3 w-3'}`} />
               </Button>
             </div>
-
+            
             <div className={`space-y-${isMobile ? '3' : '2'}`}>
               <div className="flex items-center justify-between">
                 <span className={`${isMobile ? 'text-sm' : 'text-xs'} text-muted-foreground`}>Containers:</span>
@@ -283,7 +275,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
                   {markersRef.current.length}
                 </Badge>
               </div>
-
+              
               {routeDistance !== null && (
                 <div className="flex items-center justify-between">
                   <span className={`${isMobile ? 'text-sm' : 'text-xs'} text-muted-foreground`}>Distance:</span>
@@ -292,7 +284,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
                   </Badge>
                 </div>
               )}
-
+              
               {routeDuration !== null && (
                 <div className="flex items-center justify-between">
                   <span className={`${isMobile ? 'text-sm' : 'text-xs'} text-muted-foreground`}>Duration:</span>
@@ -301,9 +293,9 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
                   </Badge>
                 </div>
               )}
-
-              <Button
-                variant="outline"
+              
+              <Button 
+                variant="outline" 
                 size={isMobile ? "default" : "sm"}
                 className={`w-full mt-1 ${isMobile ? 'text-sm h-10' : 'text-xs h-8'}`}
                 onClick={createRoute}
@@ -313,31 +305,55 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
               </Button>
             </div>
           </Card>
-        )}
-
-        {!routeCreated && (
-          <div className={`${isMobile ? 'w-full flex justify-center' : ''}`}>
-            <Button
-              onClick={createRoute}
-              disabled={isLoading}
-              className={`${isMobile ? 'w-full max-w-xs h-12 text-base rounded-xl' : ''} bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg`}
-              size={isMobile ? "lg" : "default"}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className={`${isMobile ? 'h-5 w-5' : 'h-4 w-4'} mr-2 animate-spin`} />
-                  {isMobile ? 'Calculating Route...' : 'Calculating...'}
-                </>
-              ) : (
-                <>
-                  <MapPin className={`${isMobile ? 'h-5 w-5' : 'h-4 w-4'} mr-2`} />
-                  {isMobile ? 'Show Collection Route' : 'Show Waste Collection Route'}
-                </>
-              )}
-            </Button>
-          </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+      
+      {/* Desktop button - only shown when route is not active */}
+      {!routeCreated && !isMobile && (
+        <div className="absolute bottom-8 right-8 z-100">
+          <Button
+            onClick={createRoute}
+            disabled={isLoading}
+            className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Calculating...
+              </>
+            ) : (
+              <>
+                <MapPin className="h-4 w-4 mr-2" />
+                Show Waste Collection Route
+              </>
+            )}
+          </Button>
+        </div>
+      )}
+      
+      {/* Mobile button - placed on right side of bottom bar when route is not created */}
+      {!routeCreated && isMobile && (
+        <div className="fixed bottom-4 right-4 z-50 w-[45%]">
+          <Button
+            onClick={createRoute}
+            disabled={isLoading}
+            className="w-full h-12 text-base rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
+            size="lg"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                Loading...
+              </>
+            ) : (
+              <>
+                <MapPin className="h-5 w-5 mr-1" />
+                Route
+              </>
+            )}
+          </Button>
+        </div>
+      )}
+    </>
   );
 }
