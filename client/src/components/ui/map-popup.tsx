@@ -144,7 +144,7 @@ export function MapPopup({
       }}
     >
       <CardHeader 
-        className="pb-2 cursor-grab" 
+        className="cursor-grab" 
         onMouseDown={handleMouseDown}
       >
         <div className="flex justify-between items-center">

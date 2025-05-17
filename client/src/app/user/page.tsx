@@ -329,9 +329,8 @@ export default function Dashboard() {
             <div 
               className="mt-2 w-full transition-all duration-300 ease-in-out transform animate-in fade-in slide-in-from-left-2"
             >
-              <Card className="max-h-[40vh] border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden pt-0">
-              <ScrollArea className="h-full py-2">
-                <CardHeader className="pb-2">
+              <Card className="max-h-[45vh] border border-gray-200 dark:border-gray-800 shadow-xl overflow-auto pt-5">
+                <CardHeader>
                   <CardTitle className="text-sm font-medium">Schedule Pickup</CardTitle>
                   <CardDescription className="text-xs">
                     Select a date for container pickup
@@ -443,7 +442,6 @@ export default function Dashboard() {
                     </div>
                   </>}
                 </CardFooter>
-                </ScrollArea>
               </Card>
             </div>
           )}
