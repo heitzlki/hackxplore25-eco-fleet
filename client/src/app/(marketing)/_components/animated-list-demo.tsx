@@ -13,33 +13,32 @@ interface Item {
 
 let notifications = [
   {
-    name: 'Payment received',
-    description: 'Magic UI',
+    name: 'Pickup tomorrow',
+    description: 'General waste collection at 8am',
     time: '15m ago',
-
-    icon: '💸',
-    color: '#00C9A7',
+    icon: '🗑️',
+    color: '#38e8b6',
   },
   {
-    name: 'User signed up',
-    description: 'Magic UI',
+    name: 'Recycling reminder',
+    description: 'Sort plastics and glass for pickup',
     time: '10m ago',
-    icon: '👤',
-    color: '#FFB800',
+    icon: '♻️',
+    color: '#80ed99',
   },
   {
-    name: 'New message',
-    description: 'Magic UI',
+    name: 'Schedule change',
+    description: 'Pickup delayed due to holiday',
     time: '5m ago',
-    icon: '💬',
+    icon: '📅',
     color: '#FF3D71',
   },
   {
-    name: 'New event',
-    description: 'Magic UI',
+    name: 'Collection complete',
+    description: 'Your waste was collected successfully',
     time: '2m ago',
-    icon: '🗞️',
-    color: '#1E86FF',
+    icon: '✅',
+    color: '#ccff33',
   },
 ];
 
