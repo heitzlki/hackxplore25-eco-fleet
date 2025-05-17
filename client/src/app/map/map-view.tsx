@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { environment } from '@/lib/environment';
@@ -32,41 +32,47 @@ export default function MapView() {
   const clickListenerRef = useRef<((e: mapboxgl.MapMouseEvent) => void) | null>(
     null
   );
-  const [center, setCenter] = useState<any>([
-    8.403735115313623, 49.00791069535478,
-  ]);
-  const [zoom, setZoom] = useState(16);
-  const [isLoadingRoute, setIsLoadingRoute] = useState(false);
-  const [customPoints, setCustomPoints] = useState<CustomPoint[]>([]);
-  const [isPlacingMode, setIsPlacingMode] = useState(false);
 
-  // Single popup state
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [popupData, setPopupData] = useState<PopupInfo>({
-    title: 'Location Information',
-    description: 'No description available',
-    properties: {},
-    fillData: [],
-  });
+  // Extract state and actions from the store
+  const {
+    garbageContainers,
+    mapViewState: {
+      isPopupOpen,
+      popupData,
+      customPoints,
+      isPlacingMode,
+      isLoadingRoute,
+      center,
+      zoom,
+    },
+    setPopupOpen,
+    setPopupData,
+    addCustomPoint: storeAddCustomPoint,
+    removeCustomPoint: storeRemoveCustomPoint,
+    clearCustomPoints: storeClearCustomPoints,
+    setPlacingMode,
+    togglePlacingMode: storeTogglePlacingMode,
+    setLoadingRoute,
+    setMapCenter,
+    setMapZoom,
+  } = useStore();
 
   // Function to open popup with data
   const openPopup = (data: PopupInfo) => {
     setPopupData(data);
-    setIsPopupOpen(true);
+    setPopupOpen(true);
   };
 
   // Function to close the popup
   const closePopup = () => {
-    setIsPopupOpen(false);
+    setPopupOpen(false);
   };
-
-  const { garbageContainers } = useStore();
 
   // Function to request route between garbage containers
   const requestRoute = async () => {
     if (!mapRef.current || garbageContainers.length < 2) return;
 
-    setIsLoadingRoute(true);
+    setLoadingRoute(true);
 
     try {
       // Format waypoints as required by the API
@@ -128,7 +134,7 @@ export default function MapView() {
         fillData: [],
       });
     } finally {
-      setIsLoadingRoute(false);
+      setLoadingRoute(false);
     }
   };
 
@@ -143,25 +149,20 @@ export default function MapView() {
     closePopup();
   };
 
-  // Toggle the placing mode
-  const togglePlacingMode = () => {
-    setIsPlacingMode((prev) => !prev);
-  };
-
   // Function to add a custom point at clicked location
-  const addCustomPoint = (e: mapboxgl.MapMouseEvent) => {
+  const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
     if (!mapRef.current) return;
 
     const { lng, lat } = e.lngLat;
-    const newPoint = { lng, lat };
+    const newPoint: CustomPoint = { lng, lat };
     const pointIndex = customPoints.length;
 
     console.log(
       `Adding point at ${lng}, ${lat}. Total points: ${pointIndex + 1}`
     );
 
-    // Add to state
-    setCustomPoints((prevPoints) => [...prevPoints, newPoint]);
+    // Add to global store
+    storeAddCustomPoint(newPoint);
 
     // Create custom point marker with removal capability
     createCustomPointMarker(
@@ -182,10 +183,8 @@ export default function MapView() {
     // Remove the marker from the map
     marker.remove();
 
-    // Remove the point from state
-    setCustomPoints((prevPoints) =>
-      prevPoints.filter((p) => !(p.lng === point.lng && p.lat === point.lat))
-    );
+    // Remove the point from global state
+    storeRemoveCustomPoint(point);
 
     // Show a toast notification
     openPopup({
@@ -249,8 +248,8 @@ export default function MapView() {
     const removedCount = clearCustomPointMarkers();
     console.log(`Removed ${removedCount} custom markers`);
 
-    // Clear state
-    setCustomPoints([]);
+    // Clear state in the store
+    storeClearCustomPoints();
 
     // Close popup
     closePopup();
@@ -267,6 +266,7 @@ export default function MapView() {
         container: mapContainerRef.current,
         style: 'mapbox://styles/zhgr/cmarabpiy01pw01sl35e50m1p',
         projection: 'globe',
+        attributionControl: false, // Disable the attribution control to remove the label
         // center: center,
         // zoom: zoom,
         // antialias: true,
@@ -293,8 +293,8 @@ export default function MapView() {
       map.on('move', () => {
         const mapCenter = map.getCenter();
         const mapZoom = map.getZoom();
-        setCenter([mapCenter.lng, mapCenter.lat]);
-        setZoom(mapZoom);
+        setMapCenter([mapCenter.lng, mapCenter.lat] as [number, number]);
+        setMapZoom(mapZoom);
       });
 
       mapRef.current = map;
@@ -311,7 +311,7 @@ export default function MapView() {
         mapRef.current.remove();
       }
     };
-  }, []);
+  }, []); // Empty dependency array since we're using refs
 
   // Effect to handle placing mode changes
   useEffect(() => {
@@ -330,13 +330,8 @@ export default function MapView() {
 
     // If placing mode is on, add a new click listener
     if (isPlacingMode) {
-      const clickHandler = (e: mapboxgl.MapMouseEvent) => {
-        addCustomPoint(e);
-      };
-
-      mapRef.current.on('click', clickHandler);
-      clickListenerRef.current = clickHandler;
-
+      mapRef.current.on('click', handleMapClick);
+      clickListenerRef.current = handleMapClick;
       console.log('Added click handler for placing mode');
     }
 
@@ -351,129 +346,7 @@ export default function MapView() {
 
   return (
     <div className='h-screen w-screen relative overflow-hidden cursor-none z-0'>
-      <div ref={mapContainerRef} className='h-full w-full relative z-0'></div>
-
-      {/* Control buttons for map features */}
-      <div className='absolute top-4 right-4 z-10 flex flex-col gap-2'>
-        {/* Custom Points Section */}
-        <div className='bg-white dark:bg-gray-900 p-3 rounded-lg shadow-lg mb-2'>
-          <h3 className='text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300'>
-            Custom Points
-          </h3>
-
-          <Button
-            onClick={togglePlacingMode}
-            className={`w-full mb-2 ${
-              isPlacingMode
-                ? 'bg-green-600 hover:bg-green-700'
-                : 'bg-gray-600 hover:bg-gray-700'
-            } text-white font-medium`}>
-            {isPlacingMode ? 'Stop Placing Points' : 'Start Placing Points'}
-          </Button>
-
-          <Button
-            onClick={downloadPointsAsCSV}
-            disabled={customPoints.length === 0}
-            className='w-full mb-2 bg-blue-600 hover:bg-blue-700 text-white font-medium'>
-            Download Points as CSV
-          </Button>
-
-          <Button
-            onClick={clearCustomPoints}
-            disabled={customPoints.length === 0}
-            className='w-full bg-red-600 hover:bg-red-700 text-white font-medium'>
-            Clear Custom Points
-          </Button>
-
-          <div className='text-xs mt-2 text-gray-500 dark:text-gray-400'>
-            {customPoints.length} point{customPoints.length !== 1 ? 's' : ''}{' '}
-            created
-          </div>
-        </div>
-
-        {/* Route Planning Section */}
-        <div className='bg-white dark:bg-gray-900 p-3 rounded-lg shadow-lg'>
-          <h3 className='text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300'>
-            Route Planning
-          </h3>
-
-          <Button
-            onClick={requestRoute}
-            disabled={isLoadingRoute}
-            className='w-full mb-2 bg-blue-600 hover:bg-blue-700 text-white font-medium'>
-            {isLoadingRoute
-              ? 'Calculating Route...'
-              : 'Calculate Optimal Route'}
-          </Button>
-
-          <Button
-            onClick={clearRoute}
-            className='w-full bg-slate-600 hover:bg-slate-700 text-white'>
-            Clear Route
-          </Button>
-        </div>
-
-        {/* Legacy Info Buttons - Collapsed */}
-        <div className='bg-white dark:bg-gray-900 p-3 rounded-lg shadow-lg mt-2'>
-          <h3 className='text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300'>
-            Info Panels
-          </h3>
-
-          <Button
-            onClick={() => {
-              openPopup({
-                title: 'Container Information',
-                description: 'Details about this waste container',
-                properties: {
-                  Type: 'Garbage Container',
-                  Capacity: '75%',
-                  'Last Emptied': '2 days ago',
-                  Status: 'Active',
-                },
-                fillData: [],
-              });
-            }}
-            className='w-full mb-2 bg-primary text-white'>
-            Show Container Info
-          </Button>
-
-          <Button
-            onClick={() => {
-              openPopup({
-                title: 'Environmental Data',
-                description: 'Environmental impact information',
-                properties: {
-                  'Air Quality': 'Good',
-                  'Noise Level': 'Moderate',
-                  'Waste Collection': 'Regular',
-                  'Recycling Rate': '65%',
-                },
-                fillData: [],
-              });
-            }}
-            className='w-full bg-secondary text-white'>
-            Show Environment Data
-          </Button>
-        </div>
-
-        {isPopupOpen && (
-          <Button onClick={closePopup} variant='destructive' className='mt-2'>
-            <X className='mr-1 h-4 w-4' />
-            Close Panel
-          </Button>
-        )}
-      </div>
-
-      {/* Single popup with fixed position */}
-      <MapPopup
-        isOpen={isPopupOpen}
-        onClose={closePopup}
-        title={popupData.title}
-        description={popupData.description}
-        properties={popupData.properties}
-        fillData={popupData.fillData}
-        position={{ x: 24, y: 80 }} // Fixed position on the left side
-      />
+      <div ref={mapContainerRef} className='h-full w-full relative z-0' />
     </div>
   );
 }
