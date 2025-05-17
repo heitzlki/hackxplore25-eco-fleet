@@ -1,5 +1,5 @@
 'use client'
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { environment } from "@/lib/environment";
@@ -7,39 +7,47 @@ import { MapPopup } from "@/components/ui/map-popup";
 import { FillData, useStore } from "@/lib/store"; // Import the Zustand store hook
 import { Pointer } from "@/components/magicui/pointer";
 import { motion } from "motion/react";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
+// Define a type for our popup data
+interface PopupInfo {
+  title: string;
+  description: string;
+  properties: Record<string, any>;
+  fillData: FillData;
+}
 
 export default function Page() {
-
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const [center, setCenter] = useState<any>([8.403735115313623, 49.00791069535478])
   const [zoom, setZoom] = useState(17.5)
-  const [popups, setPopups] = useState<ReactNode[]>([])
   
-  // New state for the popup
-  const [isPopupOpen, setIsPopupOpen] = useState(false)
-  const [popupData, setPopupData] = useState<{
-    title: string;
-    description: string;
-    properties: Record<string, any>;
-    fillData: FillData
-  }>({
-    title: "",
-    description: "",
+
+  // Single popup state
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [popupData, setPopupData] = useState<PopupInfo>({
+    title: "Location Information",
+    description: "No description available",
     properties: {},
     fillData: []
-  })
+  });
+
+  // Function to open popup with data
+  const openPopup = (data: PopupInfo) => {
+    setPopupData(data);
+    setIsPopupOpen(true);
+  };
 
   // Function to close the popup
   const closePopup = () => {
-    setIsPopupOpen(false)
-  }
+    setIsPopupOpen(false);
+  };
 
   const { garbageContainers } = useStore();
 
   useEffect(() => {
-    
     (async () => {
       if (!mapContainerRef.current) return; // Safety check
   
@@ -56,14 +64,13 @@ export default function Page() {
         bearing: 0
       });
 
-
       map.on('move', () => {
         // get the current center coordinates and zoom level from the map
         const mapCenter = map.getCenter()
         const mapZoom = map.getZoom()
   
         // update state
-        setCenter([ mapCenter.lng, mapCenter.lat ])
+        setCenter([mapCenter.lng, mapCenter.lat])
         setZoom(mapZoom)
       })
 
@@ -98,38 +105,66 @@ export default function Page() {
         mapRef.current.remove()
       }
     }
-
-  }, [garbageContainers]) // Add garbageContainers as a dependency to re-run the effect when the containers change
-
-
+  }, [])
 
   return (
     <div className="h-screen w-screen relative overflow-hidden cursor-none">
       <div ref={mapContainerRef} className="h-full w-full relative z-0"></div>
       <Pointer className="fill-blue-500" />
       
-      {/* Test button to manually open the popup */}
-      <div className="absolute top-4 right-4 z-10">
-        {/* <Button 
+      {/* Test buttons to manually open popups */}
+      <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
+        <Button 
           onClick={() => {
-            setPopupData({
-              title: "Test Location",
-              description: "This is a test popup for demonstration purposes",
+            openPopup({
+              title: "Container Information",
+              description: "Details about this waste container",
               properties: {
-                "Type": "Test Feature",
-                "Coordinates": "Sample coordinates",
+                "Type": "Garbage Container",
+                "Capacity": "75%",
+                "Last Emptied": "2 days ago",
                 "Status": "Active"
-              }
+              },
+              fillData: []
             });
-            setIsPopupOpen(true);
           }}
           className="bg-primary text-white"
         >
-          Open Test Popup
-        </Button> */}
+          Show Container Info
+        </Button>
+        
+        <Button
+          onClick={() => {
+            openPopup({
+              title: "Environmental Data",
+              description: "Environmental impact information",
+              properties: {
+                "Air Quality": "Good",
+                "Noise Level": "Moderate",
+                "Waste Collection": "Regular",
+                "Recycling Rate": "65%"
+              },
+              fillData: []
+            });
+          }}
+          className="bg-secondary text-white"
+        >
+          Show Environment Data
+        </Button>
+        
+        {isPopupOpen && (
+          <Button 
+            onClick={closePopup}
+            variant="destructive"
+            className="mt-2"
+          >
+            <X className="mr-1 h-4 w-4" />
+            Close Panel
+          </Button>
+        )}
       </div>
       
-      {/* Shadcn Popup Component */}
+      {/* Single popup with fixed position */}
       <MapPopup 
         isOpen={isPopupOpen}
         onClose={closePopup}
@@ -137,10 +172,8 @@ export default function Page() {
         description={popupData.description}
         properties={popupData.properties}
         fillData={popupData.fillData}
+        position={{ x: 24, y: 80 }} // Fixed position on the left side
       />
-      
-      {/* Legacy popups array (keeping for compatibility) */}
-      {popups}
     </div>
   );
 }
