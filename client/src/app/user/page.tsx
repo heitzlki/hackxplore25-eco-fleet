@@ -548,9 +548,15 @@ export default function Dashboard() {
                         <span className={`${isMobile ? 'text-base' : 'text-sm'} text-gray-700 dark:text-gray-300`}>{item.key}</span>
                       </div>
                       <div className="flex items-center">
-                        <Badge className={`font-normal bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100 mr-2 ${isMobile ? 'text-sm px-2 py-1 invisible' : ''}`}>
-                          {item.value}
-                        </Badge>
+                        {!isMobile && (
+                          <Badge
+                            className={`font-normal bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100 mr-2 ${
+                              isMobile ? 'text-sm px-2 py-1' : ''
+                            }`}
+                          >
+                            {item.value}
+                          </Badge>
+                        )}
                         {expandedWasteType === item.key ? (
                           <ChevronUp className={`${isMobile ? 'h-5 w-5' : 'h-4 w-4'} text-gray-500 dark:text-gray-400`} />
                         ) : (
