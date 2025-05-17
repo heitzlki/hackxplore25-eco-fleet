@@ -69,11 +69,19 @@ export const Navbar = () => {
           </div>
 
           {/* Login/Signup Buttons */}
-          <div className='hidden md:flex items-center space-x-3 flex-shrink-0 relative'>
+          {/* <div className='hidden md:flex items-center space-x-3 flex-shrink-0 relative'>
             <ModeToggle />
             <Button>
               <Link href='/dashboard' className='text-sm font-medium'>
                 Dashboard
+              </Link>
+            </Button>
+          </div> */}
+          <div className='hidden md:flex items-center space-x-3 flex-shrink-0 relative'>
+            <ModeToggle />
+            <Button>
+              <Link href='/signup' className='text-sm font-medium'>
+                Sign Up
               </Link>
             </Button>
           </div>
