@@ -470,8 +470,7 @@ export default function Dashboard() {
               : 'opacity-0 translate-x-4 scale-95'
           }`}
         >
-          <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-            {/* Adaptive background for light/dark modes */}
+          <Card className="border border-gray-200 dark:border-gray-800 shadow-xl overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-white max-h-[80vh] overflow-y-auto scrollbar-hide">
             <CardHeader className={`${isMobile ? 'pb-3 pt-4' : 'pb-2'} relative`}>
               <div className="flex justify-between items-start">
                 <div>
