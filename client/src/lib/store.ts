@@ -1,16 +1,44 @@
 import { Area, Contact } from '@/types';
 import { create } from 'zustand';
 import garbageContainersData from '@/data/garbageContainers.json';
+import { ContainerApi } from './api-utils';
 
-// Function to initialize garbage containers from the JSON file
-const initialGarbageContainers = () => {
-  const { fillData, containers } = garbageContainersData;
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getDatabase, ref, get } from "firebase/database";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Map containers to add fillData to each container
-  return containers.map((container) => ({
-    ...container,
-    fillData: fillData,
-  }));
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCOVyqWUsM8kZRDIewyDdCYL2kvXauLDQI",
+  authDomain: "hackxplore-3deb8.firebaseapp.com",
+  projectId: "hackxplore-3deb8",
+  storageBucket: "hackxplore-3deb8.firebasestorage.app",
+  messagingSenderId: "505386861890",
+  appId: "1:505386861890:web:28109a0e9098245e3474db",
+  measurementId: "G-3ZD86YEMB5"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
+
+// Fetch garbage containers from our API endpoint
+const initialGarbageContainers = async () => {
+  console.log("Fetching garbage containers from API...");
+
+  try {
+    const data = await ContainerApi.getAll();
+    console.log("Garbage containers data fetched successfully.");
+    return data;
+  } catch (error) {
+    console.error("Error fetching garbage containers:", error);
+    // Return a sensible default in case of error
+    return [];
+  }
 };
 
 interface NodeInfo {
