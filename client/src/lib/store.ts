@@ -52,11 +52,18 @@ export type FillData = {
   fillLevel: number;
 }[]
 
+// Waste type fill levels
+export interface WasteTypes {
+  glass: number;     // -1 means not available
+  aluminum: number;  // -1 means not available
+  general: number;   // -1 means not available
+}
+
 // Container location interface
 export interface ContainerLocation {
   lng: number;
   lat: number;
-  current_level: number; // Value between 0-100 indicating current fill level
+  waste_types: WasteTypes;
 }
 
 // Full container info including fill data

@@ -138,7 +138,7 @@ export function MapPopup({
         width: '380px',       // Fixed width for all popups
         height: 'auto',       // Let height adapt to content
         minHeight: '100px',   // Minimum height
-        maxHeight: '320px',   // Maximum height - keep this consistent
+        // maxHeight: '320px',   // Maximum height - keep this consistent
         overflow: 'auto',     // Make it scrollable if content is too long
         borderLeft: '4px solid #38e8b6' // Use custom-one color from theme
       }}

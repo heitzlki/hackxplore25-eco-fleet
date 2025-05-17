@@ -4,7 +4,7 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { environment } from "@/lib/environment";
 import { MapPopup } from "@/components/ui/map-popup";
-import { FillData, GarbageContainer, useStore } from "@/lib/store"; // Import types and store hook
+import { FillData, GarbageContainer, WasteTypes, useStore } from "@/lib/store"; // Import types and store hook
 import { Pointer } from "@/components/magicui/pointer";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
@@ -82,9 +82,9 @@ export default function Page() {
       // Highlight the used waypoints with an order index
       waypoints.forEach((waypoint, index) => {
         const [lng, lat] = waypoint.split(',').map(Number);
-        // Find the container to get its current_level
+        // Find the container to get its waste types
         const container = garbageContainers.find(c => c.lng === lng && c.lat === lat);
-        const fillLevel = container ? container.current_level : 0;
+        const maxFillLevel = container ? getMaxFillLevel(container.waste_types) : 0;
 
         // Create a marker element with an index label
         const el = document.createElement('div');
@@ -105,17 +105,57 @@ export default function Page() {
           .addTo(mapRef.current!);
 
         marker.getElement().addEventListener('click', () => {
+          // Calculate max fill level from waste types
+          const maxFillLevel = container ? getMaxFillLevel(container.waste_types) : 0;
+
+          // Create base properties
+          const waypointProperties: Record<string, any> = {
+            "Longitude": lng,
+            "Latitude": lat,
+            "Order": index + 1,
+            "Max Fill Level": maxFillLevel ? `${maxFillLevel}%` : 'Unknown',
+            "Status": getStatusFromLevel(maxFillLevel)
+          };
+
+          // Add waste type information if available
+          let description = `Waypoint ${index + 1}${maxFillLevel ? ` - Max Fill Level: ${maxFillLevel}%` : ''}`;
+
+          if (container && container.waste_types) {
+            const { glass, aluminum, general } = container.waste_types;
+
+            // Glass
+            if (glass >= 0) {
+              waypointProperties["Glass"] = `${glass}%`;
+              waypointProperties["Glass Status"] = getStatusFromLevel(glass);
+            }
+
+            // Aluminum
+            if (aluminum >= 0) {
+              waypointProperties["Aluminum"] = `${aluminum}%`;
+              waypointProperties["Aluminum Status"] = getStatusFromLevel(aluminum);
+            }
+
+            // General waste
+            if (general >= 0) {
+              waypointProperties["General Waste"] = `${general}%`;
+              waypointProperties["General Status"] = getStatusFromLevel(general);
+            }
+
+            // Enhanced description with waste types
+            const availableTypes = [];
+            if (glass >= 0) availableTypes.push("Glass");
+            if (aluminum >= 0) availableTypes.push("Aluminum");
+            if (general >= 0) availableTypes.push("General Waste");
+
+            if (availableTypes.length > 0) {
+              description = `Waypoint ${index + 1} - Accepts: ${availableTypes.join(", ")}`;
+            }
+          }
+
           setPopupData({
             title: "Waypoint",
-            description: `Waypoint ${index + 1}${fillLevel ? ` - Fill Level: ${fillLevel}%` : ''}`,
-            properties: {
-              "Longitude": lng,
-              "Latitude": lat,
-              "Order": index + 1,
-              "Fill Level": container ? `${container.current_level}%` : 'Unknown',
-              "Status": container && container.current_level > 80 ? "Nearly Full" :
-                       container && container.current_level > 50 ? "Half Full" : "Available"
-            },
+            description: description,
+            properties: waypointProperties,
             fillData: container ? container.fillData : []
           });
           setIsPopupOpen(true);
@@ -208,6 +248,24 @@ export default function Page() {
   // Toggle the placing mode
   const togglePlacingMode = () => {
     setIsPlacingMode(prev => !prev);
+  };
+
+  // Helper function to get status text from fill level
+  const getStatusFromLevel = (level: number): string => {
+    if (level >= 80) return "Nearly Full";
+    if (level >= 50) return "Half Full";
+    return "Available";
+  };
+
+  // Helper function to calculate maximum fill level from waste types
+  const getMaxFillLevel = (wasteTypes: WasteTypes): number => {
+    const { glass, aluminum, general } = wasteTypes;
+    const availableLevels = [
+      glass >= 0 ? glass : 0,
+      aluminum >= 0 ? aluminum : 0,
+      general >= 0 ? general : 0
+    ];
+    return Math.max(...availableLevels);
   };
 
   // Function to add a custom point at clicked location
@@ -370,35 +428,103 @@ export default function Page() {
       
       // Add garbage container markers
       garbageContainers.forEach((container) => {
-        // Determine marker color based on fill level
-        const fillLevel = container.current_level;
-        let markerColor;
+        // Calculate max fill level from waste types
+        const { glass, aluminum, general } = container.waste_types;
+        const maxFillLevel = getMaxFillLevel(container.waste_types);
 
-        if (fillLevel < 30) {
+        // Determine marker color based on maximum fill level
+        let markerColor;
+        if (maxFillLevel < 30) {
           markerColor = '#4CAF50'; // Green for low fill level
-        } else if (fillLevel < 70) {
+        } else if (maxFillLevel < 70) {
           markerColor = '#FF9800'; // Orange for medium fill level
         } else {
           markerColor = '#F44336'; // Red for high fill level
         }
 
-        const marker = new mapboxgl.Marker({ color: markerColor })
+        // Create a container element for the marker
+        const el = document.createElement('div');
+        // el.style.position = 'relative';
+        el.style.width = '24px';
+        el.style.height = '24px';
+        el.style.borderRadius = '50%';
+        el.style.backgroundColor = markerColor;
+        el.style.border = '2px solid white';
+        el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+
+        // Add waste type indicators
+        const availableTypes = [];
+        if (glass >= 0) availableTypes.push('G');
+        if (aluminum >= 0) availableTypes.push('A');
+        if (general >= 0) availableTypes.push('W');
+
+        if (availableTypes.length > 0) {
+          const typeIndicator = document.createElement('div');
+          typeIndicator.style.position = 'absolute';
+          typeIndicator.style.top = '-8px';
+          typeIndicator.style.right = '-8px';
+          typeIndicator.style.backgroundColor = 'rgba(0,0,0,0.7)';
+          typeIndicator.style.color = 'white';
+          typeIndicator.style.fontSize = '8px';
+          typeIndicator.style.fontWeight = 'bold';
+          typeIndicator.style.padding = '2px 3px';
+          typeIndicator.style.borderRadius = '3px';
+          typeIndicator.textContent = availableTypes.join('');
+          el.appendChild(typeIndicator);
+        }
+
+        // Create marker with custom element
+        const marker = new mapboxgl.Marker({ element: el })
           .setLngLat([container.lng, container.lat])
           .addTo(map);
 
+        // Add click handler for the marker
         marker.getElement().addEventListener('click', () => {
+          // Create base properties for popup
+          const properties: Record<string, any> = {
+            "Longitude": container.lng,
+            "Latitude": container.lat,
+            "Max Fill Level": `${maxFillLevel}%`,
+            "Status": getStatusFromLevel(maxFillLevel)
+          };
+
+          // Add waste type information
+          // Glass
+          if (glass >= 0) {
+            properties["Glass"] = `${glass}%`;
+            properties["Glass Status"] = getStatusFromLevel(glass);
+          }
+
+          // Aluminum
+          if (aluminum >= 0) {
+            properties["Aluminum"] = `${aluminum}%`;
+            properties["Aluminum Status"] = getStatusFromLevel(aluminum);
+          }
+
+          // General waste
+          if (general >= 0) {
+            properties["General Waste"] = `${general}%`;
+            properties["General Status"] = getStatusFromLevel(general);
+          }
+
+          // Generate description based on available waste types
+          const availableTypeNames = [];
+          if (glass >= 0) availableTypeNames.push("Glass");
+          if (aluminum >= 0) availableTypeNames.push("Aluminum");
+          if (general >= 0) availableTypeNames.push("General Waste");
+
+          const description = availableTypeNames.length > 0
+            ? `Container accepting: ${availableTypeNames.join(", ")}`
+            : "Container details";
+
+          // Set popup data
           setPopupData({
-            title: "Garbage Container",
-            description: `Container Fill Level: ${container.current_level}%`,
-            properties: {
-              "Longitude": container.lng,
-              "Latitude": container.lat,
-              "Fill Level": `${container.current_level}%`,
-              "Status": container.current_level > 80 ? "Nearly Full" :
-                        container.current_level > 50 ? "Half Full" : "Available"
-            },
+            title: "Waste Container",
+            description: description,
+            properties: properties,
             fillData: container.fillData
           });
+
           setIsPopupOpen(true);
         });
       });
