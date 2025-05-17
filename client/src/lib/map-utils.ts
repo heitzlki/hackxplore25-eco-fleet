@@ -78,20 +78,20 @@ export const createContainerMarker = (
   if (aluminum >= 0) availableTypes.push('A');
   if (general >= 0) availableTypes.push('W');
 
-  // if (availableTypes.length > 0) {
-  //   const typeIndicator = document.createElement('div');
-  //   typeIndicator.style.position = 'absolute';
-  //   typeIndicator.style.top = '-8px';
-  //   typeIndicator.style.right = '-8px';
-  //   typeIndicator.style.backgroundColor = 'rgba(0,0,0,0.7)';
-  //   typeIndicator.style.color = 'white';
-  //   typeIndicator.style.fontSize = '8px';
-  //   typeIndicator.style.fontWeight = 'bold';
-  //   typeIndicator.style.padding = '2px 3px';
-  //   typeIndicator.style.borderRadius = '3px';
-  //   typeIndicator.textContent = availableTypes.join('');
-  //   el.appendChild(typeIndicator);
-  // }
+  if (availableTypes.length > 0) {
+    const typeIndicator = document.createElement('div');
+    typeIndicator.style.position = 'absolute';
+    typeIndicator.style.top = '10px';
+    typeIndicator.style.right = '-24px';
+    typeIndicator.style.backgroundColor = 'rgb(22, 22, 22)';
+    typeIndicator.style.color = 'white';
+    typeIndicator.style.fontSize = '8px';
+    typeIndicator.style.fontWeight = 'bold';
+    typeIndicator.style.padding = '3px 10px';
+    typeIndicator.style.borderRadius = '6px';
+    typeIndicator.textContent = availableTypes.join('');
+    el.appendChild(typeIndicator);
+  }
 
   // Create marker with custom element
   const marker = new mapboxgl.Marker({ element: el })
