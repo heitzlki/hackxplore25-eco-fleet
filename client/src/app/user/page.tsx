@@ -9,20 +9,23 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar } from '@/components/ui/calendar';
 import { X, CalendarIcon } from 'lucide-react';
 import { useStore } from '@/lib/store';
+import RouteDisplay from './_components/route-display';
 
 export default function Dashboard() {
   // Use the global store for popup state
-  const { 
+  const {
     mapViewState: { isPopupOpen, popupData },
     setPopupOpen,
     setPopupData
   } = useStore();
-  
+
   // Local UI state
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
   const popupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
   
   // Update visibility when popup state changes
   useEffect(() => {
@@ -74,13 +77,29 @@ export default function Dashboard() {
     };
   }, []);
 
+  // Function to set map reference when map is initialized
+  const handleMapInit = (map: mapboxgl.Map) => {
+    mapRef.current = map;
+    setMapReady(true);
+  };
+
   return (
-    <MapView 
+    <MapView
       mode='dashboard'
       enableLocationTracking={true}
       className='h-screen w-full relative'
       onMarkerClick={handleMarkerClick}
+      onMapInit={handleMapInit}
     >
+      {/* Route Display Component */}
+      {mapReady && (
+        <RouteDisplay
+          mapRef={mapRef}
+          onMarkerClick={handleMarkerClick}
+          onRouteCreated={(success) => console.log(`Route creation ${success ? 'succeeded' : 'failed'}`)}
+        />
+      )}
+
       {/* Dashboard Mode Popup with Animation */}
       {isPopupOpen && (
         <div 
@@ -96,7 +115,7 @@ export default function Dashboard() {
               <div className="flex justify-between items-start">
                 <div>
                   <CardTitle className="text-lg font-semibold">{popupData.title}</CardTitle>
-                  <CardDescription className="text-sm mt-1">{popupData.description}</CardDescription>
+                  <CardDescription className="text-sm mt-1">{popupData.description} {JSON.stringify(popupData, null, 2)}</CardDescription>
                 </div>
                 <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-primary/10" onClick={closePopup}>
                   <X className="h-4 w-4" />

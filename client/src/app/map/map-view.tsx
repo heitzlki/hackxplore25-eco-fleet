@@ -29,6 +29,7 @@ interface MapViewProps {
   className?: string;
   children?: React.ReactNode;
   onMarkerClick?: (popupData: PopupInfo) => void;
+  onMapInit?: (map: mapboxgl.Map) => void;
 }
 
 export default function MapView({
@@ -40,6 +41,7 @@ export default function MapView({
   className = 'h-screen w-screen relative overflow-hidden cursor-none z-0',
   children,
   onMarkerClick,
+  onMapInit,
 }: MapViewProps) {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -496,6 +498,11 @@ export default function MapView({
       });
 
       mapRef.current = map;
+
+      // Call the onMapInit callback if provided
+      if (onMapInit) {
+        onMapInit(map);
+      }
     })();
 
     return () => {

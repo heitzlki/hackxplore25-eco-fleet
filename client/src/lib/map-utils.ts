@@ -22,6 +22,9 @@ export interface RouteResponse {
     geometry: {
       coordinates: [number, number][];
     };
+    distance?: number;
+    duration?: number;
+    weight?: number;
   }>;
 }
 
