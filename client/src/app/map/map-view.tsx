@@ -552,7 +552,7 @@ export default function MapView({
       {children}
 
       {/* Map cursor for map mode */}
-      {mode === 'map' && <Pointer />}
+      {/* {mode === 'map' && <Pointer />} */}
     </div>
   );
 }
