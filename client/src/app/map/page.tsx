@@ -9,12 +9,12 @@ import { useStore } from '@/lib/store';
 
 export default function Map() {
   // Use the global store for popup state
-  const { 
+  const {
     mapViewState: { isPopupOpen, popupData },
     setPopupOpen,
-    setPopupData
+    setPopupData,
   } = useStore();
-  
+
   // Function to handle marker clicks
   const handleMarkerClick = (data: PopupInfo) => {
     setPopupData(data);
@@ -28,15 +28,14 @@ export default function Map() {
 
   return (
     <div className='relative h-screen w-screen'>
-      <MapView 
+      <MapView
         mode='map'
         enableLocationTracking={false}
         className='h-screen w-screen relative overflow-hidden cursor-none z-0'
-        onMarkerClick={handleMarkerClick}
-      >
+        onMarkerClick={handleMarkerClick}>
         {/* Map Mode Popup */}
-        <MapPopup 
-          isOpen={isPopupOpen} 
+        <MapPopup
+          isOpen={isPopupOpen}
           onClose={closePopup}
           title={popupData.title}
           description={popupData.description}
@@ -45,7 +44,7 @@ export default function Map() {
         />
       </MapView>
       <MainStats />
-      <ControlCenter />
+      {/* <ControlCenter /> */}
     </div>
   );
 }
