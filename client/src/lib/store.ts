@@ -1,5 +1,126 @@
 import { Area, Contact } from '@/types';
+import { set } from 'date-fns';
 import { create } from 'zustand';
+
+
+
+
+const initialGarbageContainers = () => {
+
+  const fillData: FillData = [
+    {
+      timestamp: "00:00",
+      fillLevel: 0
+    },
+    {
+      timestamp: "01:00",
+      fillLevel: 0.5
+    },
+    {
+      timestamp: "02:00",
+      fillLevel: 0.75
+    },
+    {
+      timestamp: "03:00",
+      fillLevel: 0.9
+    },
+    {
+      timestamp: "04:00",
+      fillLevel: 0.95
+    },
+    {
+      timestamp: "05:00",
+      fillLevel: 0.9
+    },
+    {
+      timestamp: "06:00",
+      fillLevel: 0
+    },
+    {
+      timestamp: "07:00",
+      fillLevel: 0.1
+    },
+    {
+      timestamp: "08:00",
+      fillLevel: 0.1
+    },
+    {
+      timestamp: "09:00",
+      fillLevel: 0.1
+    },
+    {
+      timestamp: "10:00",
+      fillLevel: 0.2
+    },
+    {
+      timestamp: "11:00",
+      fillLevel: 0.2
+    },
+    {
+      timestamp: "12:00",
+      fillLevel: 0.2
+    },
+    {
+      timestamp: "13:00",
+      fillLevel: 0.2
+    },
+    {
+      timestamp: "14:00",
+      fillLevel: 0.2
+    },
+    {
+      timestamp: "15:00",
+      fillLevel: 0.2
+    },
+    {
+      timestamp: "16:00",
+      fillLevel: 0.2
+    },
+    {
+      timestamp: "17:00",
+      fillLevel: 0.2
+    },
+    {
+      timestamp: "18:00",
+      fillLevel: 0.3
+    },
+    {
+      timestamp: "19:00",
+      fillLevel: 0.4
+    },
+    {
+      timestamp: "20:00",
+      fillLevel: 0.5
+    },
+    {
+      timestamp: "21:00",
+      fillLevel: 0.5
+    },
+    {
+      timestamp: "22:00",
+      fillLevel: 0.6
+    },
+    {
+      timestamp: "23:00",
+      fillLevel: 0.8
+    },
+    {
+      timestamp: "24:00",
+      fillLevel: 0.9
+    }
+  ]
+
+  return [
+    { lat: 49.009544, lng: 8.403545, fillData: fillData },
+    { lat: 49.009504, lng: 8.404323, fillData: fillData },
+    { lat: 49.009014, lng: 8.403469, fillData: fillData },
+    { lat: 49.008968, lng: 8.404302, fillData: fillData },
+    { lat: 49.008260, lng: 8.403522, fillData: fillData },
+    { lat: 49.008241, lng: 8.404078, fillData: fillData },
+    { lat: 49.009753, lng: 8.401409, fillData: fillData }
+  ]
+}
+
 
 interface NodeInfo {
   id: string;
@@ -33,9 +154,16 @@ interface ServerResponse {
   xml: string;
 }
 
+// a timeseries which gives us the fill level of the garbage container over the day
+export type FillData = {
+  timestamp: string;
+  fillLevel: number;
+}[]
+
 interface LongLatInfo {
   lng: number,
-  lat: number
+  lat: number,
+  fillData: FillData,
 }
 
 interface ClientState {
@@ -62,15 +190,7 @@ export const useStore = create<ClientState>((set) => ({
   graphData: [],
   selectedNode: null,
   serverResponse: null, 
-  garbageContainers: [
-    { lng: 49.009544, lat: 8.403545 },
-    { lng: 49.009504, lat: 8.404323 },
-    { lng: 49.009014, lat: 8.403469 },
-    { lng: 49.008968, lat: 8.404302 },
-    { lng: 49.008260, lat: 8.403522 },
-    { lng: 49.008241, lat: 8.404078 },
-    { lng: 49.009753, lat: 8.401409 }
-  ],
+  garbageContainers: initialGarbageContainers(),
   setGarbageContainers: (garbageContainers: LongLatInfo[]) => set({ garbageContainers: garbageContainers }),
   setColor1: (color: string) => set({ color1: color }),
   setColor2: (color: string) => set({ color2: color }),
@@ -81,3 +201,4 @@ export const useStore = create<ClientState>((set) => ({
   setRoadmap: () =>
     set((state: { roadmap: boolean }) => ({ roadmap: !state.roadmap })),
 }));
+

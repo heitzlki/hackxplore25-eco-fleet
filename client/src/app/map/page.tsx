@@ -4,7 +4,10 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { environment } from "@/lib/environment";
 import { MapPopup } from "@/components/ui/map-popup";
-import { Button } from "@/components/ui/button";
+import { FillData, useStore } from "@/lib/store"; // Import the Zustand store hook
+import { Pointer } from "@/components/magicui/pointer";
+import { motion } from "motion/react";
+
 
 export default function Page() {
 
@@ -20,16 +23,20 @@ export default function Page() {
     title: string;
     description: string;
     properties: Record<string, any>;
+    fillData: FillData
   }>({
     title: "",
     description: "",
-    properties: {}
+    properties: {},
+    fillData: []
   })
 
   // Function to close the popup
   const closePopup = () => {
     setIsPopupOpen(false)
   }
+
+  const { garbageContainers } = useStore();
 
   useEffect(() => {
     
@@ -58,35 +65,31 @@ export default function Page() {
         // update state
         setCenter([ mapCenter.lng, mapCenter.lat ])
         setZoom(mapZoom)
-        console.log(mapCenter);
       })
-      
-      map.on('click', (event) => {
-        const features = map.queryRenderedFeatures(event.point, {
-          layers: ['garbage-containers']
-        })
-        if (!features.length) {
-          return;
-        }
-
-        const feature = features[0];
-
-        const geometry: any = feature.geometry;
-        const properties: any = feature.properties;
-
-        // Updated to use the Shadcn popup component
-        setPopupData({
-          title: properties.title || "Location Information",
-          description: properties.description || "No description available",
-          properties: properties || {}
-        });
-        setIsPopupOpen(true);
-      })
-
 
       mapRef.current = map; 
-      
 
+      // Add garbage container markers from the Zustand store
+      garbageContainers.forEach((container) => {
+        // Create a marker for each garbage container
+        const marker = new mapboxgl.Marker({ color: '#000' })
+          .setLngLat([container.lng, container.lat]) // Note: The store has lat/lng reversed compared to mapbox expectations
+          .addTo(map);
+          
+        // Optional: Add a popup that appears on click
+        marker.getElement().addEventListener('click', () => {
+          setPopupData({
+            title: "Garbage Container",
+            description: "Location details for this container",
+            properties: {
+              "Longitude": container.lng,
+              "Latitude": container.lat
+            },
+            fillData: container.fillData
+          });
+          setIsPopupOpen(true);
+        });
+      });
 
     })()
 
@@ -96,17 +99,18 @@ export default function Page() {
       }
     }
 
-  }, [])
+  }, [garbageContainers]) // Add garbageContainers as a dependency to re-run the effect when the containers change
 
 
 
   return (
-    <div className="h-screen w-screen relative overflow-hidden">
+    <div className="h-screen w-screen relative overflow-hidden cursor-none">
       <div ref={mapContainerRef} className="h-full w-full relative z-0"></div>
+      <Pointer className="fill-blue-500" />
       
       {/* Test button to manually open the popup */}
       <div className="absolute top-4 right-4 z-10">
-        <Button 
+        {/* <Button 
           onClick={() => {
             setPopupData({
               title: "Test Location",
@@ -122,7 +126,7 @@ export default function Page() {
           className="bg-primary text-white"
         >
           Open Test Popup
-        </Button>
+        </Button> */}
       </div>
       
       {/* Shadcn Popup Component */}
@@ -132,6 +136,7 @@ export default function Page() {
         title={popupData.title}
         description={popupData.description}
         properties={popupData.properties}
+        fillData={popupData.fillData}
       />
       
       {/* Legacy popups array (keeping for compatibility) */}

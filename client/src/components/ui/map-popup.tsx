@@ -4,6 +4,8 @@ import * as React from 'react';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { XIcon } from 'lucide-react';
+import FillGraph from '../map-dashboard/FillGraph';
+import { FillData } from '@/lib/store';
 
 interface MapPopupProps {
   isOpen: boolean;
@@ -11,6 +13,7 @@ interface MapPopupProps {
   title?: string;
   description?: string;
   properties?: Record<string, any>;
+  fillData: FillData;
 }
 
 export function MapPopup({ 
@@ -18,7 +21,8 @@ export function MapPopup({
   onClose, 
   title = "Location Information", 
   description = "No description available", 
-  properties = {} 
+  properties = {},
+  fillData
 }: MapPopupProps) {
   return (
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -45,6 +49,8 @@ export function MapPopup({
           )}
         </div>
         
+        <FillGraph chartData={fillData} />
+
         <div className="flex justify-end mt-4">
           <Button variant="outline" onClick={onClose}>
             Close
