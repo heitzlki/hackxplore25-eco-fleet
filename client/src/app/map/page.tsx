@@ -4,33 +4,26 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { environment } from "@/lib/environment";
 import { MapPopup } from "@/components/ui/map-popup";
-import { FillData, GarbageContainer, WasteTypes, useStore } from "@/lib/store"; // Import types and store hook
+import { GarbageContainer, useStore } from "@/lib/store"; // Import types and store hook
 import { Pointer } from "@/components/magicui/pointer";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-
-// Define a type for our popup data
-interface PopupInfo {
-  title: string;
-  description: string;
-  properties: Record<string, any>;
-  fillData: FillData;
-}
-
-interface RouteResponse {
-  routes: Array<{
-    geometry: {
-      coordinates: [number, number][];
-    };
-  }>;
-}
-
-// Custom point type
-interface CustomPoint {
-  lng: number;
-  lat: number;
-}
+import {
+  CustomPoint,
+  PopupInfo,
+  RouteResponse,
+  addRouteToMap,
+  clearCustomPointMarkers,
+  createContainerMarker,
+  createCustomPointMarker,
+  createWaypointMarker,
+  downloadCSV,
+  generateCSVFromPoints,
+  getMaxFillLevel,
+  getStatusFromLevel,
+  removeRouteFromMap
+} from "@/lib/map-utils";
 
 export default function Page() {
   const mapRef = useRef<mapboxgl.Map | null>(null)
@@ -82,84 +75,10 @@ export default function Page() {
       // Highlight the used waypoints with an order index
       waypoints.forEach((waypoint, index) => {
         const [lng, lat] = waypoint.split(',').map(Number);
-        // Find the container to get its waste types
         const container = garbageContainers.find(c => c.lng === lng && c.lat === lat);
-        const maxFillLevel = container ? getMaxFillLevel(container.waste_types) : 0;
 
-        // Create a marker element with an index label
-        const el = document.createElement('div');
-        el.style.backgroundColor = '#f00';
-        el.style.width = '24px';
-        el.style.height = '24px';
-        el.style.borderRadius = '50%';
-        el.style.display = 'flex';
-        el.style.justifyContent = 'center';
-        el.style.alignItems = 'center';
-        el.style.color = '#fff';
-        el.style.fontSize = '12px';
-        el.style.fontWeight = 'bold';
-        el.textContent = (index + 1).toString();
-
-        const marker = new mapboxgl.Marker({ element: el })
-          .setLngLat([lng, lat])
-          .addTo(mapRef.current!);
-
-        marker.getElement().addEventListener('click', () => {
-          // Calculate max fill level from waste types
-          const maxFillLevel = container ? getMaxFillLevel(container.waste_types) : 0;
-
-          // Create base properties
-          const waypointProperties: Record<string, any> = {
-            "Longitude": lng,
-            "Latitude": lat,
-            "Order": index + 1,
-            "Max Fill Level": maxFillLevel ? `${maxFillLevel}%` : 'Unknown',
-            "Status": getStatusFromLevel(maxFillLevel)
-          };
-
-          // Add waste type information if available
-          let description = `Waypoint ${index + 1}${maxFillLevel ? ` - Max Fill Level: ${maxFillLevel}%` : ''}`;
-
-          if (container && container.waste_types) {
-            const { glass, aluminum, general } = container.waste_types;
-
-            // Glass
-            if (glass >= 0) {
-              waypointProperties["Glass"] = `${glass}%`;
-              waypointProperties["Glass Status"] = getStatusFromLevel(glass);
-            }
-
-            // Aluminum
-            if (aluminum >= 0) {
-              waypointProperties["Aluminum"] = `${aluminum}%`;
-              waypointProperties["Aluminum Status"] = getStatusFromLevel(aluminum);
-            }
-
-            // General waste
-            if (general >= 0) {
-              waypointProperties["General Waste"] = `${general}%`;
-              waypointProperties["General Status"] = getStatusFromLevel(general);
-            }
-
-            // Enhanced description with waste types
-            const availableTypes = [];
-            if (glass >= 0) availableTypes.push("Glass");
-            if (aluminum >= 0) availableTypes.push("Aluminum");
-            if (general >= 0) availableTypes.push("General Waste");
-
-            if (availableTypes.length > 0) {
-              description = `Waypoint ${index + 1} - Accepts: ${availableTypes.join(", ")}`;
-            }
-          }
-
-          setPopupData({
-            title: "Waypoint",
-            description: description,
-            properties: waypointProperties,
-            fillData: container ? container.fillData : []
-          });
-          setIsPopupOpen(true);
-        });
+        // Create a waypoint marker
+        createWaypointMarker(lng, lat, index, container, mapRef.current!, openPopup);
       });
 
       if (!response.ok) {
@@ -168,52 +87,19 @@ export default function Page() {
 
       const data: RouteResponse = await response.json();
 
-      // Remove existing route layer if it exists
-      if (mapRef.current.getLayer(routeLayerId.current)) {
-        mapRef.current.removeLayer(routeLayerId.current);
-        mapRef.current.removeSource(routeLayerId.current);
-      }
+      // Add the route to the map
+      addRouteToMap(mapRef.current, data, routeLayerId.current);
 
-      if (data.routes && data.routes.length > 0) {
-        // Add the route to the map
-        mapRef.current.addSource(routeLayerId.current, {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'LineString',
-              coordinates: data.routes[0].geometry.coordinates
-            }
-          }
-        });
-
-        mapRef.current.addLayer({
-          id: routeLayerId.current,
-          type: 'line',
-          source: routeLayerId.current,
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round'
-          },
-          paint: {
-            'line-color': '#3887be',
-            'line-width': 5,
-            'line-opacity': 0.75
-          }
-        });
-
-        // Open a popup with route information
-        openPopup({
-          title: "Optimized Route",
-          description: "Route between garbage containers",
-          properties: {
-            "Containers": garbageContainers.length,
-            "Status": "Route calculated"
-          },
-          fillData: []
-        });
-      }
+      // Open a popup with route information
+      openPopup({
+        title: "Optimized Route",
+        description: "Route between garbage containers",
+        properties: {
+          "Containers": garbageContainers.length,
+          "Status": "Route calculated"
+        },
+        fillData: []
+      });
     } catch (error) {
       console.error('Error fetching route:', error);
 
@@ -235,11 +121,8 @@ export default function Page() {
   const clearRoute = () => {
     if (!mapRef.current) return;
 
-    // Remove route layer and source if they exist
-    if (mapRef.current.getLayer(routeLayerId.current)) {
-      mapRef.current.removeLayer(routeLayerId.current);
-      mapRef.current.removeSource(routeLayerId.current);
-    }
+    // Remove route from map
+    removeRouteFromMap(mapRef.current, routeLayerId.current);
 
     // Close popup
     closePopup();
@@ -248,24 +131,6 @@ export default function Page() {
   // Toggle the placing mode
   const togglePlacingMode = () => {
     setIsPlacingMode(prev => !prev);
-  };
-
-  // Helper function to get status text from fill level
-  const getStatusFromLevel = (level: number): string => {
-    if (level >= 80) return "Nearly Full";
-    if (level >= 50) return "Half Full";
-    return "Available";
-  };
-
-  // Helper function to calculate maximum fill level from waste types
-  const getMaxFillLevel = (wasteTypes: WasteTypes): number => {
-    const { glass, aluminum, general } = wasteTypes;
-    const availableLevels = [
-      glass >= 0 ? glass : 0,
-      aluminum >= 0 ? aluminum : 0,
-      general >= 0 ? general : 0
-    ];
-    return Math.max(...availableLevels);
   };
 
   // Function to add a custom point at clicked location
@@ -280,47 +145,14 @@ export default function Page() {
     // Add to state
     setCustomPoints(prevPoints => [...prevPoints, { lng, lat }]);
 
-    // Create a container for the marker with a custom attribute
-    const markerContainer = document.createElement('div');
-    markerContainer.className = 'custom-marker-container';
-    markerContainer.setAttribute('data-custom-point', 'true');
-
-    // Create the marker dot
-    const markerDot = document.createElement('div');
-    markerDot.className = 'custom-marker-dot';
-    markerDot.style.backgroundColor = '#888';
-    markerDot.style.width = '20px';
-    markerDot.style.height = '20px';
-    markerDot.style.borderRadius = '50%';
-    markerDot.style.border = '2px solid white';
-    markerDot.style.boxShadow = '0 0 5px rgba(0,0,0,0.3)';
-
-    // Add the dot to the container
-    markerContainer.appendChild(markerDot);
-
-    // Add marker to map
-    const marker = new mapboxgl.Marker({ element: markerContainer })
-      .setLngLat([lng, lat])
-      .addTo(mapRef.current);
-
-    // Add click handler for the marker
-    marker.getElement().addEventListener('click', (event) => {
-      event.stopPropagation();
-
-      if (!isPlacingMode) {
-        setPopupData({
-          title: "Custom Point",
-          description: "User-defined location point",
-          properties: {
-            "Longitude": lng.toFixed(6),
-            "Latitude": lat.toFixed(6),
-            "Point #": pointIndex + 1
-          },
-          fillData: []
-        });
-        setIsPopupOpen(true);
-      }
-    });
+    // Create custom point marker
+    createCustomPointMarker(
+      { lng, lat },
+      pointIndex,
+      mapRef.current,
+      isPlacingMode,
+      openPopup
+    );
   };
 
   // Generate and download CSV file with custom points
@@ -337,27 +169,12 @@ export default function Page() {
       });
       return;
     }
-    
-    // Create CSV content
-    let csvContent = "id,longitude,latitude\n";
-    
-    customPoints.forEach((point, index) => {
-      csvContent += `${index + 1},${point.lng.toFixed(6)},${point.lat.toFixed(6)}\n`;
-    });
-    
-    // Create a blob and download link
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    
-    // Set up and trigger download
-    link.setAttribute('href', url);
-    link.setAttribute('download', `custom-points-${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
+
+    // Generate CSV content and download
+    const csvContent = generateCSVFromPoints(customPoints);
+    const filename = `custom-points-${new Date().toISOString().split('T')[0]}.csv`;
+    downloadCSV(csvContent, filename);
+
     // Show success notification
     openPopup({
       title: "CSV Export Successful",
@@ -370,26 +187,13 @@ export default function Page() {
       fillData: []
     });
   };
-  
+
   // Clear all custom points
   const clearCustomPoints = () => {
     if (customPoints.length === 0) return;
 
-    // Find all marker elements on the page
-    const markers = document.querySelectorAll('.mapboxgl-marker');
-    console.log(`Found ${markers.length} markers`);
-
-    // Loop through each marker and remove custom ones
-    let removedCount = 0;
-    markers.forEach(marker => {
-      // Check if this marker has our custom attribute
-      const customContainer = marker.querySelector('.custom-marker-dot');
-      if (customContainer) {
-        marker.remove();
-        removedCount++;
-      }
-    });
-
+    // Remove all custom markers
+    const removedCount = clearCustomPointMarkers();
     console.log(`Removed ${removedCount} custom markers`);
 
     // Clear state
@@ -403,9 +207,9 @@ export default function Page() {
   useEffect(() => {
     (async () => {
       if (!mapContainerRef.current) return;
-      
+
       mapboxgl.accessToken = (await environment()).mapBoxAccessToken;
-      
+
       const map = new mapboxgl.Map({
         container: mapContainerRef.current,
         style: 'mapbox://styles/zhgr/cmarabpiy01pw01sl35e50m1p',
@@ -416,120 +220,23 @@ export default function Page() {
         pitch: 30,
         bearing: 0
       });
-      
+
       map.on('move', () => {
         const mapCenter = map.getCenter();
         const mapZoom = map.getZoom();
         setCenter([mapCenter.lng, mapCenter.lat]);
         setZoom(mapZoom);
       });
-      
+
       mapRef.current = map;
-      
+
       // Add garbage container markers
       garbageContainers.forEach((container) => {
-        // Calculate max fill level from waste types
-        const { glass, aluminum, general } = container.waste_types;
-        const maxFillLevel = getMaxFillLevel(container.waste_types);
-
-        // Determine marker color based on maximum fill level
-        let markerColor;
-        if (maxFillLevel < 30) {
-          markerColor = '#4CAF50'; // Green for low fill level
-        } else if (maxFillLevel < 70) {
-          markerColor = '#FF9800'; // Orange for medium fill level
-        } else {
-          markerColor = '#F44336'; // Red for high fill level
-        }
-
-        // Create a container element for the marker
-        const el = document.createElement('div');
-        // el.style.position = 'relative';
-        el.style.width = '24px';
-        el.style.height = '24px';
-        el.style.borderRadius = '50%';
-        el.style.backgroundColor = markerColor;
-        el.style.border = '2px solid white';
-        el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
-
-        // Add waste type indicators
-        const availableTypes = [];
-        if (glass >= 0) availableTypes.push('G');
-        if (aluminum >= 0) availableTypes.push('A');
-        if (general >= 0) availableTypes.push('W');
-
-        if (availableTypes.length > 0) {
-          const typeIndicator = document.createElement('div');
-          typeIndicator.style.position = 'absolute';
-          typeIndicator.style.top = '-8px';
-          typeIndicator.style.right = '-8px';
-          typeIndicator.style.backgroundColor = 'rgba(0,0,0,0.7)';
-          typeIndicator.style.color = 'white';
-          typeIndicator.style.fontSize = '8px';
-          typeIndicator.style.fontWeight = 'bold';
-          typeIndicator.style.padding = '2px 3px';
-          typeIndicator.style.borderRadius = '3px';
-          typeIndicator.textContent = availableTypes.join('');
-          el.appendChild(typeIndicator);
-        }
-
-        // Create marker with custom element
-        const marker = new mapboxgl.Marker({ element: el })
-          .setLngLat([container.lng, container.lat])
-          .addTo(map);
-
-        // Add click handler for the marker
-        marker.getElement().addEventListener('click', () => {
-          // Create base properties for popup
-          const properties: Record<string, any> = {
-            "Longitude": container.lng,
-            "Latitude": container.lat,
-            "Max Fill Level": `${maxFillLevel}%`,
-            "Status": getStatusFromLevel(maxFillLevel)
-          };
-
-          // Add waste type information
-          // Glass
-          if (glass >= 0) {
-            properties["Glass"] = `${glass}%`;
-            properties["Glass Status"] = getStatusFromLevel(glass);
-          }
-
-          // Aluminum
-          if (aluminum >= 0) {
-            properties["Aluminum"] = `${aluminum}%`;
-            properties["Aluminum Status"] = getStatusFromLevel(aluminum);
-          }
-
-          // General waste
-          if (general >= 0) {
-            properties["General Waste"] = `${general}%`;
-            properties["General Status"] = getStatusFromLevel(general);
-          }
-
-          // Generate description based on available waste types
-          const availableTypeNames = [];
-          if (glass >= 0) availableTypeNames.push("Glass");
-          if (aluminum >= 0) availableTypeNames.push("Aluminum");
-          if (general >= 0) availableTypeNames.push("General Waste");
-
-          const description = availableTypeNames.length > 0
-            ? `Container accepting: ${availableTypeNames.join(", ")}`
-            : "Container details";
-
-          // Set popup data
-          setPopupData({
-            title: "Waste Container",
-            description: description,
-            properties: properties,
-            fillData: container.fillData
-          });
-
-          setIsPopupOpen(true);
-        });
+        // Create container marker with click handler
+        createContainerMarker(container, map, openPopup);
       });
     })();
-    
+
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();
