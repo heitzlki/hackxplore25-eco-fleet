@@ -2,14 +2,14 @@
 
 import { Hero } from '@/app/(marketing)/sections/hero';
 import { About } from '@/app/(marketing)/sections/about';
-import { Features } from '@/app/(marketing)/sections/features';
-import { FAQ } from '@/app/(marketing)/sections/faq';
+// import { Features } from '@/app/(marketing)/sections/features';
+// import { FAQ } from '@/app/(marketing)/sections/faq';
 import { Footer } from '@/app/(marketing)/sections/footer';
 import { Navbar } from '@/app/(marketing)/sections/navbar';
 import { Bento } from '@/app/(marketing)/sections/bento';
 
-import { ScrollProgress } from '@/components/magicui/scroll-progress';
-import { ResponsiveModeIndicator } from '@/components/ResponsiveModeIndicator';
+// import { ScrollProgress } from '@/components/magicui/scroll-progress';
+// import { ResponsiveModeIndicator } from '@/components/ResponsiveModeIndicator';
 
 export default function Home() {
   return (

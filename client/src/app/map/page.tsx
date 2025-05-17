@@ -153,6 +153,7 @@ export default function Page() {
     if (!mapRef.current) return;
 
     const { lng, lat } = e.lngLat;
+    const newPoint = { lng, lat };
     const pointIndex = customPoints.length;
 
     console.log(
@@ -160,16 +161,49 @@ export default function Page() {
     );
 
     // Add to state
-    setCustomPoints((prevPoints) => [...prevPoints, { lng, lat }]);
+    setCustomPoints((prevPoints) => [...prevPoints, newPoint]);
 
-    // Create custom point marker
+    // Create custom point marker with removal capability
     createCustomPointMarker(
-      { lng, lat },
+      newPoint,
       pointIndex,
       mapRef.current,
       isPlacingMode,
-      openPopup
+      openPopup,
+      // Add callback for removing point when clicked
+      (point, marker) => removeCustomPoint(point, marker)
     );
+  };
+
+  // Function to remove a specific custom point
+  const removeCustomPoint = (point: CustomPoint, marker: mapboxgl.Marker) => {
+    console.log(`Removing point at ${point.lng}, ${point.lat}`);
+
+    // Remove the marker from the map
+    marker.remove();
+
+    // Remove the point from state
+    setCustomPoints((prevPoints) =>
+      prevPoints.filter((p) => !(p.lng === point.lng && p.lat === point.lat))
+    );
+
+    // Show a toast notification
+    openPopup({
+      title: 'Point Removed',
+      description: `Removed point at ${point.lng.toFixed(
+        6
+      )}, ${point.lat.toFixed(6)}`,
+      properties: {
+        Status: 'Success',
+        'Remaining Points': customPoints.length - 1,
+      },
+      fillData: [],
+    });
+
+    // Auto-close popup after 1.5 seconds
+    setTimeout(() => {
+      closePopup();
+    }, 1500);
   };
 
   // Generate and download CSV file with custom points
@@ -315,7 +349,6 @@ export default function Page() {
   return (
     <div className='h-screen w-screen relative overflow-hidden cursor-none'>
       <div ref={mapContainerRef} className='h-full w-full relative z-0'></div>
-      <Pointer className='fill-blue-500' />
 
       {/* Control buttons for map features */}
       <div className='absolute top-4 right-4 z-10 flex flex-col gap-2'>
