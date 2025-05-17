@@ -102,7 +102,7 @@ type GLTFResult = GLTF & {
 export function DoorTwo(props: React.JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF(
     '/tech_door_highlight.gltf'
-  ) as GLTFResult;
+  ) as unknown as GLTFResult;
 
   return (
     <Center
