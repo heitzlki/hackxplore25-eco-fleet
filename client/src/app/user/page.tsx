@@ -377,15 +377,6 @@ export default function Dashboard() {
               <Button 
                 variant="outline" 
                 size="sm" 
-                onClick={toggleCalendar}
-                className="flex items-center gap-2 transition-all hover:bg-blue-500 hover:text-white border-gray-600"
-              >
-                <CalendarIcon className="h-4 w-4" />
-                {showRecyclingCalendar ? 'Hide Calendar' : 'Show Calendar'}
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
                 onClick={closeRecyclingPopup}
                 className="transition-all hover:bg-blue-500 hover:text-white border-gray-600"
               >
@@ -397,7 +388,7 @@ export default function Dashboard() {
           {/* Recycling Calendar popup */}
           {showRecyclingCalendar && (
             <div 
-              className="mt-2 w-full transition-all duration-300 ease-in-out transform animate-in fade-in slide-in-from-left-2"
+              className="mt-2 w-full transition-all duration-300 ease-in-out transform animate-in fade-in slide-in-from-right-2"
             >
               <Card className="border border-gray-700 bg-black shadow-xl overflow-hidden text-white">
                 <CardHeader className="pb-2">
