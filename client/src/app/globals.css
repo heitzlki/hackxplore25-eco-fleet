@@ -129,16 +129,16 @@
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.705 0.015 286.067);
-  /* --chart-1: 359 2% 90%;
+  --chart-1: 359 2% 90%;
   --chart-2: 240 1% 74%;
   --chart-3: 240 1% 58%;
   --chart-4: 240 1% 42%;
-  --chart-5: 240 2% 26%; */
-  --chart-1: 220 70% 50%;
+  --chart-5: 240 2% 26%;
+  /* --chart-1: 220 70% 50%;
   --chart-5: 160 60% 45%;
   --chart-3: 30 80% 55%;
   --chart-4: 280 65% 60%;
-  --chart-2: 340 75% 55%;
+  --chart-2: 340 75% 55%; */
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
   --sidebar-primary: oklch(0.21 0.006 285.885);
@@ -151,6 +151,9 @@
   --custom-two: #80ed99;
   --custom-three: #4cc9f0;
   --custom-four: #ccff33;
+  --color-green: hsl(142, 76%, 36%);
+  --color-brown: hsl(28, 72%, 35%);
+  --color-clear: hsl(205, 70%, 90%);
 }
 
 .dark {
@@ -172,16 +175,16 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.552 0.016 285.938);
-  /* --chart-1: 359 2% 90%;
+  --chart-1: 359 2% 90%;
   --chart-2: 240 1% 74%;
   --chart-3: 240 1% 58%;
   --chart-4: 240 1% 42%;
-  --chart-5: 240 2% 26%; */
-  --chart-1: 220 70% 50%;
+  --chart-5: 240 2% 26%;
+  /* --chart-1: 220 70% 50%;
   --chart-5: 160 60% 45%;
   --chart-3: 30 80% 55%;
   --chart-4: 280 65% 60%;
-  --chart-2: 340 75% 55%;
+  --chart-2: 340 75% 55%; */
   --sidebar: oklch(0.21 0.006 285.885);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -194,6 +197,9 @@
   --custom-two: #80ed99;
   --custom-three: #4cc9f0;
   --custom-four: #ccff33;
+  --color-green: hsl(142, 76%, 36%);
+  --color-brown: hsl(28, 72%, 35%);
+  --color-clear: hsl(205, 70%, 90%);
 }
 
 @layer base {

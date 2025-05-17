@@ -19,36 +19,26 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 const chartData = [
-  { type: 'plastic', visitors: 120, fill: 'var(--color-plastic)' },
-  { type: 'glass', visitors: 80, fill: 'var(--color-glass)' },
-  { type: 'metal', visitors: 50, fill: 'var(--color-metal)' },
-  { type: 'paper', visitors: 100, fill: 'var(--color-paper)' },
-  { type: 'organic', visitors: 70, fill: 'var(--color-organic)' },
+  { type: 'green', visitors: 120, fill: 'var(--color-green)' },
+  { type: 'brown', visitors: 80, fill: 'var(--color-brown)' },
+  { type: 'clear', visitors: 150, fill: 'var(--color-clear)' },
 ];
 
 const chartConfig = {
   visitors: {
-    label: 'Visitors',
+    label: 'Bottle types',
   },
-  plastic: {
-    label: 'Plastic',
-    color: 'hsl(var(--chart-1))',
+  green: {
+    label: 'Green',
+    color: 'hsl(142, 76%, 36%)',
   },
-  glass: {
-    label: 'Glass',
-    color: 'hsl(var(--chart-2))',
+  brown: {
+    label: 'Brown',
+    color: 'hsl(28, 72%, 35%)',
   },
-  metal: {
-    label: 'Metal',
-    color: 'hsl(var(--chart-3))',
-  },
-  paper: {
-    label: 'Paper',
-    color: 'hsl(var(--chart-4))',
-  },
-  organic: {
-    label: 'Organic',
-    color: 'hsl(var(--chart-5))',
+  clear: {
+    label: 'Clear',
+    color: 'hsl(205, 70%, 90%)',
   },
 } satisfies ChartConfig;
 
@@ -60,13 +50,13 @@ export default function Component() {
   return (
     <Card className='flex flex-col'>
       <CardHeader className='items-center pb-0'>
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
+        <CardTitle>Bottle distrubution</CardTitle>
         <CardDescription>January - April 2025</CardDescription>
       </CardHeader>
       <CardContent className='flex-1 pb-0'>
         <ChartContainer
           config={chartConfig}
-          className='mx-auto aspect-square max-h-[250px]'>
+          className='mx-auto aspect-square max-h-[350px]'>
           <PieChart>
             <ChartTooltip
               cursor={false}
@@ -97,7 +87,7 @@ export default function Component() {
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className='fill-muted-foreground'>
-                          Visitors
+                          Bottle Types
                         </tspan>
                       </text>
                     );
@@ -108,14 +98,14 @@ export default function Component() {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className='flex-col gap-2 text-sm'>
+      {/* <CardFooter className='flex-col gap-2 text-sm'>
         <div className='flex items-center gap-2 font-medium leading-none'>
           Trending up by 5.2% this month <TrendingUp className='h-4 w-4' />
         </div>
         <div className='leading-none text-muted-foreground'>
           Showing total visitors for the last 6 months
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }
