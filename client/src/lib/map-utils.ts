@@ -73,7 +73,7 @@ export const createContainerMarker = (
   el.style.borderRadius = '50%';
   el.style.backgroundColor = markerColor;
   el.style.border = '2px solid white';
-  el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+  el.style.boxShadow = '0 5px 10px rgba(0,0,0,0.3)';
 
   // Add waste type indicators
   const availableTypes = [];
@@ -84,14 +84,14 @@ export const createContainerMarker = (
   if (availableTypes.length > 0) {
     const typeIndicator = document.createElement('div');
     typeIndicator.style.position = 'absolute';
-    typeIndicator.style.top = '-8px';
-    typeIndicator.style.right = '-8px';
-    typeIndicator.style.backgroundColor = 'rgba(0,0,0,0.7)';
+    typeIndicator.style.top = '10px';
+    typeIndicator.style.right = '-24px';
+    typeIndicator.style.backgroundColor = 'rgb(22, 22, 22)';
     typeIndicator.style.color = 'white';
     typeIndicator.style.fontSize = '8px';
     typeIndicator.style.fontWeight = 'bold';
-    typeIndicator.style.padding = '2px 3px';
-    typeIndicator.style.borderRadius = '3px';
+    typeIndicator.style.padding = '3px 10px';
+    typeIndicator.style.borderRadius = '6px';
     typeIndicator.textContent = availableTypes.join('');
     el.appendChild(typeIndicator);
   }

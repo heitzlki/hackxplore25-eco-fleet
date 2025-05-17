@@ -175,9 +175,9 @@ export default function Roadmap() {
     setProcessingComplete(true);
 
     // Navigate to a different route after a short delay
-    setTimeout(() => {
-      router.push('/dashboard/3d');
-    }, 1000);
+    // setTimeout(() => {
+    //   router.push('/dashboard/3d');
+    // }, 1000);
   }, [router]);
 
   // Create initial nodes with loading spinners

@@ -34,12 +34,12 @@ export type IconProps = React.HTMLAttributes<SVGElement>;
 
 const DATA = {
   navbar: [
-    { href: '/dashboard', icon: LayoutDashboardIcon, label: 'Home' },
-    { href: '/dashboard/graph', icon: SparklesIcon, label: 'AI' },
-    { href: '/dashboard/3d', icon: BrainCircuitIcon, label: 'Magic' },
-    { href: '/dashboard/pdf', icon: FileChartColumnIcon, label: 'PDF' },
-    { href: '/dashboard/report', icon: ChartNetworkIcon, label: 'Report' },
-    { href: '/dashboard/settings', icon: UserRoundCogIcon, label: 'Settings' },
+    { href: '/user', icon: LayoutDashboardIcon, label: 'Home' },
+    { href: '/user/graph', icon: SparklesIcon, label: 'AI' },
+    // { href: '/user/3d', icon: BrainCircuitIcon, label: 'Magic' },
+    // { href: '/user/pdf', icon: FileChartColumnIcon, label: 'PDF' },
+    { href: '/user/report', icon: ChartNetworkIcon, label: 'Report' },
+    // { href: '/user/settings', icon: UserRoundCogIcon, label: 'Settings' },
   ],
 };
 
