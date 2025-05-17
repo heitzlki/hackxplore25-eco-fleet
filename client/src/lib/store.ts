@@ -1,6 +1,5 @@
 import { Area, Contact } from '@/types';
 import { create } from 'zustand';
-import garbageContainersData from '@/data/garbageContainers.json';
 import { ContainerApi } from './api-utils';
 
 // Fetch garbage containers from our API endpoint
