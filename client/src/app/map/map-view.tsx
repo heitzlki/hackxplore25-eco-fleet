@@ -1,38 +1,62 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { environment } from '@/lib/environment';
-import { MapPopup } from '@/components/ui/map-popup';
-import { GarbageContainer, useStore } from '@/lib/store'; // Import types and store hook
-import { Pointer } from '@/components/magicui/pointer';
-import { motion } from 'motion/react';
-import { Button } from '@/components/ui/button';
-import { X } from 'lucide-react';
-import {
-  CustomPoint,
+import { useStore } from '@/lib/store';
+import { 
+  createContainerMarker, 
   PopupInfo,
+  CustomPoint,
   RouteResponse,
   addRouteToMap,
-  clearCustomPointMarkers,
-  createContainerMarker,
-  createCustomPointMarker,
-  createWaypointMarker,
-  downloadCSV,
-  generateCSVFromPoints,
-  getMaxFillLevel,
-  getStatusFromLevel,
   removeRouteFromMap,
+  createWaypointMarker,
+  createCustomPointMarker,
+  generateCSVFromPoints,
+  downloadCSV,
+  clearCustomPointMarkers
 } from '@/lib/map-utils';
+import { cn } from '@/lib/utils';
+import { Pointer } from '@/components/magicui/pointer';
 
-export default function MapView() {
+interface MapViewProps {
+  mode?: 'dashboard' | 'map';
+  showControls?: boolean;
+  enableLocationTracking?: boolean;
+  initialCenter?: [number, number];
+  initialZoom?: number;
+  className?: string;
+  children?: React.ReactNode;
+  onMarkerClick?: (popupData: PopupInfo) => void;
+}
+
+export default function MapView({
+  mode = 'map',
+  showControls = true,
+  enableLocationTracking = mode === 'dashboard',
+  initialCenter,
+  initialZoom,
+  className = 'h-screen w-screen relative overflow-hidden cursor-none z-0',
+  children,
+  onMarkerClick,
+}: MapViewProps) {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const routeLayerId = useRef<string>('route-layer');
-  const clickListenerRef = useRef<((e: mapboxgl.MapMouseEvent) => void) | null>(
-    null
-  );
+  const clickListenerRef = useRef<((e: mapboxgl.MapMouseEvent) => void) | null>(null);
+  const userLocationMarkerRef = useRef<mapboxgl.Marker | null>(null);
+  const locationWatchIdRef = useRef<number | null>(null);
+  const popupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Dashboard-specific state
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isLocatingUser, setIsLocatingUser] = useState(false);
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [showCalendar, setShowCalendar] = useState(false);
+  
   // Extract state and actions from the store
   const {
     garbageContainers,
@@ -42,8 +66,8 @@ export default function MapView() {
       customPoints,
       isPlacingMode,
       isLoadingRoute,
-      center,
-      zoom,
+      center: storeCenter,
+      zoom: storeZoom,
     },
     setPopupOpen,
     setPopupData,
@@ -56,16 +80,49 @@ export default function MapView() {
     setMapCenter,
     setMapZoom,
   } = useStore();
+  
+  // Use initial values from props or fall back to store values
+  const center = initialCenter || storeCenter;
+  const zoom = initialZoom || storeZoom;
 
   // Function to open popup with data
   const openPopup = (data: PopupInfo) => {
+    // Clear any existing timeout
+    if (popupTimeoutRef.current) {
+      clearTimeout(popupTimeoutRef.current);
+      popupTimeoutRef.current = null;
+    }
+    
+    // Store the popup data in the global state
     setPopupData(data);
     setPopupOpen(true);
+    
+    // Call the onMarkerClick callback if provided
+    if (onMarkerClick) {
+      onMarkerClick(data);
+    }
+  };
+
+  // Function to toggle calendar visibility (dashboard mode)
+  const toggleCalendar = () => {
+    setShowCalendar(prev => !prev);
   };
 
   // Function to close the popup
   const closePopup = () => {
-    setPopupOpen(false);
+    if (mode === 'dashboard') {
+      // First hide the popup with animation
+      setIsPopupVisible(false);
+      setShowCalendar(false);
+      
+      // Then remove it from the DOM after animation completes
+      popupTimeoutRef.current = setTimeout(() => {
+        setPopupOpen(false);
+      }, 300); // Match this to the CSS transition duration
+    } else {
+      // Map mode - simple close
+      setPopupOpen(false);
+    }
   };
 
   // Function to request route between garbage containers
@@ -255,63 +312,198 @@ export default function MapView() {
     closePopup();
   };
 
+  // Function to update the user location marker on the map (dashboard mode)
+  const updateUserLocationMarker = (position: GeolocationPosition) => {
+    if (!mapRef.current) return;
+    
+    const { longitude, latitude } = position.coords;
+    const lngLat: [number, number] = [longitude, latitude];
+    
+    // Check if this is the first location update
+    const isFirstUpdate = !userLocation;
+    
+    // Update state
+    setUserLocation(lngLat);
+    setIsLocatingUser(false);
+    setLocationError(null);
+    
+    // Create or update the marker
+    if (!userLocationMarkerRef.current) {
+      // Create a pulsing dot element for the user location
+      const el = document.createElement('div');
+      el.className = 'user-location-marker';
+      el.style.width = '20px';
+      el.style.height = '20px';
+      el.style.borderRadius = '50%';
+      el.style.backgroundColor = '#4285F4';
+      el.style.border = '2px solid white';
+      el.style.boxShadow = '0 0 0 2px rgba(66, 133, 244, 0.3)';
+      el.style.animation = 'pulse 1.5s infinite';
+      
+      // Add the pulsing animation
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes pulse {
+          0% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.5); }
+          70% { box-shadow: 0 0 0 15px rgba(66, 133, 244, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0); }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Create and add the marker
+      const marker = new mapboxgl.Marker({ element: el })
+        .setLngLat(lngLat)
+        .addTo(mapRef.current);
+      
+      // Store the marker reference
+      userLocationMarkerRef.current = marker;
+    } else {
+      // Update existing marker position
+      userLocationMarkerRef.current.setLngLat(lngLat);
+    }
+    
+    // If this is the first location update, fly to the user's location
+    if (isFirstUpdate && mapRef.current) {
+      mapRef.current.flyTo({
+        center: lngLat,
+        zoom: 16,
+        pitch: 30,
+        bearing: 0,
+        speed: 1.2, // Faster animation for initial location
+        curve: 1.0,
+        essential: true,
+        duration: 3000,
+      });
+    }
+  };
+
+  // Function to start location tracking (dashboard mode)
+  const startLocationTracking = () => {
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by your browser');
+      return;
+    }
+
+    setIsLocatingUser(true);
+    
+    // Start watching position
+    locationWatchIdRef.current = navigator.geolocation.watchPosition(
+      // Success callback
+      (position) => {
+        updateUserLocationMarker(position);
+      },
+      // Error callback
+      (error) => {
+        console.error('Error getting location:', error);
+        setLocationError(`Error getting location: ${error.message}`);
+        setIsLocatingUser(false);
+      },
+      // Options
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 5000 // Accept positions up to 5 seconds old
+      }
+    );
+  };
+  
+  // Function to stop tracking user location (dashboard mode)
+  const stopLocationTracking = () => {
+    if (locationWatchIdRef.current) {
+      navigator.geolocation.clearWatch(locationWatchIdRef.current);
+      locationWatchIdRef.current = null;
+      console.log("Location tracking stopped");
+    }
+  };
+
   // Effect to initialize the map
   useEffect(() => {
     (async () => {
       if (!mapContainerRef.current) return;
 
-      mapboxgl.accessToken = (await environment()).mapBoxAccessToken;
+      // Get Mapbox token from environment
+      const env = await environment();
+      mapboxgl.accessToken = env.mapBoxAccessToken || '';
 
       const map = new mapboxgl.Map({
         container: mapContainerRef.current,
         style: 'mapbox://styles/zhgr/cmarabpiy01pw01sl35e50m1p',
         projection: 'globe',
         attributionControl: false, // Disable the attribution control to remove the label
-        // center: center,
-        // zoom: zoom,
-        // antialias: true,
-        // pitch: 30,
-        // bearing: 0,
+        // For dashboard mode, start with a wider view until we get user location
+        zoom: mode === 'dashboard' ? 2 : zoom,
       });
 
-      // Add a load event to trigger the flyTo animation once the map is ready
+      // Add a load event handler
       map.on('load', () => {
         console.log('Map loaded');
-        // Fly to the initial location with a smooth animation
-        map.flyTo({
-          center: center,
-          zoom: zoom,
-          pitch: 30,
-          bearing: 0,
-          speed: 0.8, // Animation speed (0.2 is very slow, 1.2 is very fast)
-          curve: 1.0, // Animation curve (1 is linear)
-          essential: true, // This animation is considered essential for the user experience
-          duration: 6000, // Duration in milliseconds
+        
+        // For dashboard mode, start location tracking immediately
+        if (mode === 'dashboard' && enableLocationTracking) {
+          startLocationTracking();
+        } else {
+          // For map mode, fly to the initial location with a smooth animation
+          map.flyTo({
+            center: center,
+            zoom: zoom,
+            pitch: 30,
+            bearing: 0,
+            speed: 0.8, // Animation speed (0.2 is very slow, 1.2 is very fast)
+            curve: 1.0, // Animation curve (1 is linear)
+            essential: true, // This animation is considered essential for the user experience
+            duration: 6000, // Duration in milliseconds
+          });
+        }
+        
+        // Add garbage container markers
+        garbageContainers.forEach((container) => {
+          // Create container marker with click handler
+          createContainerMarker(container, map, openPopup);
         });
       });
 
       map.on('move', () => {
         const mapCenter = map.getCenter();
         const mapZoom = map.getZoom();
-        setMapCenter([mapCenter.lng, mapCenter.lat] as [number, number]);
-        setMapZoom(mapZoom);
+        
+        // Only update state if values have changed significantly to prevent infinite loops
+        const currentCenter = [mapCenter.lng, mapCenter.lat] as [number, number];
+        const currentZoom = mapZoom;
+        
+        // Check if center has changed by more than a small threshold
+        const centerChanged = Math.abs(currentCenter[0] - center[0]) > 0.0001 || 
+                            Math.abs(currentCenter[1] - center[1]) > 0.0001;
+                            
+        // Check if zoom has changed by more than a small threshold
+        const zoomChanged = Math.abs(currentZoom - zoom) > 0.01;
+        
+        // Only update state if there's a meaningful change
+        if (centerChanged) {
+          setMapCenter(currentCenter);
+        }
+        
+        if (zoomChanged) {
+          setMapZoom(currentZoom);
+        }
       });
 
       mapRef.current = map;
-
-      // Add garbage container markers
-      garbageContainers.forEach((container) => {
-        // Create container marker with click handler
-        createContainerMarker(container, map, openPopup);
-      });
     })();
 
     return () => {
+      // Clean up location tracking if active
+      if (mode === 'dashboard' && enableLocationTracking) {
+        stopLocationTracking();
+      }
+      
+      // Remove map
       if (mapRef.current) {
         mapRef.current.remove();
+        mapRef.current = null;
       }
     };
-  }, []); // Empty dependency array since we're using refs
+  }, [mode, enableLocationTracking, garbageContainers]);
 
   // Effect to handle placing mode changes
   useEffect(() => {
@@ -344,9 +536,16 @@ export default function MapView() {
     };
   }, [isPlacingMode]); // Only re-run when isPlacingMode changes
 
+  // Render map with children for UI elements
   return (
-    <div className='h-screen w-screen relative overflow-hidden cursor-none z-0'>
+    <div className={className}>
       <div ref={mapContainerRef} className='h-full w-full relative z-0' />
+      
+      {/* Render children (popups, controls, etc.) */}
+      {children}
+      
+      {/* Map cursor for map mode */}
+      {mode === 'map' && <Pointer />}
     </div>
   );
 }
