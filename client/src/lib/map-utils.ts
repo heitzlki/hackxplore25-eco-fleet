@@ -1,5 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 import { GarbageContainer, WasteTypes, FillData, ContainerLocation } from './store';
+import { is } from '@react-three/fiber/dist/declarations/src/core/utils';
 
 // Custom point type
 export interface CustomPoint {
@@ -241,10 +242,11 @@ export const createCustomPointMarker = (
   pointIndex: number,
   map: mapboxgl.Map,
   isPlacingMode: boolean,
-  onMarkerClick: (popupData: PopupInfo) => void
+  onMarkerClick: (popupData: PopupInfo) => void,
+  onRemovePoint?: (point: CustomPoint, marker: mapboxgl.Marker) => void
 ): mapboxgl.Marker => {
   const { lng, lat } = point;
-  
+
   // Create a container for the marker with a custom attribute
   const markerContainer = document.createElement('div');
   markerContainer.className = 'custom-marker-container';
@@ -259,6 +261,37 @@ export const createCustomPointMarker = (
   markerDot.style.borderRadius = '50%';
   markerDot.style.border = '2px solid white';
   markerDot.style.boxShadow = '0 0 5px rgba(0,0,0,0.3)';
+  markerDot.style.transition = 'all 0.2s ease-in-out';
+  markerDot.style.cursor = 'pointer';
+
+  // Add hover effect
+  markerDot.addEventListener('mouseenter', () => {
+    markerDot.style.backgroundColor = '#555';
+    markerDot.style.transform = 'scale(1.1)';
+    // Show delete instruction
+    const deleteHint = document.createElement('div');
+    deleteHint.textContent = 'Click to delete';
+    deleteHint.style.position = 'absolute';
+    deleteHint.style.top = '-25px';
+    deleteHint.style.left = '50%';
+    deleteHint.style.transform = 'translateX(-50%)';
+    deleteHint.style.backgroundColor = 'rgba(0,0,0,0.7)';
+    deleteHint.style.color = 'white';
+    deleteHint.style.padding = '3px 6px';
+    deleteHint.style.borderRadius = '4px';
+    deleteHint.style.fontSize = '10px';
+    deleteHint.style.whiteSpace = 'nowrap';
+    deleteHint.className = 'delete-hint';
+    markerContainer.appendChild(deleteHint);
+  });
+
+  markerDot.addEventListener('mouseleave', () => {
+    markerDot.style.backgroundColor = '#888';
+    markerDot.style.transform = 'scale(1)';
+    // Remove delete hint
+    const hint = markerContainer.querySelector('.delete-hint');
+    if (hint) markerContainer.removeChild(hint);
+  });
 
   // Add the dot to the container
   markerContainer.appendChild(markerDot);
@@ -272,17 +305,32 @@ export const createCustomPointMarker = (
   marker.getElement().addEventListener('click', (event) => {
     event.stopPropagation();
 
-    if (!isPlacingMode) {
-      onMarkerClick({
-        title: "Custom Point",
-        description: "User-defined location point",
-        properties: {
-          "Longitude": lng.toFixed(6),
-          "Latitude": lat.toFixed(6),
-          "Point #": pointIndex + 1
-        },
-        fillData: []
-      });
+    console.log('Marker clicked:', point);
+    console.log(isPlacingMode);
+    if (isPlacingMode) {
+      if (onRemovePoint) {
+        // Show a brief "removing" animation
+        markerDot.style.backgroundColor = '#e74c3c';
+        markerDot.style.transform = 'scale(0.8)';
+
+        // Short delay to show the animation
+        setTimeout(() => {
+          // Call the callback to remove this point
+          onRemovePoint(point, marker);
+        }, 200);
+      } else {
+        // Default behavior if no removal callback provided
+        onMarkerClick({
+          title: "Custom Point",
+          description: "User-defined location point",
+          properties: {
+            "Longitude": lng.toFixed(6),
+            "Latitude": lat.toFixed(6),
+            "Point #": pointIndex + 1
+          },
+          fillData: []
+        });
+      }
     }
   });
 
