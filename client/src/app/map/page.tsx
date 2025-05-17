@@ -10,7 +10,7 @@ export default function Map() {
     <div className='relative h-screen w-screen'>
       <MapView />
       <MainStats />
-      <ControlCenter />
+      {/* <ControlCenter /> */}
     </div>
   );
 }
