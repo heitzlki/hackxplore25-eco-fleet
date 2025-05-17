@@ -169,6 +169,9 @@ export const createWaypointMarker = (
   // Calculate max fill level from waste types
   const maxFillLevel = container ? getMaxFillLevel(container.waste_types) : 0;
 
+  // Check for mobile based on viewport width
+  const isMobile = window.innerWidth < 768;
+
   // Create a marker element with an index label - make it more visible since we're fading other markers
   const el = document.createElement('div');
   el.style.backgroundColor = '#f20000';
@@ -185,8 +188,45 @@ export const createWaypointMarker = (
   el.style.fontWeight = 'bold';
   el.style.zIndex = '100'; // Ensure it's above other markers
   el.textContent = (index + 1).toString();
-  // Add a pulse animation for better visibility
+
+  // Add a more pronounced pulse animation for better visibility
   el.style.animation = 'pulse-waypoint 2s infinite';
+
+  // Add a tooltip for mobile that shows on touch - helpful for users to understand what the numbers mean
+  if (isMobile) {
+    // Create tooltip
+    const tooltip = document.createElement('div');
+    // tooltip.style.position = 'absolute';
+    tooltip.style.top = '-30px';
+    tooltip.style.left = '50%';
+    tooltip.style.transform = 'translateX(-50%)';
+    tooltip.style.backgroundColor = 'rgba(0,0,0,0.8)';
+    tooltip.style.color = 'white';
+    tooltip.style.padding = '4px 8px';
+    tooltip.style.borderRadius = '4px';
+    tooltip.style.fontSize = '12px';
+    tooltip.style.whiteSpace = 'nowrap';
+    tooltip.style.pointerEvents = 'none';
+    tooltip.style.opacity = '0';
+    tooltip.style.transition = 'opacity 0.2s';
+    tooltip.textContent = `Stop ${index + 1}`;
+
+    // Show/hide tooltip on tap
+    el.addEventListener('click', () => {
+      const isVisible = tooltip.style.opacity === '1';
+      tooltip.style.opacity = isVisible ? '0' : '1';
+
+      // Auto-hide after a delay
+      if (!isVisible) {
+        setTimeout(() => {
+          tooltip.style.opacity = '0';
+        }, 2000);
+      }
+    });
+
+    el.appendChild(tooltip);
+  }
+
   // Add styles for the pulse animation
   const style = document.createElement('style');
   style.textContent = `
@@ -435,18 +475,24 @@ export const addRouteToMap = (
       }
     });
 
+    // Check for mobile for responsive styling
+    const isMobile = window.innerWidth < 768;
+
+    // Add the main route line
     map.addLayer({
       id: layerId,
       type: 'line',
       source: layerId,
       layout: {
-      'line-join': 'round',
-      'line-cap': 'round'
+        'line-join': 'round',
+        'line-cap': 'round'
       },
       paint: {
-      'line-color': '#222225',
-      'line-width': 5,
-      'line-opacity': 0.7 // Changed from 1 to 0.75 for slight transparency
+        'line-color': '#f20000',
+        'line-width': isMobile ? 6 : 5,
+        'line-opacity': 0.9,
+        // Add dashed pattern for visual interest
+        // 'line-dasharray': [0, 2, 1]
       }
     });
   }
@@ -457,9 +503,18 @@ export const removeRouteFromMap = (
   map: mapboxgl.Map,
   layerId: string
 ): void => {
-  // Remove route layer and source if they exist
+  // Remove main route layer if it exists
   if (map.getLayer(layerId)) {
     map.removeLayer(layerId);
+  }
+
+  // Remove casing layer if it exists
+  if (map.getLayer(`${layerId}-casing`)) {
+    map.removeLayer(`${layerId}-casing`);
+  }
+
+  // Remove source (shared by both layers)
+  if (map.getSource(layerId)) {
     map.removeSource(layerId);
   }
 };

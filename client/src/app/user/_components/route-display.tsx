@@ -237,83 +237,105 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
     };
   }, []);
 
+  // Get screen width to adjust UI for mobile
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Effect to check for mobile devices and handle resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Check initially
+    checkMobile();
+
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+
+    // Clean up
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
-    <div className="absolute bottom-8 right-8 z-10">
+    <div className={`${isMobile ? 'fixed inset-x-0 bottom-0 z-10 px-4 pb-4 pt-2' : 'absolute bottom-8 right-8 z-10'}`}>
       <div className="flex flex-col gap-2">
         {routeCreated && (
-          <Card className="p-6 rounded-lg shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-300">
+          <Card className={`${isMobile ? 'w-full max-w-md mx-auto rounded-xl shadow-xl' : 'rounded-lg shadow-lg'} p-4 animate-in fade-in slide-in-from-bottom-5 duration-300 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm`}>
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <h3 className={`${isMobile ? 'text-base' : 'text-sm'} font-semibold text-gray-700 dark:text-gray-300`}>
                 Collection Route
               </h3>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-6 w-6"
+                className={`${isMobile ? 'h-8 w-8' : 'h-6 w-6'} hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400`}
                 onClick={clearRoute}
               >
-                <X className="h-3 w-3" />
+                <X className={`${isMobile ? 'h-4 w-4' : 'h-3 w-3'}`} />
               </Button>
             </div>
-            
-            <div className="space-y-2">
+
+            <div className={`space-y-${isMobile ? '3' : '2'}`}>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-muted-foreground">Containers:</span>
-                <Badge variant="outline" className="text-xs">
-                  <MapPin className="h-3 w-3 mr-1" />
+                <span className={`${isMobile ? 'text-sm' : 'text-xs'} text-muted-foreground`}>Containers:</span>
+                <Badge variant="outline" className={`${isMobile ? 'text-sm p-1' : 'text-xs'}`}>
+                  <MapPin className={`${isMobile ? 'h-4 w-4' : 'h-3 w-3'} mr-1`} />
                   {markersRef.current.length}
                 </Badge>
               </div>
-              
+
               {routeDistance !== null && (
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">Distance:</span>
-                  <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs">
+                  <span className={`${isMobile ? 'text-sm' : 'text-xs'} text-muted-foreground`}>Distance:</span>
+                  <Badge className={`${isMobile ? 'text-sm p-1' : 'text-xs'} bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100`}>
                     {formatDistance(routeDistance)}
                   </Badge>
                 </div>
               )}
-              
+
               {routeDuration !== null && (
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">Duration:</span>
-                  <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100 text-xs">
+                  <span className={`${isMobile ? 'text-sm' : 'text-xs'} text-muted-foreground`}>Duration:</span>
+                  <Badge className={`${isMobile ? 'text-sm p-1' : 'text-xs'} bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100`}>
                     {formatDuration(routeDuration * 2)}
                   </Badge>
                 </div>
               )}
-              
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="w-full mt-1 text-xs h-8"
+
+              <Button
+                variant="outline"
+                size={isMobile ? "default" : "sm"}
+                className={`w-full mt-1 ${isMobile ? 'text-sm h-10' : 'text-xs h-8'}`}
                 onClick={createRoute}
               >
-                <RefreshCw className="h-3 w-3 mr-1" />
+                <RefreshCw className={`${isMobile ? 'h-4 w-4' : 'h-3 w-3'} mr-1`} />
                 Refresh Route
               </Button>
             </div>
           </Card>
         )}
-        
+
         {!routeCreated && (
-          <Button
-            onClick={createRoute}
-            disabled={isLoading}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Calculating Route...
-              </>
-            ) : (
-              <>
-                <MapPin className="h-4 w-4 mr-2" />
-                Show Waste Collection Route
-              </>
-            )}
-          </Button>
+          <div className={`${isMobile ? 'w-full flex justify-center' : ''}`}>
+            <Button
+              onClick={createRoute}
+              disabled={isLoading}
+              className={`${isMobile ? 'w-full max-w-xs h-12 text-base rounded-xl' : ''} bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg`}
+              size={isMobile ? "lg" : "default"}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className={`${isMobile ? 'h-5 w-5' : 'h-4 w-4'} mr-2 animate-spin`} />
+                  {isMobile ? 'Calculating Route...' : 'Calculating...'}
+                </>
+              ) : (
+                <>
+                  <MapPin className={`${isMobile ? 'h-5 w-5' : 'h-4 w-4'} mr-2`} />
+                  {isMobile ? 'Show Collection Route' : 'Show Waste Collection Route'}
+                </>
+              )}
+            </Button>
+          </div>
         )}
       </div>
     </div>
