@@ -1,4 +1,4 @@
-import DockBar from '@/app/(dashboard)/dashboard/_components/dock-bar';
+import DockBar from '@/app/user/_components/dock-bar';
 
 export default function DashboardLayout({
   children,
