@@ -6,7 +6,9 @@ import { useStore } from '@/lib/store';
 import { 
   RouteResponse, 
   createWaypointMarker, 
-  addRouteToMap 
+  addRouteToMap, 
+  getContainerMarkerFromRouteRaw,
+  getContainerMarkerFromRoute
 } from '@/lib/map-utils';
 import { Button } from '@/components/ui/button';
 import { Loader2, MapPin, RefreshCw, X } from 'lucide-react';
@@ -24,7 +26,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
   const [routeCreated, setRouteCreated] = useState(false);
   const [routeDistance, setRouteDistance] = useState<number | null>(null);
   const [routeDuration, setRouteDuration] = useState<number | null>(null);
-  const [selecting, setSelecting] = useState<boolean>(false);
+  const { isSelectingMarkers, setIsSelectingMarkers, setMarkerElements, markerElements } = useStore();
    
   const routeLayerId = useRef<string>('user-route-layer');
   const markersRef = useRef<mapboxgl.Marker[]>([]);
@@ -106,40 +108,23 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
 
     try {
       // Take only the first 5 waste containers (or all if less than 5)
-      const routeContainers = [
-        garbageContainers[203],
-        garbageContainers[188],
-        garbageContainers[191],
-        garbageContainers[197],
-        garbageContainers[199],
-        garbageContainers[151],
-        garbageContainers[39],
-        garbageContainers[9],
-        garbageContainers[8],
-        garbageContainers[7],
-        garbageContainers[6],
-        garbageContainers[14],
-        garbageContainers[0],
-        garbageContainers[13],
-        garbageContainers[32],
-        garbageContainers[57],
-        garbageContainers[103],
-        garbageContainers[161],
-        garbageContainers[160],
-        garbageContainers[183],
-      ];
       
       // Format waypoints as required by the API
-      const waypoints = [
-        "8.35869419195883,49.01571816015043",
-        ...routeContainers.map(
-          (container) => `${container.lng},${container.lat}`
-        ),
-        "8.35819419195883,49.01541816015043",
-      ];
+      const waypoints = getContainerMarkerFromRoute().map((c) => `${c.lng},${c.lat}`);
+
+      setIsSelectingMarkers(false)
+      document.body.classList.remove('SELECTING_MARKERS');
+      const markers = getContainerMarkerFromRouteRaw();
+      markers.forEach(marker => {
+        document.body.classList.remove(marker);
+      })
+
+      markerElements.forEach(element => {
+        element.style.border = '2px solid white';
+      })
 
       const response = await fetch(
-        `/api/mapbox/route?waypoints=${waypoints.join(';')}`
+        `/api/mapbox/optimized_route?waypoints=${waypoints.join(';')}`
       );
 
       if (!response.ok) {
@@ -151,7 +136,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
       // Add waypoint markers
       waypoints.forEach((waypoint, index) => {
         const [lng, lat] = waypoint.split(',').map(Number);
-        const container = routeContainers.find(
+        const container = garbageContainers.find(
           (c) => c.lng === lng && c.lat === lat
         );
 
@@ -256,7 +241,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
       {/* Main route info card - shown when route is active (both mobile and desktop) */}
       {routeCreated && (
         <div className={`${isMobile ? 'fixed inset-x-0 bottom-0 z-100 px-4 pb-4 pt-2' : 'absolute bottom-8 right-8 z-10'}`}>
-          <Card className={`${isMobile ? 'w-full max-w-md mx-auto rounded-xl shadow-xl z-100' : 'rounded-lg shadow-lg'} p-4 animate-in fade-in slide-in-from-bottom-5 duration-300 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm`}>
+          <Card className={`${isMobile ? 'w-full max-w-md mx-auto rounded-xl shadow-xl z-100' : 'rounded-lg shadow-lg'} p-4 animate-in fade-in slide-in-from-bottom-5 duration-300 backdrop-blur-sm`}>
             <div className="flex items-center justify-between mb-2">
               <h3 className={`${isMobile ? 'text-base' : 'text-sm'} font-semibold text-gray-700 dark:text-gray-300`}>
                 Collection Route
@@ -298,7 +283,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
                 </div>
               )}
               
-              <Button 
+              {/* <Button 
                 variant="outline" 
                 size={isMobile ? "default" : "sm"}
                 className={`w-full mt-1 ${isMobile ? 'text-sm h-10' : 'text-xs h-8'}`}
@@ -306,7 +291,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
               >
                 <RefreshCw className={`${isMobile ? 'h-4 w-4' : 'h-3 w-3'} mr-1`} />
                 Refresh Route
-              </Button>
+              </Button> */}
             </div>
           </Card>
         </div>
@@ -314,24 +299,49 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
       
       {/* Desktop button - only shown when route is not active */}
       {!routeCreated && !isMobile && (
-        <div className="absolute bottom-8 right-8 z-100">
-          <Button
-            onClick={}
-            disabled={isLoading}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Calculating...
-              </>
-            ) : (
-              <>
-                <MapPin className="h-4 w-4 mr-2" />
-                Create new Route
-              </>
-            )}
-          </Button>
+        <div className="absolute bottom-8 right-8 z-100 flex items-center gap-2">
+          {
+            isSelectingMarkers ? <>
+              <Button onClick={() => {
+                setIsSelectingMarkers(false)
+                document.body.classList.remove('SELECTING_MARKERS');
+                const markers = getContainerMarkerFromRouteRaw();
+                markers.forEach(marker => {
+                  document.body.classList.remove(marker);
+                })
+
+                markerElements.forEach(element => {
+                  element.style.border = '2px solid white';
+                })
+              }}>Cancel</Button>
+              <Button onClick={() => {
+                createRoute()
+              }}>
+                Create Route
+                </Button>
+            </>
+            :
+            <Button
+              onClick={() => {
+                setIsSelectingMarkers(true)
+                document.body.classList.add('SELECTING_MARKERS');
+              }}
+              disabled={isLoading}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg cursor-pointer"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Calculating...
+                </>
+              ) : (
+                <>
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Create new Route
+                </>
+              )}
+            </Button>
+          }
         </div>
       )}
       

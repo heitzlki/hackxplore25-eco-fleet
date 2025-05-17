@@ -50,12 +50,13 @@ export async function GET(request: Request) {
     const coordinates = waypoints.join(';');
     
     // Get Mapbox access token from environment variables
-    const accessToken = process.env.MAPBOX_ACCESS_TOKEN;
-    
+    const accessToken = process.env.MAP_BOX_ACCESS_TOKEN;
+
+
     // Build the Optimization API URL
     // Using 'mapbox/driving' profile for vehicle routing
     // Setting source and destination to 'first' to make it a round trip starting and ending at the first point
-    const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordinates}?source=first&destination=first&roundtrip=true&geometries=geojson&overview=full&steps=true&access_token=${accessToken}`;
+    const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordinates}?source=first&destination=last&roundtrip=true&geometries=geojson&overview=full&steps=true&access_token=${accessToken}`;
     
     console.log('Fetching Mapbox optimized route with waypoints:', waypoints.length);
     const res = await fetch(url);
@@ -70,7 +71,8 @@ export async function GET(request: Request) {
     }
 
     const data = await res.json();
-    
+    console.log(data)
+
     // Transform the response to match the format of the regular route API
     // The Optimization API returns a different format than the Directions API
     const transformedResponse = {

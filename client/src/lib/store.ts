@@ -111,6 +111,9 @@ interface ClientState {
   garbageContainers: GarbageContainer[];
   // Map view state
   mapViewState: MapViewState;
+  isSelectingMarkers: boolean;
+  markerElements: HTMLElement[],
+  setMarkerElements: (markers: HTMLElement[]) => void;
   setGarbageContainers: (garbageContainers: GarbageContainer[]) => void;
   setRoadmap: () => void;
   setGraphData: (graphData: Area[]) => void;
@@ -129,6 +132,7 @@ interface ClientState {
   setLoadingRoute: (isLoading: boolean) => void;
   setMapCenter: (center: [number, number]) => void;
   setMapZoom: (zoom: number) => void;
+  setIsSelectingMarkers: (isSelecting: boolean) => void;
 }
 
 export const useStore = create<ClientState>((set) => {
@@ -160,6 +164,10 @@ export const useStore = create<ClientState>((set) => {
       center: [8.388105, 49.001576],
       zoom: 16,
     },
+    isSelectingMarkers: false,
+    markerElements: [],
+    setMarkerElements: (markers: HTMLElement[]) => set({ markerElements: markers }),
+    setIsSelectingMarkers: (isSelecting: boolean) => set({ isSelectingMarkers: isSelecting }),
     setGarbageContainers: (garbageContainers: GarbageContainer[]) =>
       set({ garbageContainers }),
     setColor1: (color: string) => set({ color1: color }),

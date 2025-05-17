@@ -1,6 +1,8 @@
 import mapboxgl from 'mapbox-gl';
 import { GarbageContainer, WasteTypes, FillData, ContainerLocation } from './store';
 import { is } from '@react-three/fiber/dist/declarations/src/core/utils';
+import { useStore } from '@/lib/store';
+import { makeErroringExoticSearchParamsForUseCache } from 'next/dist/server/request/search-params';
 
 // Custom point type
 export interface CustomPoint {
@@ -50,8 +52,10 @@ export const getMaxFillLevel = (wasteTypes: WasteTypes): number => {
 export const createContainerMarker = (
   container: GarbageContainer,
   map: mapboxgl.Map,
-  onMarkerClick: (popupData: PopupInfo) => void
+  onMarkerClick: (popupData: PopupInfo) => void,
+  onSelectMarkerForRoute?: () => boolean
 ): mapboxgl.Marker => {
+
   // Calculate max fill level from waste types
   const { glass, aluminum, general } = container.waste_types;
   const maxFillLevel = getMaxFillLevel(container.waste_types);
@@ -108,50 +112,71 @@ export const createContainerMarker = (
 
   // Add click handler for the marker
   marker.getElement().addEventListener('click', () => {
-    // Create base properties for popup
-    const properties: Record<string, any> = {
-      "Longitude": container.lng,
-      "Latitude": container.lat,
-      "Max Fill Level": `${maxFillLevel}%`,
-      //"containerIndex": container.index !== undefined ? container.index : null,
-    };
 
-    // Add waste type information
-    // Glass
-    if (glass >= 0) {
-      properties["Glass"] = `${glass}%`;
-      // properties["Glass Status"] = getStatusFromLevel(glass);
+    if (!document.body.classList.contains('SELECTING_MARKERS')) {
+
+      // Create base properties for popup
+      const properties: Record<string, any> = {
+        "Longitude": container.lng,
+        "Latitude": container.lat,
+        "Max Fill Level": `${maxFillLevel}%`,
+        //"containerIndex": container.index !== undefined ? container.index : null,
+      };
+  
+      // Add waste type information
+      // Glass
+      if (glass >= 0) {
+        properties["Glass"] = `${glass}%`;
+        // properties["Glass Status"] = getStatusFromLevel(glass);
+      }
+  
+      // Aluminum
+      if (aluminum >= 0) {
+        properties["Aluminum"] = `${aluminum}%`;
+        // properties["Aluminum Status"] = getStatusFromLevel(aluminum);
+      }
+  
+      // General waste
+      if (general >= 0) {
+        properties["General Waste"] = `${general}%`;
+        // properties["General Status"] = getStatusFromLevel(general);
+      }
+  
+      // Generate description based on available waste types
+      const availableTypeNames = [];
+      if (glass >= 0) availableTypeNames.push("Glass");
+      if (aluminum >= 0) availableTypeNames.push("Aluminum");
+      if (general >= 0) availableTypeNames.push("General Waste");
+  
+      const description = availableTypeNames.length > 0
+        ? `Container accepting: ${availableTypeNames.join(", ")}`
+        : "Container details";
+  
+      // Send popup data to handler
+      onMarkerClick({
+        title: "Waste Container",
+        description: description,
+        properties: properties,
+        fillData: container.fillData
+      });
+
+    } else {
+      // this is for selecting markers:
+
+      // Add click handler for the marker
+      if (onSelectMarkerForRoute) {
+        const result = onSelectMarkerForRoute();
+        console.log(result)
+        if (!result) {
+          marker.getElement().style.border = '2px solid white';
+        } else {
+          marker.getElement().style.border = '2px solid black';
+        }
+      } 
+
     }
 
-    // Aluminum
-    if (aluminum >= 0) {
-      properties["Aluminum"] = `${aluminum}%`;
-      // properties["Aluminum Status"] = getStatusFromLevel(aluminum);
-    }
 
-    // General waste
-    if (general >= 0) {
-      properties["General Waste"] = `${general}%`;
-      // properties["General Status"] = getStatusFromLevel(general);
-    }
-
-    // Generate description based on available waste types
-    const availableTypeNames = [];
-    if (glass >= 0) availableTypeNames.push("Glass");
-    if (aluminum >= 0) availableTypeNames.push("Aluminum");
-    if (general >= 0) availableTypeNames.push("General Waste");
-
-    const description = availableTypeNames.length > 0
-      ? `Container accepting: ${availableTypeNames.join(", ")}`
-      : "Container details";
-
-    // Send popup data to handler
-    onMarkerClick({
-      title: "Waste Container",
-      description: description,
-      properties: properties,
-      fillData: container.fillData
-    });
   });
 
   return marker;
@@ -246,6 +271,7 @@ export const createWaypointMarker = (
     .addTo(map);
 
   marker.getElement().addEventListener('click', () => {
+
     // Create base properties
     const waypointProperties: Record<string, any> = {
       "Longitude": lng,
@@ -518,3 +544,34 @@ export const removeRouteFromMap = (
     map.removeSource(layerId);
   }
 };
+
+
+
+export function addContainerMarkerToRoute(garbageContainer: GarbageContainer) {
+  document.body.classList.add(`route-marker-(${garbageContainer.lng},${garbageContainer.lat})`);
+}
+
+export function removeContainerMarkerFromRoute(garbageContainer: GarbageContainer) {
+  document.body.classList.remove(`route-marker-(${garbageContainer.lng},${garbageContainer.lat})`);
+}
+
+export function getContainerMarkerFromRoute() {
+  const allClasses = Array.from(document.body.classList.values());
+
+  return allClasses.filter((c) => c.startsWith('route-marker-')).map((c) => {
+
+    const [lng, lat] = c.replace('route-marker-', '').replace('(', '').replace(')', '').split(',').map(r => parseFloat(r));
+    return { lng, lat };
+  });
+
+}
+
+export function getContainerMarkerFromRouteRaw() {
+  const allClasses = Array.from(document.body.classList.values());
+
+  return allClasses.filter((c) => c.startsWith('route-marker-'));
+}
+
+export function hasContainerMarker(garbageContainer: GarbageContainer) {
+  return document.body.classList.contains(`route-marker-(${garbageContainer.lng},${garbageContainer.lat})`);
+}

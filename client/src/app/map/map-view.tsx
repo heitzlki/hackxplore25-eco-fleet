@@ -16,6 +16,10 @@ import {
   generateCSVFromPoints,
   downloadCSV,
   clearCustomPointMarkers,
+  getContainerMarkerFromRoute,
+  hasContainerMarker,
+  addContainerMarkerToRoute,
+  removeContainerMarkerFromRoute,
 } from '@/lib/map-utils';
 import { cn } from '@/lib/utils';
 import { Pointer } from '@/components/magicui/pointer';
@@ -52,7 +56,6 @@ export default function MapView({
   const userLocationMarkerRef = useRef<mapboxgl.Marker | null>(null);
   const locationWatchIdRef = useRef<number | null>(null);
   const popupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
   // Dashboard-specific state
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isLocatingUser, setIsLocatingUser] = useState(false);
@@ -75,6 +78,8 @@ export default function MapView({
       center: storeCenter,
       zoom: storeZoom,
     },
+    setMarkerElements,
+    markerElements,
     setPopupOpen,
     setPopupData,
     addCustomPoint: storeAddCustomPoint,
@@ -106,10 +111,11 @@ export default function MapView({
     setPopupData(data);
     setPopupOpen(true);
 
-    // Call the onMarkerClick callback if provided
+    // // Call the onMarkerClick callback if provided
     if (onMarkerClick) {
       onMarkerClick(data);
     }
+
   };
 
   // Function to toggle calendar visibility (dashboard mode)
@@ -473,9 +479,30 @@ export default function MapView({
         containerMarkersRef.current = [];
         
         // Create markers for all containers
+        const allMarkers: HTMLElement[] = [];
         garbageContainers.forEach((container) => {
           // Create container marker with click handler
-          const marker = createContainerMarker(container, map, openPopup);
+          const marker = createContainerMarker(container, map, openPopup, () => {
+
+            const selectedRouteMarkers = getContainerMarkerFromRoute();
+            console.log(selectedRouteMarkers);
+            if (!hasContainerMarker(container)) {
+              if (selectedRouteMarkers.length < 12) {
+                addContainerMarkerToRoute(container);
+                return true;
+              } else {
+                alert('You can only select up to 12 containers'); // TODO: improve
+                return false;
+              }
+            } else {
+              removeContainerMarkerFromRoute(container);
+              return false;
+            } 
+
+
+          });
+          allMarkers.push(marker.getElement())
+
           containerMarkersRef.current.push(marker);
           
           // Initially set visibility based on current zoom level
@@ -483,6 +510,7 @@ export default function MapView({
             marker.getElement().style.display = 'none';
           }
         });
+        setMarkerElements(allMarkers);
         
         // Add styles for fade transitions - we'll use direct opacity manipulation instead of classes
         // for more precise control

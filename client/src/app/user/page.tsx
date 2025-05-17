@@ -56,6 +56,7 @@ export default function Dashboard() {
   const [mapReady, setMapReady] = useState(false);
   const popupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const { isSelectingMarkers, setIsSelectingMarkers } = useStore();
 
   // Recycling popup state
   const [isRecyclingPopupOpen, setIsRecyclingPopupOpen] = useState(false);
@@ -93,14 +94,20 @@ export default function Dashboard() {
   
   // Function to handle marker clicks
   const handleMarkerClick = (data: PopupInfo) => {
-    // Clear any existing timeout
-    if (popupTimeoutRef.current) {
-      clearTimeout(popupTimeoutRef.current);
-      popupTimeoutRef.current = null;
-    }
-    
-    setPopupData(data);
-    setPopupOpen(true);
+    // if (!isSelectingMarkers) {
+    //   // Clear any existing timeout
+    //   if (popupTimeoutRef.current) {
+    //     clearTimeout(popupTimeoutRef.current);
+    //     popupTimeoutRef.current = null;
+    //   }
+      
+    //   setPopupData(data);
+    //   setPopupOpen(true);
+    // } else {
+    //   console.log("brah not even beetlejuice was this stupid.");
+    // }
+
+
   };
 
   // Function to toggle calendar visibility
