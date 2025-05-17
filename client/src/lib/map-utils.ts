@@ -92,7 +92,12 @@ export const createContainerMarker = (
     typeIndicator.style.fontWeight = 'bold';
     typeIndicator.style.padding = '3px 10px';
     typeIndicator.style.borderRadius = '6px';
+    typeIndicator.style.transition = 'opacity 0.4s ease-in-out';
     typeIndicator.textContent = availableTypes.join('');
+    typeIndicator.setAttribute('data-type-indicator', 'true');
+    // Initially hide the type indicator
+    typeIndicator.style.opacity = '0';
+    typeIndicator.style.display = 'none';
     el.appendChild(typeIndicator);
   }
 
@@ -108,7 +113,7 @@ export const createContainerMarker = (
       "Longitude": container.lng,
       "Latitude": container.lat,
       "Max Fill Level": `${maxFillLevel}%`,
-      "containerIndex": container.index !== undefined ? container.index : null,
+      //"containerIndex": container.index !== undefined ? container.index : null,
     };
 
     // Add waste type information
@@ -166,10 +171,13 @@ export const createWaypointMarker = (
 
   // Create a marker element with an index label
   const el = document.createElement('div');
-  el.style.backgroundColor = '#f00';
+  el.style.backgroundColor = 'transparent';
   el.style.width = '24px';
   el.style.height = '24px';
   el.style.borderRadius = '50%';
+  el.style.position = 'absolute';
+  el.style.right = '12px';
+  el.style.bottom = '12px';
   el.style.display = 'flex';
   el.style.justifyContent = 'center';
   el.style.alignItems = 'center';
@@ -421,9 +429,9 @@ export const addRouteToMap = (
         'line-cap': 'round'
       },
       paint: {
-        'line-color': '#3887be',
-        'line-width': 5,
-        'line-opacity': 0.75
+        'line-color': '#f20000',
+        'line-width': 8,
+        'line-opacity': 1
       }
     });
   }

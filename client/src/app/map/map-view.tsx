@@ -466,6 +466,7 @@ export default function MapView({
 
         // Create garbage container markers but manage visibility based on zoom level
         const zoomThreshold = 13; // Only show markers when zoomed in beyond this level
+        const typeIndicatorZoomThreshold = 17; // Only show type indicators when zoomed in beyond this level
         
         // Clear any existing markers
         containerMarkersRef.current.forEach(marker => marker.remove());
@@ -492,12 +493,20 @@ export default function MapView({
           const fadeStartZoom = zoomThreshold - 0.5;
           const fadeEndZoom = zoomThreshold + 0.5;
           
+          // Create buffer zones for type indicators
+          const typeIndicatorFadeStartZoom = typeIndicatorZoomThreshold - 0.5;
+          const typeIndicatorFadeEndZoom = typeIndicatorZoomThreshold + 0.5;
+          
           containerMarkersRef.current.forEach(marker => {
             const el = marker.getElement();
+            
+            // Find type indicator element if it exists
+            const typeIndicator = el.querySelector('[data-type-indicator="true"]') as HTMLElement | null;
             
             // Ensure transition property is set
             el.style.transition = 'opacity 0.4s ease-in-out';
             
+            // Handle marker visibility
             if (zoom < fadeStartZoom) {
               // Fully hidden - but fade out first
               el.style.opacity = '0';
@@ -520,6 +529,32 @@ export default function MapView({
               const opacity = (zoom - fadeStartZoom) / (fadeEndZoom - fadeStartZoom);
               el.style.display = '';
               el.style.opacity = opacity.toString();
+            }
+            
+            // Handle type indicator visibility separately
+            if (typeIndicator) {
+              if (zoom < typeIndicatorFadeStartZoom) {
+                // Type indicator fully hidden
+                typeIndicator.style.opacity = '0';
+                
+                // After transition completes, hide the element completely
+                setTimeout(() => {
+                  if (map.getZoom() < typeIndicatorFadeStartZoom) {
+                    typeIndicator.style.display = 'none';
+                  }
+                }, 400); // Match transition duration
+              } 
+              else if (zoom > typeIndicatorFadeEndZoom) {
+                // Type indicator fully visible
+                typeIndicator.style.display = '';
+                typeIndicator.style.opacity = '1';
+              }
+              else {
+                // Type indicator in transition zone
+                const opacity = (zoom - typeIndicatorFadeStartZoom) / (typeIndicatorFadeEndZoom - typeIndicatorFadeStartZoom);
+                typeIndicator.style.display = '';
+                typeIndicator.style.opacity = opacity.toString();
+              }
             }
           });
         };
