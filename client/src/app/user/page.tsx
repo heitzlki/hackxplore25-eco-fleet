@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar } from '@/components/ui/calendar';
-import { X, CalendarIcon, ChevronDown, ChevronUp, ExternalLink, Info } from 'lucide-react';
+import { X, CalendarIcon, ChevronDown, ChevronUp, ExternalLink, Info, TrashIcon } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import RouteDisplay from './_components/route-display';
 import { DayContent } from 'react-day-picker';
@@ -86,7 +86,7 @@ export default function Dashboard() {
       // Add a small delay before showing the popup to ensure the DOM is updated
       setTimeout(() => {
         setIsRecyclingPopupVisible(true);
-      }, 50);
+      }, 0);
     } else {
       setIsRecyclingPopupVisible(false);
     }
@@ -199,24 +199,40 @@ export default function Dashboard() {
       {/* UI Controls Layer - Desktop only */}
       <div className="absolute inset-0 pointer-events-none md:block hidden">
         {/* Open Recycling Guide Button - Desktop position */}
-        <Button
-          className="absolute top-4 right-4 z-50 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg pointer-events-auto"
-          onClick={toggleRecyclingPopup}
+        <div
+          className={`absolute top-4 right-4 z-50 transition-all duration-300 ease-in-out transform ${
+            !isRecyclingPopupOpen
+              ? 'opacity-100 translate-y-0 scale-100'
+              : 'opacity-0 translate-y-4 scale-95 pointer-events-none'
+          }`}
         >
-          Recycling Guide
-        </Button>
+          <Button
+            className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg pointer-events-auto"
+            onClick={toggleRecyclingPopup}
+          >
+            <TrashIcon className="mr-2 h-4 w-4" /> Recycling Guide
+          </Button>
+        </div>
       </div>
 
       {/* Mobile Recycling Guide Button - This will be shown side by side with route button */}
       <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+16px)] left-4 z-50 md:hidden block w-[45%]">
-        <Button
-          onClick={toggleRecyclingPopup}
-          className="w-full h-12 text-base rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-lg"
-          size="lg"
+        <div
+          className={`transition-all duration-300 ease-in-out transform ${
+            !isRecyclingPopupOpen
+              ? 'opacity-100 translate-y-0 scale-100'
+              : 'opacity-0 translate-y-4 scale-95 pointer-events-none'
+          }`}
         >
-          <Info className="h-5 w-5 mr-1" />
-          Guide
-        </Button>
+          <Button
+            onClick={toggleRecyclingPopup}
+            className="w-full h-12 text-base rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-lg"
+            size="lg"
+          >
+            <Info className="h-5 w-5 mr-1" />
+            Guide
+          </Button>
+        </div>
       </div>
 
       {/* Dashboard Mode Popup with Animation */}
@@ -353,7 +369,7 @@ export default function Dashboard() {
                 <CardHeader>
                   <CardTitle className="text-sm font-medium">Schedule Pickup</CardTitle>
                   <CardDescription className="text-xs">
-                    Select a date for container pickup
+                    Select a date to see the garbage plan
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -481,7 +497,7 @@ export default function Dashboard() {
             <CardHeader className={`${isMobile ? 'pb-3 pt-4' : 'pb-2'} relative`}>
               <div className="flex justify-between items-start">
                 <div>
-                  <CardTitle className={`${isMobile ? 'text-xl' : 'text-lg'} font-semibold`}>Recycling Guide</CardTitle>
+                  <CardTitle className={`${isMobile ? 'text-xl' : 'text-lg'} font-semibold`}> Recycling Guide</CardTitle>
                   <CardDescription className={`${isMobile ? 'text-base' : 'text-sm'} mt-1 text-gray-600 dark:text-gray-300`}>How to recycle different materials</CardDescription>
                   <p className={`${isMobile ? 'text-sm' : 'text-xs'} text-blue-600 dark:text-blue-400 mt-1`}>Tap on any item for detailed guidelines</p>
                 </div>

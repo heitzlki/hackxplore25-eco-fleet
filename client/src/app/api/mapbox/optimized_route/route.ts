@@ -56,7 +56,7 @@ export async function GET(request: Request) {
     // Build the Optimization API URL
     // Using 'mapbox/driving' profile for vehicle routing
     // Setting source and destination to 'first' to make it a round trip starting and ending at the first point
-    const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordinates}?source=first&destination=last&roundtrip=true&geometries=geojson&overview=full&steps=true&access_token=${accessToken}`;
+    const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordinates}?source=first&roundtrip=true&geometries=geojson&overview=full&steps=true&access_token=${accessToken}`;
     
     console.log('Fetching Mapbox optimized route with waypoints:', waypoints.length);
     const res = await fetch(url);

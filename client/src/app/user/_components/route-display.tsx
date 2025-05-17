@@ -11,7 +11,7 @@ import {
   getContainerMarkerFromRoute
 } from '@/lib/map-utils';
 import { Button } from '@/components/ui/button';
-import { Loader2, MapPin, RefreshCw, X } from 'lucide-react';
+import { Loader2, MapPin, Plus, RefreshCw, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
@@ -313,11 +313,11 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
                 markerElements.forEach(element => {
                   element.style.border = '2px solid white';
                 })
-              }}>Cancel</Button>
+              }}><X className="h-full aspect-square" /></Button>
               <Button onClick={() => {
                 createRoute()
               }}>
-                Create Route
+                <Plus /> Create Route
                 </Button>
             </>
             :
@@ -336,7 +336,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
                 </>
               ) : (
                 <>
-                  <MapPin className="h-4 w-4 mr-2" />
+                  <MapPin className="h-4 w-4" />
                   Create new Route
                 </>
               )}
@@ -348,24 +348,55 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
       {/* Mobile button - placed on right side of bottom bar when route is not created */}
       {!routeCreated && isMobile && (
         <div className="fixed bottom-4 right-4 z-50 w-[45%]">
-          <Button
-            onClick={createRoute}
-            disabled={isLoading}
-            className="w-full h-12 text-base rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
-            size="lg"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                Loading...
-              </>
-            ) : (
-              <>
-                <MapPin className="h-5 w-5 mr-1" />
-                Route
-              </>
-            )}
-          </Button>
+          {
+            isSelectingMarkers ? <>
+            <div className="ml-2 flex gap-2 h-12 items-center justify-stretch w-full">
+              <Button 
+                className='h-full  w-[30%] rounded-xl'
+                onClick={() => {
+                  setIsSelectingMarkers(false)
+                  document.body.classList.remove('SELECTING_MARKERS');
+                  const markers = getContainerMarkerFromRouteRaw();
+                  markers.forEach(marker => {
+                    document.body.classList.remove(marker);
+                })
+
+                markerElements.forEach(element => {
+                  element.style.border = '2px solid white';
+                })
+              }}><X className="h-full aspect-square" /></Button>
+              <Button 
+                className='h-full w-[60%]  rounded-xl'
+                onClick={() => {
+                  createRoute()
+                }}>
+                <Plus /> Route
+              </Button>
+            </div>
+          </>
+            :
+            <Button
+              onClick={() => {
+                setIsSelectingMarkers(true)
+                document.body.classList.add('SELECTING_MARKERS');
+              }}
+              disabled={isLoading}
+              className="w-full h-12 text-base rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg ml-2"
+              size="lg"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                <>
+                  <MapPin className="h-5 w-5 mr-1" />
+                  Route
+                </>
+              )}
+            </Button>
+          }
         </div>
       )}
     </>
