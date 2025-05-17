@@ -35,7 +35,7 @@ export default function Page() {
   const [center, setCenter] = useState<any>([
     8.403735115313623, 49.00791069535478,
   ]);
-  const [zoom, setZoom] = useState(14);
+  const [zoom, setZoom] = useState(16);
   const [isLoadingRoute, setIsLoadingRoute] = useState(false);
   const [customPoints, setCustomPoints] = useState<CustomPoint[]>([]);
   const [isPlacingMode, setIsPlacingMode] = useState(false);
