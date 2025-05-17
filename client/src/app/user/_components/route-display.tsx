@@ -24,9 +24,13 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
   const [routeCreated, setRouteCreated] = useState(false);
   const [routeDistance, setRouteDistance] = useState<number | null>(null);
   const [routeDuration, setRouteDuration] = useState<number | null>(null);
+  const [selecting, setSelecting] = useState<boolean>(false);
+   
   const routeLayerId = useRef<string>('user-route-layer');
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const regularMarkersRef = useRef<HTMLElement[]>([]);
+
+
 
   const { garbageContainers } = useStore();
 
@@ -312,7 +316,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
       {!routeCreated && !isMobile && (
         <div className="absolute bottom-8 right-8 z-100">
           <Button
-            onClick={createRoute}
+            onClick={}
             disabled={isLoading}
             className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
           >
@@ -324,7 +328,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
             ) : (
               <>
                 <MapPin className="h-4 w-4 mr-2" />
-                Show Waste Collection Route
+                Create new Route
               </>
             )}
           </Button>
