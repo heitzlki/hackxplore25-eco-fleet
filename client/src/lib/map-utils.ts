@@ -22,6 +22,9 @@ export interface RouteResponse {
     geometry: {
       coordinates: [number, number][];
     };
+    distance?: number;
+    duration?: number;
+    weight?: number;
   }>;
 }
 
@@ -105,6 +108,7 @@ export const createContainerMarker = (
       "Longitude": container.lng,
       "Latitude": container.lat,
       "Max Fill Level": `${maxFillLevel}%`,
+      "containerIndex": container.index !== undefined ? container.index : null,
     };
 
     // Add waste type information
@@ -185,6 +189,7 @@ export const createWaypointMarker = (
       "Latitude": lat,
       "Order": index + 1,
       "Max Fill Level": maxFillLevel ? `${maxFillLevel}%` : 'Unknown',
+      "containerIndex": container?.index !== undefined ? container.index : null,
       // "Status": getStatusFromLevel(maxFillLevel)
     };
 
