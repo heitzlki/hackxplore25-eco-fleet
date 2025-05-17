@@ -1,52 +1,3 @@
-// import { Background, ReactFlow } from '@xyflow/react';
-
-// import { AnimatedSvgEdge } from '@/components/animated-svg-edge';
-
-// const defaultNodes = [
-//   {
-//     id: '1',
-//     position: { x: 200, y: 200 },
-//     data: { label: 'A' },
-//   },
-//   {
-//     id: '2',
-//     position: { x: 400, y: 400 },
-//     data: { label: 'B' },
-//   },
-// ];
-
-// const defaultEdges = [
-//   {
-//     id: '1->2',
-//     source: '1',
-//     target: '2',
-//     type: 'animatedSvgEdge',
-//     data: {
-//       duration: 2,
-//       shape: 'package',
-//       path: 'smoothstep',
-//     },
-//   } satisfies AnimatedSvgEdge,
-// ];
-
-// const edgeTypes = {
-//   animatedSvgEdge: AnimatedSvgEdge,
-// };
-
-// export default function Flow() {
-//   return (
-//     <div className='h-full w-full'>
-//       <ReactFlow
-//         defaultNodes={defaultNodes}
-//         edgeTypes={edgeTypes}
-//         defaultEdges={defaultEdges}
-//         fitView>
-//         <Background />
-//       </ReactFlow>
-//     </div>
-//   );
-// }
-
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -63,12 +14,12 @@ import { useRouter } from 'next/navigation';
 
 import '@xyflow/react/dist/style.css';
 
-import AnnotationNode from '@/app/(dashboard)/dashboard/graph/_graph/_nodes/AnnotationNode';
-import InfoNode from '@/app/(dashboard)/dashboard/graph/_graph/_nodes/InfoNode';
-import FloatingEdge from '@/app/(dashboard)/dashboard/graph/_graph/_edges/FloatingEdge';
-import CenterNode from '@/app/(dashboard)/dashboard/graph/_graph/_nodes/CenterNode';
-import RoadmapNode from '@/app/(dashboard)/dashboard/graph/_graph/_nodes/RoadmapNode';
-import LoadingNode from '@/app/(dashboard)/dashboard/graph/_graph/_nodes/LoadingNode';
+import AnnotationNode from '../graph/_graph/_nodes/AnnotationNode';
+import InfoNode from '../graph/_graph/_nodes/InfoNode';
+import FloatingEdge from '../graph/_graph/_edges/FloatingEdge';
+import CenterNode from '../graph/_graph/_nodes/CenterNode';
+import RoadmapNode from '../graph/_graph/_nodes/RoadmapNode';
+import LoadingNode from '../graph/_graph/_nodes/LoadingNode';
 import { useStore } from '@/lib/store';
 
 const nodeTypes = {
@@ -220,14 +171,13 @@ export default function Roadmap() {
 
   // Function to call when all nodes have completed loading
   const handlePipelineComplete = useCallback(() => {
-    // console.log('PDF processing pipeline complete');
-    // setProcessingComplete(true);
-    // // Navigate to a different route after a short delay
-    // setTimeout(() => {
-    //   router.push('/dashboard/3d');
-    // }, 1000);
-    setProcessingComplete(false);
-    setNodes(createLoadingNodes(handlePipelineComplete));
+    console.log('PDF processing pipeline complete');
+    setProcessingComplete(true);
+
+    // Navigate to a different route after a short delay
+    setTimeout(() => {
+      router.push('/dashboard/3d');
+    }, 1000);
   }, [router]);
 
   // Create initial nodes with loading spinners
@@ -236,23 +186,23 @@ export default function Roadmap() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   // Handle node click
-  // const onNodeClick = useCallback(
-  //   (event: React.MouseEvent, node: any) => {
-  //     console.log('Node clicked:', node.data.title);
+  const onNodeClick = useCallback(
+    (event: React.MouseEvent, node: any) => {
+      console.log('Node clicked:', node.data.title);
 
-  //     // Set the selected node in the store
-  //     setSelectedNode({
-  //       id: node.id,
-  //       title: node.data.title,
-  //       color: node.data.color,
-  //       type: node.type,
-  //       details: {
-  //         // info: node.data.info,
-  //       },
-  //     });
-  //   },
-  //   [setSelectedNode]
-  // );
+      // Set the selected node in the store
+      setSelectedNode({
+        id: node.id,
+        title: node.data.title,
+        color: node.data.color,
+        type: node.type,
+        details: {
+          // info: node.data.info,
+        },
+      });
+    },
+    [setSelectedNode]
+  );
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
@@ -275,12 +225,12 @@ export default function Roadmap() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        // onNodeClick={onNodeClick}
+        onNodeClick={onNodeClick}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         proOptions={{ hideAttribution: true }}
         fitView>
-        {/* <Background variant={BackgroundVariant.Dots} gap={12} size={1} /> */}
+        <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
     </div>
   );
