@@ -45,7 +45,7 @@ export default function Map() {
         />
       </MapView>
       <MainStats />
-      {/* <ControlCenter /> */}
+      <ControlCenter />
     </div>
   );
 }
