@@ -34,7 +34,7 @@ export function Hero() {
             className='mt-6 relative inline-block w-fit text-2xl font-medium text-white bg-black rounded-lg border px-8 py-4 h-auto hover:bg-gray-800'
             variant='ghost'
             onClick={() => {
-              router.push('/map');
+              router.push('/user/');
             }}>
             Get started
             <BorderBeam
