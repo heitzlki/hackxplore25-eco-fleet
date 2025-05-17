@@ -68,6 +68,7 @@ export interface ContainerLocation {
 // Full container info including fill data
 export interface GarbageContainer extends ContainerLocation {
   fillData: FillData;
+  index?: number;
 }
 
 // Map popup information

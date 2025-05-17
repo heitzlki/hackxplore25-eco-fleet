@@ -9,20 +9,22 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar } from '@/components/ui/calendar';
 import { X, CalendarIcon } from 'lucide-react';
 import { useStore } from '@/lib/store';
+import RouteDisplay from './_components/route-display';
 
 export default function Dashboard() {
   // Use the global store for popup state
-  const { 
+  const {
     mapViewState: { isPopupOpen, popupData },
     setPopupOpen,
     setPopupData
   } = useStore();
-  
   // Bin UI state
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
   const popupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
 
   // Recycling popup state
   const [isRecyclingPopupOpen, setIsRecyclingPopupOpen] = useState(false);
@@ -125,14 +127,28 @@ export default function Dashboard() {
     };
   }, []);
 
+  // Function to set map reference when map is initialized
+  const handleMapInit = (map: mapboxgl.Map) => {
+    mapRef.current = map;
+    setMapReady(true);
+  };
+
   return (
-    <div className="relative w-full h-screen">
-      <MapView 
-        mode='dashboard'
-        enableLocationTracking={true}
-        className='h-screen w-full absolute left-0 top-0'
-        onMarkerClick={handleMarkerClick}
-      />
+    <MapView
+      mode='dashboard'
+      enableLocationTracking={true}
+      className='h-screen w-full relative'
+      onMarkerClick={handleMarkerClick}
+      onMapInit={handleMapInit}
+    >
+      {/* Route Display Component */}
+      {mapReady && (
+        <RouteDisplay
+          mapRef={mapRef}
+          onMarkerClick={handleMarkerClick}
+          onRouteCreated={(success) => console.log(`Route creation ${success ? 'succeeded' : 'failed'}`)}
+        />
+      )}
       
       {/* UI Controls Layer */}
       <div className="absolute inset-0 pointer-events-none">
@@ -161,6 +177,11 @@ export default function Dashboard() {
                 <div>
                   <CardTitle className="text-lg font-semibold">{popupData.title}</CardTitle>
                   <CardDescription className="text-sm mt-1">{popupData.description}</CardDescription>
+                  {/* {popupData.properties.containerIndex !== undefined && (
+                    <div className="text-xs text-muted-foreground mt-1">
+                      Container Index: {popupData.properties.containerIndex}
+                    </div>
+                  )} */}
                 </div>
                 <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-primary/10" onClick={closePopup}>
                   <X className="h-4 w-4" />
@@ -438,6 +459,6 @@ export default function Dashboard() {
           )}
         </div>
       )}
-    </div>
+    </MapView>
   );
 }

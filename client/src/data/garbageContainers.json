@@ -1,94 +1,176 @@
 {
   "fillData": [
-    { "timestamp": "00:00", "fillLevel": 0 },
-    { "timestamp": "01:00", "fillLevel": 0.5 },
-    { "timestamp": "02:00", "fillLevel": 0.75 },
-    { "timestamp": "03:00", "fillLevel": 0.9 },
-    { "timestamp": "04:00", "fillLevel": 0.95 },
-    { "timestamp": "05:00", "fillLevel": 0.9 },
-    { "timestamp": "06:00", "fillLevel": 0 },
-    { "timestamp": "07:00", "fillLevel": 0.1 },
-    { "timestamp": "08:00", "fillLevel": 0.1 },
-    { "timestamp": "09:00", "fillLevel": 0.1 },
-    { "timestamp": "10:00", "fillLevel": 0.2 },
-    { "timestamp": "11:00", "fillLevel": 0.2 },
-    { "timestamp": "12:00", "fillLevel": 0.2 },
-    { "timestamp": "13:00", "fillLevel": 0.2 },
-    { "timestamp": "14:00", "fillLevel": 0.2 },
-    { "timestamp": "15:00", "fillLevel": 0.2 },
-    { "timestamp": "16:00", "fillLevel": 0.2 },
-    { "timestamp": "17:00", "fillLevel": 0.2 },
-    { "timestamp": "18:00", "fillLevel": 0.3 },
-    { "timestamp": "19:00", "fillLevel": 0.4 },
-    { "timestamp": "20:00", "fillLevel": 0.5 },
-    { "timestamp": "21:00", "fillLevel": 0.5 },
-    { "timestamp": "22:00", "fillLevel": 0.6 },
-    { "timestamp": "23:00", "fillLevel": 0.8 },
-    { "timestamp": "24:00", "fillLevel": 0.9 }
+    {
+      "timestamp": "00:00",
+      "fillLevel": 0
+    },
+    {
+      "timestamp": "01:00",
+      "fillLevel": 0.5
+    },
+    {
+      "timestamp": "02:00",
+      "fillLevel": 0.75
+    },
+    {
+      "timestamp": "03:00",
+      "fillLevel": 0.9
+    },
+    {
+      "timestamp": "04:00",
+      "fillLevel": 0.95
+    },
+    {
+      "timestamp": "05:00",
+      "fillLevel": 0.9
+    },
+    {
+      "timestamp": "06:00",
+      "fillLevel": 0
+    },
+    {
+      "timestamp": "07:00",
+      "fillLevel": 0.1
+    },
+    {
+      "timestamp": "08:00",
+      "fillLevel": 0.1
+    },
+    {
+      "timestamp": "09:00",
+      "fillLevel": 0.1
+    },
+    {
+      "timestamp": "10:00",
+      "fillLevel": 0.2
+    },
+    {
+      "timestamp": "11:00",
+      "fillLevel": 0.2
+    },
+    {
+      "timestamp": "12:00",
+      "fillLevel": 0.2
+    },
+    {
+      "timestamp": "13:00",
+      "fillLevel": 0.2
+    },
+    {
+      "timestamp": "14:00",
+      "fillLevel": 0.2
+    },
+    {
+      "timestamp": "15:00",
+      "fillLevel": 0.2
+    },
+    {
+      "timestamp": "16:00",
+      "fillLevel": 0.2
+    },
+    {
+      "timestamp": "17:00",
+      "fillLevel": 0.2
+    },
+    {
+      "timestamp": "18:00",
+      "fillLevel": 0.3
+    },
+    {
+      "timestamp": "19:00",
+      "fillLevel": 0.4
+    },
+    {
+      "timestamp": "20:00",
+      "fillLevel": 0.5
+    },
+    {
+      "timestamp": "21:00",
+      "fillLevel": 0.5
+    },
+    {
+      "timestamp": "22:00",
+      "fillLevel": 0.6
+    },
+    {
+      "timestamp": "23:00",
+      "fillLevel": 0.8
+    },
+    {
+      "timestamp": "24:00",
+      "fillLevel": 0.9
+    }
   ],
   "containers": [
-    { 
-      "lat": 49.009544, 
+    {
+      "lat": 49.009544,
       "lng": 8.403545,
       "waste_types": {
         "glass": 82,
         "aluminum": -1,
         "general": 67
-      }
+      },
+      "index": 0
     },
-    { 
-      "lat": 49.009504, 
+    {
+      "lat": 49.009504,
       "lng": 8.404323,
       "waste_types": {
         "glass": -1,
         "aluminum": 45,
         "general": 22
-      }
+      },
+      "index": 1
     },
-    { 
-      "lat": 49.009014, 
+    {
+      "lat": 49.009014,
       "lng": 8.403469,
       "waste_types": {
         "glass": 90,
         "aluminum": 83,
         "general": 92
-      }
+      },
+      "index": 2
     },
-    { 
-      "lat": 49.008968, 
+    {
+      "lat": 49.008968,
       "lng": 8.404302,
       "waste_types": {
         "glass": 34,
         "aluminum": 56,
         "general": -1
-      }
+      },
+      "index": 3
     },
-    { 
-      "lat": 49.008260, 
+    {
+      "lat": 49.00826,
       "lng": 8.403522,
       "waste_types": {
         "glass": -1,
         "aluminum": -1,
         "general": 12
-      }
+      },
+      "index": 4
     },
-    { 
-      "lat": 49.008241, 
+    {
+      "lat": 49.008241,
       "lng": 8.404078,
       "waste_types": {
         "glass": 95,
         "aluminum": -1,
         "general": 95
-      }
+      },
+      "index": 5
     },
-    { 
-      "lat": 49.009753, 
+    {
+      "lat": 49.009753,
       "lng": 8.401409,
       "waste_types": {
         "glass": -1,
         "aluminum": 75,
         "general": 48
-      }
+      },
+      "index": 6
     },
     {
       "lat": 49.011538,
@@ -97,7 +179,8 @@
         "glass": 71,
         "aluminum": -1,
         "general": 82
-      }
+      },
+      "index": 7
     },
     {
       "lat": 49.012811,
@@ -106,7 +189,8 @@
         "glass": 31,
         "aluminum": 98,
         "general": -1
-      }
+      },
+      "index": 8
     },
     {
       "lat": 49.014617,
@@ -115,7 +199,8 @@
         "glass": 10,
         "aluminum": 35,
         "general": 75
-      }
+      },
+      "index": 9
     },
     {
       "lat": 49.01194,
@@ -124,7 +209,8 @@
         "glass": 85,
         "aluminum": 6,
         "general": -1
-      }
+      },
+      "index": 10
     },
     {
       "lat": 49.010064,
@@ -133,7 +219,8 @@
         "glass": 55,
         "aluminum": -1,
         "general": -1
-      }
+      },
+      "index": 11
     },
     {
       "lat": 49.008951,
@@ -142,7 +229,8 @@
         "glass": 87,
         "aluminum": -1,
         "general": 94
-      }
+      },
+      "index": 12
     },
     {
       "lat": 49.008594,
@@ -151,7 +239,8 @@
         "glass": 20,
         "aluminum": 20,
         "general": 75
-      }
+      },
+      "index": 13
     },
     {
       "lat": 49.0097,
@@ -160,7 +249,8 @@
         "glass": 92,
         "aluminum": -1,
         "general": 78
-      }
+      },
+      "index": 14
     },
     {
       "lat": 49.009523,
@@ -169,7 +259,8 @@
         "glass": -1,
         "aluminum": 69,
         "general": 36
-      }
+      },
+      "index": 15
     },
     {
       "lat": 49.00728,
@@ -178,7 +269,8 @@
         "glass": 58,
         "aluminum": 86,
         "general": -1
-      }
+      },
+      "index": 16
     },
     {
       "lat": 49.007823,
@@ -187,7 +279,8 @@
         "glass": 96,
         "aluminum": 3,
         "general": 75
-      }
+      },
+      "index": 17
     },
     {
       "lat": 49.008523,
@@ -196,7 +289,8 @@
         "glass": 27,
         "aluminum": 68,
         "general": -1
-      }
+      },
+      "index": 18
     },
     {
       "lat": 49.009422,
@@ -205,7 +299,8 @@
         "glass": 74,
         "aluminum": 66,
         "general": -1
-      }
+      },
+      "index": 19
     },
     {
       "lat": 49.011053,
@@ -214,7 +309,8 @@
         "glass": 14,
         "aluminum": -1,
         "general": -1
-      }
+      },
+      "index": 20
     },
     {
       "lat": 49.01246,
@@ -223,7 +319,8 @@
         "glass": 55,
         "aluminum": 44,
         "general": -1
-      }
+      },
+      "index": 21
     },
     {
       "lat": 49.013521,
@@ -232,7 +329,8 @@
         "glass": -1,
         "aluminum": 64,
         "general": -1
-      }
+      },
+      "index": 22
     },
     {
       "lat": 49.011229,
@@ -241,7 +339,8 @@
         "glass": 100,
         "aluminum": 4,
         "general": 65
-      }
+      },
+      "index": 23
     },
     {
       "lat": 49.009333,
@@ -250,7 +349,8 @@
         "glass": 42,
         "aluminum": 14,
         "general": -1
-      }
+      },
+      "index": 24
     },
     {
       "lat": 49.009181,
@@ -259,7 +359,8 @@
         "glass": 76,
         "aluminum": 38,
         "general": 6
-      }
+      },
+      "index": 25
     },
     {
       "lat": 49.010939,
@@ -268,7 +369,8 @@
         "glass": 58,
         "aluminum": 78,
         "general": 44
-      }
+      },
+      "index": 26
     },
     {
       "lat": 49.00634,
@@ -277,7 +379,8 @@
         "glass": 32,
         "aluminum": 85,
         "general": 7
-      }
+      },
+      "index": 27
     },
     {
       "lat": 49.008391,
@@ -286,7 +389,8 @@
         "glass": 86,
         "aluminum": 90,
         "general": 83
-      }
+      },
+      "index": 28
     },
     {
       "lat": 49.006119,
@@ -295,7 +399,8 @@
         "glass": -1,
         "aluminum": 34,
         "general": 43
-      }
+      },
+      "index": 29
     },
     {
       "lat": 49.006609,
@@ -304,7 +409,8 @@
         "glass": 57,
         "aluminum": 43,
         "general": 60
-      }
+      },
+      "index": 30
     },
     {
       "lat": 49.005786,
@@ -313,7 +419,8 @@
         "glass": 99,
         "aluminum": 95,
         "general": 66
-      }
+      },
+      "index": 31
     },
     {
       "lat": 49.007629,
@@ -322,7 +429,8 @@
         "glass": 75,
         "aluminum": 54,
         "general": 96
-      }
+      },
+      "index": 32
     },
     {
       "lat": 49.006493,
@@ -331,7 +439,8 @@
         "glass": -1,
         "aluminum": 3,
         "general": 54
-      }
+      },
+      "index": 33
     },
     {
       "lat": 49.006516,
@@ -340,7 +449,8 @@
         "glass": -1,
         "aluminum": 62,
         "general": 64
-      }
+      },
+      "index": 34
     },
     {
       "lat": 49.007158,
@@ -349,7 +459,8 @@
         "glass": 64,
         "aluminum": -1,
         "general": 30
-      }
+      },
+      "index": 35
     },
     {
       "lat": 49.00802,
@@ -358,7 +469,8 @@
         "glass": 67,
         "aluminum": 86,
         "general": 87
-      }
+      },
+      "index": 36
     },
     {
       "lat": 49.008491,
@@ -367,7 +479,8 @@
         "glass": 41,
         "aluminum": -1,
         "general": 1
-      }
+      },
+      "index": 37
     },
     {
       "lat": 49.010747,
@@ -376,7 +489,8 @@
         "glass": -1,
         "aluminum": 95,
         "general": -1
-      }
+      },
+      "index": 38
     },
     {
       "lat": 49.013382,
@@ -385,7 +499,8 @@
         "glass": -1,
         "aluminum": -1,
         "general": 73
-      }
+      },
+      "index": 39
     },
     {
       "lat": 49.010988,
@@ -394,7 +509,8 @@
         "glass": 62,
         "aluminum": 41,
         "general": -1
-      }
+      },
+      "index": 40
     },
     {
       "lat": 49.009696,
@@ -403,7 +519,8 @@
         "glass": 3,
         "aluminum": 74,
         "general": -1
-      }
+      },
+      "index": 41
     },
     {
       "lat": 49.008881,
@@ -412,7 +529,8 @@
         "glass": 11,
         "aluminum": 8,
         "general": 100
-      }
+      },
+      "index": 42
     },
     {
       "lat": 49.005983,
@@ -421,7 +539,8 @@
         "glass": -1,
         "aluminum": 71,
         "general": 72
-      }
+      },
+      "index": 43
     },
     {
       "lat": 49.007002,
@@ -430,7 +549,8 @@
         "glass": 21,
         "aluminum": 46,
         "general": 2
-      }
+      },
+      "index": 44
     },
     {
       "lat": 49.008615,
@@ -439,7 +559,8 @@
         "glass": 90,
         "aluminum": 8,
         "general": 1
-      }
+      },
+      "index": 45
     },
     {
       "lat": 49.014534,
@@ -448,7 +569,8 @@
         "glass": -1,
         "aluminum": 11,
         "general": 34
-      }
+      },
+      "index": 46
     },
     {
       "lat": 49.012122,
@@ -457,7 +579,8 @@
         "glass": 4,
         "aluminum": 6,
         "general": -1
-      }
+      },
+      "index": 47
     },
     {
       "lat": 49.005543,
@@ -466,7 +589,8 @@
         "glass": 64,
         "aluminum": -1,
         "general": 24
-      }
+      },
+      "index": 48
     },
     {
       "lat": 49.007561,
@@ -475,7 +599,8 @@
         "glass": 42,
         "aluminum": 6,
         "general": 7
-      }
+      },
+      "index": 49
     },
     {
       "lat": 49.010362,
@@ -484,7 +609,8 @@
         "glass": -1,
         "aluminum": -1,
         "general": 64
-      }
+      },
+      "index": 50
     },
     {
       "lat": 49.00926,
@@ -493,7 +619,8 @@
         "glass": 38,
         "aluminum": 35,
         "general": 82
-      }
+      },
+      "index": 51
     },
     {
       "lat": 49.005573,
@@ -502,7 +629,8 @@
         "glass": 58,
         "aluminum": 83,
         "general": 56
-      }
+      },
+      "index": 52
     },
     {
       "lat": 49.005135,
@@ -511,7 +639,8 @@
         "glass": 5,
         "aluminum": 96,
         "general": 6
-      }
+      },
+      "index": 53
     },
     {
       "lat": 49.005263,
@@ -520,7 +649,8 @@
         "glass": 44,
         "aluminum": 69,
         "general": 51
-      }
+      },
+      "index": 54
     },
     {
       "lat": 49.003442,
@@ -529,7 +659,8 @@
         "glass": 6,
         "aluminum": 36,
         "general": -1
-      }
+      },
+      "index": 55
     },
     {
       "lat": 49.002492,
@@ -538,7 +669,8 @@
         "glass": -1,
         "aluminum": -1,
         "general": 19
-      }
+      },
+      "index": 56
     },
     {
       "lat": 49.00263,
@@ -547,7 +679,8 @@
         "glass": 71,
         "aluminum": 27,
         "general": 57
-      }
+      },
+      "index": 57
     },
     {
       "lat": 49.00307,
@@ -556,7 +689,8 @@
         "glass": 59,
         "aluminum": 46,
         "general": 100
-      }
+      },
+      "index": 58
     },
     {
       "lat": 49.0035,
@@ -565,7 +699,8 @@
         "glass": 16,
         "aluminum": 42,
         "general": 0
-      }
+      },
+      "index": 59
     },
     {
       "lat": 49.00549,
@@ -574,7 +709,8 @@
         "glass": 69,
         "aluminum": 14,
         "general": 26
-      }
+      },
+      "index": 60
     },
     {
       "lat": 49.003775,
@@ -583,7 +719,8 @@
         "glass": 40,
         "aluminum": 94,
         "general": 73
-      }
+      },
+      "index": 61
     },
     {
       "lat": 49.00384,
@@ -592,7 +729,8 @@
         "glass": 44,
         "aluminum": 35,
         "general": -1
-      }
+      },
+      "index": 62
     },
     {
       "lat": 49.004145,
@@ -601,7 +739,8 @@
         "glass": 43,
         "aluminum": 30,
         "general": 50
-      }
+      },
+      "index": 63
     },
     {
       "lat": 49.001491,
@@ -610,7 +749,8 @@
         "glass": 76,
         "aluminum": 2,
         "general": -1
-      }
+      },
+      "index": 64
     },
     {
       "lat": 49.000892,
@@ -619,7 +759,8 @@
         "glass": 21,
         "aluminum": -1,
         "general": -1
-      }
+      },
+      "index": 65
     },
     {
       "lat": 49.001403,
@@ -628,7 +769,8 @@
         "glass": 2,
         "aluminum": 49,
         "general": 71
-      }
+      },
+      "index": 66
     },
     {
       "lat": 49.000067,
@@ -637,7 +779,8 @@
         "glass": 100,
         "aluminum": 60,
         "general": 61
-      }
+      },
+      "index": 67
     },
     {
       "lat": 48.999315,
@@ -646,7 +789,8 @@
         "glass": 71,
         "aluminum": -1,
         "general": 14
-      }
+      },
+      "index": 68
     },
     {
       "lat": 48.998724,
@@ -655,7 +799,8 @@
         "glass": 30,
         "aluminum": 68,
         "general": 21
-      }
+      },
+      "index": 69
     },
     {
       "lat": 49.002384,
@@ -664,7 +809,8 @@
         "glass": 3,
         "aluminum": 8,
         "general": -1
-      }
+      },
+      "index": 70
     },
     {
       "lat": 49.000436,
@@ -673,7 +819,8 @@
         "glass": 11,
         "aluminum": 80,
         "general": -1
-      }
+      },
+      "index": 71
     },
     {
       "lat": 48.999237,
@@ -682,7 +829,8 @@
         "glass": 4,
         "aluminum": -1,
         "general": 36
-      }
+      },
+      "index": 72
     },
     {
       "lat": 48.999959,
@@ -691,7 +839,8 @@
         "glass": -1,
         "aluminum": 62,
         "general": 41
-      }
+      },
+      "index": 73
     },
     {
       "lat": 49.001768,
@@ -700,7 +849,8 @@
         "glass": 74,
         "aluminum": 79,
         "general": 69
-      }
+      },
+      "index": 74
     },
     {
       "lat": 49.002642,
@@ -709,7 +859,8 @@
         "glass": 62,
         "aluminum": 8,
         "general": 29
-      }
+      },
+      "index": 75
     },
     {
       "lat": 49.00104,
@@ -718,7 +869,8 @@
         "glass": 26,
         "aluminum": 34,
         "general": 3
-      }
+      },
+      "index": 76
     },
     {
       "lat": 49.002221,
@@ -727,7 +879,8 @@
         "glass": -1,
         "aluminum": 53,
         "general": 62
-      }
+      },
+      "index": 77
     },
     {
       "lat": 49.001795,
@@ -736,7 +889,8 @@
         "glass": 56,
         "aluminum": 14,
         "general": -1
-      }
+      },
+      "index": 78
     },
     {
       "lat": 49.003781,
@@ -745,7 +899,8 @@
         "glass": -1,
         "aluminum": 66,
         "general": 33
-      }
+      },
+      "index": 79
     },
     {
       "lat": 49.004114,
@@ -754,7 +909,8 @@
         "glass": 9,
         "aluminum": -1,
         "general": 26
-      }
+      },
+      "index": 80
     },
     {
       "lat": 49.00276,
@@ -763,7 +919,8 @@
         "glass": 90,
         "aluminum": 14,
         "general": 59
-      }
+      },
+      "index": 81
     },
     {
       "lat": 49.001831,
@@ -772,7 +929,8 @@
         "glass": -1,
         "aluminum": -1,
         "general": 21
-      }
+      },
+      "index": 82
     },
     {
       "lat": 49.000375,
@@ -781,7 +939,8 @@
         "glass": -1,
         "aluminum": 32,
         "general": 11
-      }
+      },
+      "index": 83
     },
     {
       "lat": 49.000524,
@@ -790,7 +949,8 @@
         "glass": -1,
         "aluminum": 65,
         "general": 87
-      }
+      },
+      "index": 84
     },
     {
       "lat": 48.999921,
@@ -799,7 +959,8 @@
         "glass": 98,
         "aluminum": 17,
         "general": -1
-      }
+      },
+      "index": 85
     },
     {
       "lat": 48.998589,
@@ -808,7 +969,8 @@
         "glass": 8,
         "aluminum": -1,
         "general": -1
-      }
+      },
+      "index": 86
     },
     {
       "lat": 48.99829,
@@ -817,7 +979,8 @@
         "glass": -1,
         "aluminum": 57,
         "general": 29
-      }
+      },
+      "index": 87
     },
     {
       "lat": 48.997579,
@@ -826,7 +989,8 @@
         "glass": 69,
         "aluminum": 12,
         "general": 14
-      }
+      },
+      "index": 88
     },
     {
       "lat": 48.996061,
@@ -835,7 +999,8 @@
         "glass": 70,
         "aluminum": 32,
         "general": -1
-      }
+      },
+      "index": 89
     },
     {
       "lat": 48.997013,
@@ -844,7 +1009,8 @@
         "glass": 1,
         "aluminum": 41,
         "general": 31
-      }
+      },
+      "index": 90
     },
     {
       "lat": 48.996699,
@@ -853,7 +1019,8 @@
         "glass": -1,
         "aluminum": 23,
         "general": -1
-      }
+      },
+      "index": 91
     },
     {
       "lat": 48.994657,
@@ -862,7 +1029,8 @@
         "glass": 91,
         "aluminum": 3,
         "general": 43
-      }
+      },
+      "index": 92
     },
     {
       "lat": 48.99523,
@@ -871,7 +1039,8 @@
         "glass": 36,
         "aluminum": -1,
         "general": 1
-      }
+      },
+      "index": 93
     },
     {
       "lat": 48.997035,
@@ -880,7 +1049,8 @@
         "glass": 51,
         "aluminum": 64,
         "general": 50
-      }
+      },
+      "index": 94
     },
     {
       "lat": 48.994388,
@@ -889,7 +1059,8 @@
         "glass": 19,
         "aluminum": 30,
         "general": 84
-      }
+      },
+      "index": 95
     },
     {
       "lat": 48.998837,
@@ -898,7 +1069,8 @@
         "glass": 27,
         "aluminum": 34,
         "general": 87
-      }
+      },
+      "index": 96
     },
     {
       "lat": 48.999128,
@@ -907,7 +1079,8 @@
         "glass": -1,
         "aluminum": 24,
         "general": 9
-      }
+      },
+      "index": 97
     },
     {
       "lat": 48.997934,
@@ -916,7 +1089,8 @@
         "glass": 99,
         "aluminum": -1,
         "general": 4
-      }
+      },
+      "index": 98
     },
     {
       "lat": 49.000016,
@@ -925,7 +1099,8 @@
         "glass": 16,
         "aluminum": 36,
         "general": 5
-      }
+      },
+      "index": 99
     },
     {
       "lat": 49.000635,
@@ -934,7 +1109,8 @@
         "glass": 89,
         "aluminum": -1,
         "general": -1
-      }
+      },
+      "index": 100
     },
     {
       "lat": 49.005223,
@@ -943,7 +1119,8 @@
         "glass": 42,
         "aluminum": 49,
         "general": 69
-      }
+      },
+      "index": 101
     },
     {
       "lat": 49.004415,
@@ -952,7 +1129,8 @@
         "glass": 65,
         "aluminum": 40,
         "general": 29
-      }
+      },
+      "index": 102
     },
     {
       "lat": 49.003144,
@@ -961,7 +1139,8 @@
         "glass": 34,
         "aluminum": 86,
         "general": 18
-      }
+      },
+      "index": 103
     },
     {
       "lat": 48.998389,
@@ -970,7 +1149,8 @@
         "glass": 69,
         "aluminum": 89,
         "general": 17
-      }
+      },
+      "index": 104
     },
     {
       "lat": 48.998601,
@@ -979,7 +1159,8 @@
         "glass": 39,
         "aluminum": -1,
         "general": 77
-      }
+      },
+      "index": 105
     },
     {
       "lat": 49.000579,
@@ -988,7 +1169,8 @@
         "glass": 23,
         "aluminum": -1,
         "general": 5
-      }
+      },
+      "index": 106
     },
     {
       "lat": 49.000966,
@@ -997,7 +1179,8 @@
         "glass": -1,
         "aluminum": 56,
         "general": 65
-      }
+      },
+      "index": 107
     },
     {
       "lat": 49.002091,
@@ -1006,7 +1189,8 @@
         "glass": 70,
         "aluminum": 71,
         "general": 75
-      }
+      },
+      "index": 108
     },
     {
       "lat": 49.003269,
@@ -1015,7 +1199,8 @@
         "glass": 64,
         "aluminum": -1,
         "general": 28
-      }
+      },
+      "index": 109
     },
     {
       "lat": 49.007994,
@@ -1024,7 +1209,8 @@
         "glass": 73,
         "aluminum": 22,
         "general": 25
-      }
+      },
+      "index": 110
     },
     {
       "lat": 49.010474,
@@ -1033,7 +1219,8 @@
         "glass": -1,
         "aluminum": 60,
         "general": 66
-      }
+      },
+      "index": 111
     },
     {
       "lat": 49.012215,
@@ -1042,7 +1229,8 @@
         "glass": -1,
         "aluminum": 35,
         "general": 4
-      }
+      },
+      "index": 112
     },
     {
       "lat": 49.011754,
@@ -1051,7 +1239,8 @@
         "glass": 43,
         "aluminum": 13,
         "general": 66
-      }
+      },
+      "index": 113
     },
     {
       "lat": 49.008563,
@@ -1060,7 +1249,8 @@
         "glass": 90,
         "aluminum": -1,
         "general": 95
-      }
+      },
+      "index": 114
     },
     {
       "lat": 49.007935,
@@ -1069,7 +1259,8 @@
         "glass": -1,
         "aluminum": 51,
         "general": 79
-      }
+      },
+      "index": 115
     },
     {
       "lat": 49.004764,
@@ -1078,7 +1269,8 @@
         "glass": 45,
         "aluminum": 57,
         "general": 46
-      }
+      },
+      "index": 116
     },
     {
       "lat": 49.006717,
@@ -1087,7 +1279,8 @@
         "glass": 32,
         "aluminum": 0,
         "general": -1
-      }
+      },
+      "index": 117
     },
     {
       "lat": 49.006301,
@@ -1096,7 +1289,8 @@
         "glass": -1,
         "aluminum": 10,
         "general": 64
-      }
+      },
+      "index": 118
     },
     {
       "lat": 49.004504,
@@ -1105,7 +1299,8 @@
         "glass": 30,
         "aluminum": 15,
         "general": -1
-      }
+      },
+      "index": 119
     },
     {
       "lat": 49.00542,
@@ -1114,7 +1309,8 @@
         "glass": 9,
         "aluminum": -1,
         "general": 14
-      }
+      },
+      "index": 120
     },
     {
       "lat": 49.008748,
@@ -1123,7 +1319,8 @@
         "glass": 47,
         "aluminum": 46,
         "general": 91
-      }
+      },
+      "index": 121
     },
     {
       "lat": 49.010271,
@@ -1132,7 +1329,8 @@
         "glass": 36,
         "aluminum": -1,
         "general": 92
-      }
+      },
+      "index": 122
     },
     {
       "lat": 49.011132,
@@ -1141,7 +1339,8 @@
         "glass": 55,
         "aluminum": -1,
         "general": 69
-      }
+      },
+      "index": 123
     },
     {
       "lat": 49.009204,
@@ -1150,7 +1349,8 @@
         "glass": 50,
         "aluminum": 38,
         "general": 86
-      }
+      },
+      "index": 124
     },
     {
       "lat": 49.013399,
@@ -1159,7 +1359,8 @@
         "glass": 76,
         "aluminum": 68,
         "general": 57
-      }
+      },
+      "index": 125
     },
     {
       "lat": 49.006939,
@@ -1168,7 +1369,8 @@
         "glass": -1,
         "aluminum": 62,
         "general": 42
-      }
+      },
+      "index": 126
     },
     {
       "lat": 49.006511,
@@ -1177,7 +1379,8 @@
         "glass": -1,
         "aluminum": 89,
         "general": 35
-      }
+      },
+      "index": 127
     },
     {
       "lat": 49.01239,
@@ -1186,7 +1389,8 @@
         "glass": 0,
         "aluminum": 76,
         "general": 93
-      }
+      },
+      "index": 128
     },
     {
       "lat": 49.014432,
@@ -1195,7 +1399,8 @@
         "glass": 79,
         "aluminum": 67,
         "general": 35
-      }
+      },
+      "index": 129
     },
     {
       "lat": 49.014967,
@@ -1204,7 +1409,8 @@
         "glass": -1,
         "aluminum": 31,
         "general": -1
-      }
+      },
+      "index": 130
     },
     {
       "lat": 49.016064,
@@ -1213,7 +1419,8 @@
         "glass": -1,
         "aluminum": 86,
         "general": 62
-      }
+      },
+      "index": 131
     },
     {
       "lat": 49.017831,
@@ -1222,7 +1429,8 @@
         "glass": 41,
         "aluminum": 59,
         "general": -1
-      }
+      },
+      "index": 132
     },
     {
       "lat": 49.016079,
@@ -1231,7 +1439,8 @@
         "glass": -1,
         "aluminum": 18,
         "general": -1
-      }
+      },
+      "index": 133
     },
     {
       "lat": 49.019593,
@@ -1240,7 +1449,8 @@
         "glass": 34,
         "aluminum": 79,
         "general": -1
-      }
+      },
+      "index": 134
     },
     {
       "lat": 49.022795,
@@ -1249,7 +1459,8 @@
         "glass": -1,
         "aluminum": -1,
         "general": 75
-      }
+      },
+      "index": 135
     },
     {
       "lat": 49.022363,
@@ -1258,7 +1469,8 @@
         "glass": 32,
         "aluminum": 76,
         "general": 96
-      }
+      },
+      "index": 136
     },
     {
       "lat": 49.024827,
@@ -1267,7 +1479,8 @@
         "glass": 11,
         "aluminum": -1,
         "general": 24
-      }
+      },
+      "index": 137
     },
     {
       "lat": 49.014453,
@@ -1276,7 +1489,8 @@
         "glass": 26,
         "aluminum": 97,
         "general": -1
-      }
+      },
+      "index": 138
     },
     {
       "lat": 49.011676,
@@ -1285,7 +1499,8 @@
         "glass": -1,
         "aluminum": -1,
         "general": 41
-      }
+      },
+      "index": 139
     },
     {
       "lat": 49.011524,
@@ -1294,7 +1509,8 @@
         "glass": 28,
         "aluminum": -1,
         "general": 40
-      }
+      },
+      "index": 140
     },
     {
       "lat": 49.009171,
@@ -1303,7 +1519,8 @@
         "glass": 8,
         "aluminum": 15,
         "general": 11
-      }
+      },
+      "index": 141
     },
     {
       "lat": 49.007302,
@@ -1312,7 +1529,8 @@
         "glass": 59,
         "aluminum": -1,
         "general": 89
-      }
+      },
+      "index": 142
     },
     {
       "lat": 49.00696,
@@ -1321,7 +1539,8 @@
         "glass": 39,
         "aluminum": 94,
         "general": 14
-      }
+      },
+      "index": 143
     },
     {
       "lat": 49.005748,
@@ -1330,7 +1549,8 @@
         "glass": 41,
         "aluminum": -1,
         "general": 34
-      }
+      },
+      "index": 144
     },
     {
       "lat": 49.003848,
@@ -1339,7 +1559,8 @@
         "glass": 4,
         "aluminum": 60,
         "general": -1
-      }
+      },
+      "index": 145
     },
     {
       "lat": 49.001689,
@@ -1348,7 +1569,8 @@
         "glass": 32,
         "aluminum": 57,
         "general": 81
-      }
+      },
+      "index": 146
     },
     {
       "lat": 49.001219,
@@ -1357,7 +1579,8 @@
         "glass": 72,
         "aluminum": 63,
         "general": 31
-      }
+      },
+      "index": 147
     },
     {
       "lat": 49.014524,
@@ -1366,7 +1589,8 @@
         "glass": 22,
         "aluminum": 51,
         "general": -1
-      }
+      },
+      "index": 148
     },
     {
       "lat": 49.01368,
@@ -1375,7 +1599,8 @@
         "glass": 39,
         "aluminum": 41,
         "general": -1
-      }
+      },
+      "index": 149
     },
     {
       "lat": 49.013707,
@@ -1384,7 +1609,8 @@
         "glass": 5,
         "aluminum": -1,
         "general": 57
-      }
+      },
+      "index": 150
     },
     {
       "lat": 49.014937,
@@ -1393,7 +1619,8 @@
         "glass": 14,
         "aluminum": -1,
         "general": 70
-      }
+      },
+      "index": 151
     },
     {
       "lat": 49.012853,
@@ -1402,7 +1629,8 @@
         "glass": 42,
         "aluminum": 13,
         "general": 23
-      }
+      },
+      "index": 152
     },
     {
       "lat": 49.011118,
@@ -1411,7 +1639,8 @@
         "glass": 65,
         "aluminum": 7,
         "general": 79
-      }
+      },
+      "index": 153
     },
     {
       "lat": 49.011221,
@@ -1420,7 +1649,8 @@
         "glass": 27,
         "aluminum": 96,
         "general": 55
-      }
+      },
+      "index": 154
     },
     {
       "lat": 49.009286,
@@ -1429,7 +1659,8 @@
         "glass": 4,
         "aluminum": 8,
         "general": 31
-      }
+      },
+      "index": 155
     },
     {
       "lat": 49.009405,
@@ -1438,7 +1669,8 @@
         "glass": -1,
         "aluminum": -1,
         "general": 94
-      }
+      },
+      "index": 156
     },
     {
       "lat": 49.008185,
@@ -1447,7 +1679,8 @@
         "glass": 97,
         "aluminum": 34,
         "general": 58
-      }
+      },
+      "index": 157
     },
     {
       "lat": 49.007267,
@@ -1456,7 +1689,8 @@
         "glass": -1,
         "aluminum": 14,
         "general": 34
-      }
+      },
+      "index": 158
     },
     {
       "lat": 49.005645,
@@ -1465,7 +1699,8 @@
         "glass": -1,
         "aluminum": -1,
         "general": -1
-      }
+      },
+      "index": 159
     },
     {
       "lat": 49.00506,
@@ -1474,7 +1709,8 @@
         "glass": 80,
         "aluminum": 56,
         "general": 93
-      }
+      },
+      "index": 160
     },
     {
       "lat": 49.004491,
@@ -1483,7 +1719,8 @@
         "glass": 71,
         "aluminum": -1,
         "general": 43
-      }
+      },
+      "index": 161
     },
     {
       "lat": 49.002467,
@@ -1492,7 +1729,8 @@
         "glass": 24,
         "aluminum": 14,
         "general": 84
-      }
+      },
+      "index": 162
     },
     {
       "lat": 49.001246,
@@ -1501,7 +1739,8 @@
         "glass": 83,
         "aluminum": 50,
         "general": 1
-      }
+      },
+      "index": 163
     },
     {
       "lat": 49.000259,
@@ -1510,7 +1749,8 @@
         "glass": -1,
         "aluminum": -1,
         "general": 75
-      }
+      },
+      "index": 164
     },
     {
       "lat": 48.998992,
@@ -1519,7 +1759,8 @@
         "glass": 87,
         "aluminum": 60,
         "general": 10
-      }
+      },
+      "index": 165
     },
     {
       "lat": 49.000939,
@@ -1528,7 +1769,8 @@
         "glass": -1,
         "aluminum": 88,
         "general": 60
-      }
+      },
+      "index": 166
     },
     {
       "lat": 48.999296,
@@ -1537,7 +1779,8 @@
         "glass": 15,
         "aluminum": 92,
         "general": -1
-      }
+      },
+      "index": 167
     },
     {
       "lat": 48.997881,
@@ -1546,7 +1789,8 @@
         "glass": 25,
         "aluminum": 29,
         "general": 77
-      }
+      },
+      "index": 168
     },
     {
       "lat": 48.996477,
@@ -1555,7 +1799,8 @@
         "glass": 30,
         "aluminum": 36,
         "general": 86
-      }
+      },
+      "index": 169
     },
     {
       "lat": 48.997525,
@@ -1564,7 +1809,8 @@
         "glass": 96,
         "aluminum": 97,
         "general": -1
-      }
+      },
+      "index": 170
     },
     {
       "lat": 48.995131,
@@ -1573,7 +1819,8 @@
         "glass": -1,
         "aluminum": 63,
         "general": 61
-      }
+      },
+      "index": 171
     },
     {
       "lat": 48.994868,
@@ -1582,7 +1829,8 @@
         "glass": -1,
         "aluminum": 58,
         "general": 100
-      }
+      },
+      "index": 172
     },
     {
       "lat": 48.997147,
@@ -1591,7 +1839,8 @@
         "glass": 54,
         "aluminum": -1,
         "general": 11
-      }
+      },
+      "index": 173
     },
     {
       "lat": 48.992785,
@@ -1600,7 +1849,8 @@
         "glass": 39,
         "aluminum": 71,
         "general": 72
-      }
+      },
+      "index": 174
     },
     {
       "lat": 48.99314,
@@ -1609,7 +1859,8 @@
         "glass": 94,
         "aluminum": 89,
         "general": 94
-      }
+      },
+      "index": 175
     },
     {
       "lat": 48.993488,
@@ -1618,7 +1869,8 @@
         "glass": 57,
         "aluminum": 60,
         "general": 47
-      }
+      },
+      "index": 176
     },
     {
       "lat": 48.993763,
@@ -1627,7 +1879,8 @@
         "glass": 73,
         "aluminum": -1,
         "general": 72
-      }
+      },
+      "index": 177
     },
     {
       "lat": 48.993902,
@@ -1636,7 +1889,8 @@
         "glass": -1,
         "aluminum": 57,
         "general": 12
-      }
+      },
+      "index": 178
     },
     {
       "lat": 48.991697,
@@ -1645,7 +1899,8 @@
         "glass": 41,
         "aluminum": 53,
         "general": 45
-      }
+      },
+      "index": 179
     },
     {
       "lat": 48.993335,
@@ -1654,7 +1909,8 @@
         "glass": 67,
         "aluminum": 91,
         "general": 99
-      }
+      },
+      "index": 180
     },
     {
       "lat": 49.004871,
@@ -1663,7 +1919,8 @@
         "glass": 2,
         "aluminum": 77,
         "general": 88
-      }
+      },
+      "index": 181
     },
     {
       "lat": 49.003788,
@@ -1672,7 +1929,8 @@
         "glass": 47,
         "aluminum": 62,
         "general": -1
-      }
+      },
+      "index": 182
     },
     {
       "lat": 49.0071,
@@ -1681,7 +1939,8 @@
         "glass": -1,
         "aluminum": -1,
         "general": 77
-      }
+      },
+      "index": 183
     },
     {
       "lat": 49.004595,
@@ -1690,7 +1949,8 @@
         "glass": 93,
         "aluminum": 88,
         "general": -1
-      }
+      },
+      "index": 184
     },
     {
       "lat": 49.005645,
@@ -1699,7 +1959,8 @@
         "glass": 48,
         "aluminum": 70,
         "general": 11
-      }
+      },
+      "index": 185
     },
     {
       "lat": 49.007709,
@@ -1708,7 +1969,8 @@
         "glass": 51,
         "aluminum": 8,
         "general": 8
-      }
+      },
+      "index": 186
     },
     {
       "lat": 49.00981,
@@ -1717,7 +1979,8 @@
         "glass": 82,
         "aluminum": 40,
         "general": 86
-      }
+      },
+      "index": 187
     },
     {
       "lat": 49.011796,
@@ -1726,7 +1989,8 @@
         "glass": 88,
         "aluminum": 57,
         "general": 8
-      }
+      },
+      "index": 188
     },
     {
       "lat": 49.008637,
@@ -1735,7 +1999,8 @@
         "glass": 82,
         "aluminum": 96,
         "general": -1
-      }
+      },
+      "index": 189
     },
     {
       "lat": 49.009943,
@@ -1744,7 +2009,8 @@
         "glass": 41,
         "aluminum": 78,
         "general": 25
-      }
+      },
+      "index": 190
     },
     {
       "lat": 49.014009,
@@ -1753,7 +2019,8 @@
         "glass": 100,
         "aluminum": 75,
         "general": 80
-      }
+      },
+      "index": 191
     },
     {
       "lat": 49.016,
@@ -1762,7 +2029,8 @@
         "glass": 1,
         "aluminum": 3,
         "general": 26
-      }
+      },
+      "index": 192
     },
     {
       "lat": 49.014373,
@@ -1771,7 +2039,8 @@
         "glass": 25,
         "aluminum": 10,
         "general": 11
-      }
+      },
+      "index": 193
     },
     {
       "lat": 49.012401,
@@ -1780,7 +2049,8 @@
         "glass": 41,
         "aluminum": 32,
         "general": 22
-      }
+      },
+      "index": 194
     },
     {
       "lat": 49.011451,
@@ -1789,7 +2059,8 @@
         "glass": 6,
         "aluminum": 3,
         "general": 19
-      }
+      },
+      "index": 195
     },
     {
       "lat": 48.997089,
@@ -1798,7 +2069,8 @@
         "glass": 84,
         "aluminum": 82,
         "general": 6
-      }
+      },
+      "index": 196
     },
     {
       "lat": 49.016661,
@@ -1807,7 +2079,8 @@
         "glass": -1,
         "aluminum": 54,
         "general": 80
-      }
+      },
+      "index": 197
     },
     {
       "lat": 49.0146,
@@ -1816,7 +2089,8 @@
         "glass": 99,
         "aluminum": 80,
         "general": 93
-      }
+      },
+      "index": 198
     },
     {
       "lat": 49.016792,
@@ -1825,7 +2099,8 @@
         "glass": 78,
         "aluminum": 7,
         "general": 81
-      }
+      },
+      "index": 199
     },
     {
       "lat": 49.016145,
@@ -1834,7 +2109,8 @@
         "glass": 43,
         "aluminum": 36,
         "general": 33
-      }
+      },
+      "index": 200
     },
     {
       "lat": 49.014895,
@@ -1843,7 +2119,8 @@
         "glass": 67,
         "aluminum": 55,
         "general": 20
-      }
+      },
+      "index": 201
     },
     {
       "lat": 49.012922,
@@ -1852,7 +2129,8 @@
         "glass": 22,
         "aluminum": -1,
         "general": 30
-      }
+      },
+      "index": 202
     },
     {
       "lat": 49.012765,
@@ -1861,7 +2139,8 @@
         "glass": 96,
         "aluminum": 54,
         "general": 84
-      }
+      },
+      "index": 203
     },
     {
       "lat": 49.009833,
@@ -1870,7 +2149,8 @@
         "glass": 29,
         "aluminum": 21,
         "general": 18
-      }
+      },
+      "index": 204
     },
     {
       "lat": 49.006873,
@@ -1879,7 +2159,8 @@
         "glass": 73,
         "aluminum": 87,
         "general": -1
-      }
+      },
+      "index": 205
     },
     {
       "lat": 49.016153,
@@ -1888,7 +2169,8 @@
         "glass": 69,
         "aluminum": -1,
         "general": -1
-      }
+      },
+      "index": 206
     }
   ]
 }
