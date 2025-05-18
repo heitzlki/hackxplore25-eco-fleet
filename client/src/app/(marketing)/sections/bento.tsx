@@ -171,7 +171,10 @@ const features = [
 
 export function Bento() {
   return (
-    <section className='bg-background py-24' suppressHydrationWarning>
+    <section
+      id={'bento'}
+      className='bg-background py-24'
+      suppressHydrationWarning>
       <div className='container mx-auto px-4 lg:px-8'>
         <BentoGrid>
           {features.map((feature, idx) => (

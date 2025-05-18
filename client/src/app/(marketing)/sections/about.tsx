@@ -6,7 +6,7 @@ import Logo from '@/components/custom/logo'; // Import the Logo component
 
 export function About() {
   return (
-    <section className='bg-background py-24'>
+    <section id={'about'} className='bg-background py-24'>
       <div className='container mx-auto px-4 lg:px-8'>
         <motion.div
           className='mx-auto max-w-3xl text-center'

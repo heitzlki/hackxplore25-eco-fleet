@@ -53,20 +53,20 @@ export const Navbar = () => {
                 Home
               </Link>
               <Link
-                href='#about'
+                href='#bento'
                 className='px-3 py-2 rounded-md text-sm font-medium hover:text-gray-900 hover:bg-gray-100'>
                 About
               </Link>
               <Link
-                href='#features'
+                href='#team'
                 className='px-3 py-2 rounded-md text-sm font-medium hover:text-gray-900 hover:bg-gray-100'>
-                Features
+                Team
               </Link>
-              <Link
+              {/* <Link
                 href='#faq'
                 className='px-3 py-2 rounded-md text-sm font-medium hover:text-gray-900 hover:bg-gray-100'>
                 FAQ
-              </Link>
+              </Link> */}
             </div>
           </div>
 
@@ -93,7 +93,7 @@ export const Navbar = () => {
             <Button
               className='w-full'
               onClick={() => {
-                router.push('/login');
+                router.push('/user');
               }}>
               Start
             </Button>

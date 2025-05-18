@@ -16,7 +16,9 @@ export function Hero() {
   const router = useRouter();
 
   return (
-    <section className='relative flex min-h-screen items-center overflow-hidden bg-background py-20'>
+    <section
+      id={'hero'}
+      className='relative flex min-h-screen items-center overflow-hidden bg-background py-20'>
       <div className='container mx-auto grid grid-cols-1 gap-12 px-4 md:grid-cols-2 lg:px-8'>
         <motion.div
           className='flex flex-col justify-center'
