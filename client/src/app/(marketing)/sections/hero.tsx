@@ -26,7 +26,7 @@ export function Hero() {
           <h1 className='mb-4 text-5xl font-bold tracking-tight text-foreground md:text-7xl'>
             <Logo size='lg' />
           </h1>
-          <span className='mt-4 text-xl md:text-2xl font-medium text-foreground'>
+          <span className='mt-4 text-sm md:text-2xl font-medium text-foreground'>
             <TypingAnimation>Efficient. Clean. Reliable.</TypingAnimation>
           </span>
 
