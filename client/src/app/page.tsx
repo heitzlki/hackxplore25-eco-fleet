@@ -7,6 +7,7 @@ import { About } from '@/app/(marketing)/sections/about';
 import { Footer } from '@/app/(marketing)/sections/footer';
 import { Navbar } from '@/app/(marketing)/sections/navbar';
 import { Bento } from '@/app/(marketing)/sections/bento';
+import { Team } from './(marketing)/sections/team';
 
 // import { ScrollProgress } from '@/components/magicui/scroll-progress';
 // import { ResponsiveModeIndicator } from '@/components/ResponsiveModeIndicator';
@@ -20,6 +21,7 @@ export default function Home() {
         <Hero />
         <Bento />
         <About />
+        <Team />
         {/* <Features /> */}
         {/* <FAQ /> */}
         <Footer />
