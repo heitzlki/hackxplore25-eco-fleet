@@ -9,11 +9,13 @@ import { ModeToggle } from '@/components/ui/mode-toggle';
 import { useTheme } from 'next-themes';
 
 import Logo from '@/components/custom/logo';
+import { useRouter } from 'next/navigation';
 
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,8 +90,14 @@ export const Navbar = () => {
 
           {/* Mobile menu button */}
           <div className='md:hidden'>
-            <button className='p-2 '>
-              <svg
+            <Button
+              className='w-full'
+              onClick={() => {
+                router.push('/login');
+              }}>
+              Start
+            </Button>
+            {/* <svg
                 className='h-6 w-6'
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -101,8 +109,7 @@ export const Navbar = () => {
                   strokeWidth={2}
                   d='M4 6h16M4 12h16M4 18h16'
                 />
-              </svg>
-            </button>
+              </svg> */}
           </div>
         </div>
       </div>
