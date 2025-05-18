@@ -38,7 +38,7 @@ const features = [
   {
     Icon: MapPinnedIcon,
     name: 'Map',
-    description: 'View the current state on the map.',
+    description: 'View the current state of the system.',
     href: '#',
     cta: 'Learn more',
     className: 'col-span-3 lg:col-span-1',
@@ -115,8 +115,8 @@ const features = [
   },
   {
     Icon: Share2Icon,
-    name: 'Integrations',
-    description: 'Supports 100+ integrations and counting.',
+    name: 'Integration',
+    description: 'Supports 10.000+ cities and 100+ countries.',
     href: '#',
     cta: 'Learn more',
     className: 'col-span-3 lg:col-span-2',
@@ -127,46 +127,46 @@ const features = [
   {
     Icon: CalendarIcon,
     name: 'Calendar',
-    description: 'Use the calendar to filter your files by date.',
+    description: 'See exact dates and times of events.',
     className: 'col-span-3 lg:col-span-1',
     href: '#',
     cta: 'Learn more',
     background: (
       <Calendar
         mode='single'
-        selected={new Date(2022, 4, 11, 0, 0, 0)}
+        selected={new Date(2025, 5, 18, 0, 0, 0)}
         className='absolute right-0 top-10 origin-top scale-75 rounded-md border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-90'
       />
     ),
   },
-  {
-    Icon: CalendarIcon,
-    name: 'Calendar',
-    description: 'Use the calendar to filter your files by date.',
-    className: 'col-span-3 lg:col-span-1',
-    href: '#',
-    cta: 'Learn more',
-    background: (
-      <Calendar
-        mode='single'
-        selected={new Date(2022, 4, 11, 0, 0, 0)}
-        className='absolute right-0 top-10 origin-top scale-75 rounded-md border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-90'
-      />
-    ),
-  },
-  {
-    Icon: BellIcon,
-    name: 'Notifications',
-    description: 'Get notified when something happens.',
-    href: '#',
-    cta: 'Learn more',
-    className: 'col-span-3 lg:col-span-2',
-    background: (
-      // <AnimatedListDemo className='absolute right-2 top-4 h-[300px] w-full scale-75 border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-90' />
+  // {
+  //   Icon: CalendarIcon,
+  //   name: 'Calendar',
+  //   description: 'Use the calendar to filter your files by date.',
+  //   className: 'col-span-3 lg:col-span-1',
+  //   href: '#',
+  //   cta: 'Learn more',
+  //   background: (
+  //     <Calendar
+  //       mode='single'
+  //       selected={new Date(2022, 4, 11, 0, 0, 0)}
+  //       className='absolute right-0 top-10 origin-top scale-75 rounded-md border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-90'
+  //     />
+  //   ),
+  // },
+  // {
+  //   Icon: BellIcon,
+  //   name: 'Notifications',
+  //   description: 'Get notified when something happens.',
+  //   href: '#',
+  //   cta: 'Learn more',
+  //   className: 'col-span-3 lg:col-span-2',
+  //   background: (
+  //     // <AnimatedListDemo className='absolute right-2 top-4 h-[300px] w-full scale-75 border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-90' />
 
-      <Flow />
-    ),
-  },
+  //     <Flow />
+  //   ),
+  // },
 ];
 
 export function Bento() {
