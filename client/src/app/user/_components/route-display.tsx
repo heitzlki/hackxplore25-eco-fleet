@@ -272,6 +272,13 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
                   {markersRef.current.length}
                 </Badge>
               </div>
+
+              <div className="flex items-center justify-between">
+                <span className={`${isMobile ? 'text-sm' : 'text-xs'} text-muted-foreground`}>Est. Collection:</span>
+                <Badge className={`${isMobile ? 'text-sm p-1' : 'text-xs'} bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100`}>
+                    {markersRef.current.length * 1.145}T
+                  </Badge>
+              </div>
               
               {routeDistance !== null && (
                 <div className="flex items-center justify-between">
