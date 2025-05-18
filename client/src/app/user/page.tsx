@@ -519,37 +519,37 @@ export default function Dashboard() {
                     key: "Glass",
                     value: "Rinse and separate by color",
                     details: "Clean glass items should be separated by color (clear, green, brown). Remove any non-glass parts like metal lids or plastic caps. Broken glass should be wrapped and labeled clearly before disposal.",
-                    link: "https://citywebsite.gov/recycling/glass"
+                    link: "https://tsk.karlsruhe.de/"
                   },
                   {
                     key: "Aluminum",
                     value: "Rinse, remove labels",
                     details: "Rinse aluminum cans and containers to remove food residue. Crush if possible to save space. Aluminum foil should be cleaned and rolled into a ball before recycling.",
-                    link: "https://citywebsite.gov/recycling/metal"
+                    link: "https://tsk.karlsruhe.de/"
                   },
                   {
                     key: "Paper",
                     value: "Keep dry, bundle together",
                     details: "Flatten cardboard boxes. Remove staples, paper clips, and plastic wrapping. \n \nCollected every Tuesday \nNext collections: \n Mi. den 11.06.2025 \n",
-                    link: "https://citywebsite.gov/recycling/paper"
+                    link: "https://tsk.karlsruhe.de/"
                   },
                   {
                     key: "Plastic",
                     value: "Check recycling number",
                     details: "Look for the recycling number (1-7) inside the triangle symbol. Most municipalities accept #1 (PET) and #2 (HDPE). Rinse containers and remove caps. Plastic bags usually require special recycling at grocery stores.",
-                    link: "https://citywebsite.gov/recycling/plastic"
+                    link: "https://tsk.karlsruhe.de/"
                   },
                   {
                     key: "Batteries",
                     value: "Special collection points",
                     details: "Never dispose of batteries in regular trash. Household batteries can be taken to designated collection points. Rechargeable and lithium-ion batteries should be taken to electronic retailers or hazardous waste facilities.",
-                    link: "https://tsk.karlsruhe.de/unsere-leistungen/entsorgungseinrichtungen#c168089"
+                    link: "https://tsk.karlsruhe.de/"
                   },
                   {
                     key: "Electronics",
                     value: "Return to collection center",
                     details: "Electronics contain hazardous materials and valuable recyclable components. Take to designated e-waste collection centers. Some retailers offer take-back programs for old electronics. Wipe personal data before recycling computers and phones.",
-                    link: "https://tsk.karlsruhe.de/unsere-leistungen/entsorgungseinrichtungen#c168023"
+                    link: "https://tsk.karlsruhe.de/"
                   }
                 ].map((item, index) => (
                   <div key={item.key} className={`${isMobile ? 'mb-3' : 'mb-2'}`}>
