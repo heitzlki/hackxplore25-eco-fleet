@@ -22,7 +22,7 @@ export function Footer() {
             <p className='mb-4 text-muted-foreground'>
               Efficient. Clean. Reliable
             </p>
-            <div className='flex space-x-4'>
+            {/* <div className='flex space-x-4'>
               <Link
                 href='#'
                 className='text-muted-foreground hover:text-foreground'>
@@ -43,7 +43,7 @@ export function Footer() {
                 className='text-muted-foreground hover:text-foreground'>
                 <Linkedin size={20} />
               </Link>
-            </div>
+            </div> */}
           </div>
 
           {/* Quick Links */}
@@ -66,18 +66,18 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href='#'
+                  href='/user'
                   className='text-muted-foreground hover:text-foreground'>
                   Start Journey
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href='#'
                   className='text-muted-foreground hover:text-foreground'>
                   Become Partner
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -111,7 +111,7 @@ export function Footer() {
           </div>
 
           {/* Legal */}
-          <div>
+          {/* <div>
             <h3 className='mb-4 text-xl font-bold'>Legal</h3>
             <ul className='space-y-2'>
               <li>
@@ -143,7 +143,7 @@ export function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
 
         <div className='mt-12 border-t border-border pt-8 text-center'>
