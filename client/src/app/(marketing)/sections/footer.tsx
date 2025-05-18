@@ -81,35 +81,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div>
-            <h3 className='mb-4 text-xl font-bold'>Contact Us</h3>
-            <ul className='space-y-2'>
-              {/* <li className='flex items-start'>
-                <MapPin size={20} className='mr-2 text-muted-foreground' />
-                <span className='text-muted-foreground'>
-                  123 Coaching Street, Digital City, 10001
-                </span>
-              </li>
-              <li className='flex items-center'>
-                <Phone size={20} className='mr-2 text-muted-foreground' />
-                <Link
-                  href='tel:+123456789'
-                  className='text-muted-foreground hover:text-foreground'>
-                  +1 (234) 567-890
-                </Link>
-              </li> */}
-              <li className='flex items-center'>
-                <Mail size={20} className='mr-2 text-muted-foreground' />
-                <Link
-                  href='mailto:contact@heitzlki.dev'
-                  className='text-muted-foreground hover:text-foreground'>
-                  info@eco-fleet.com
-                </Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Legal */}
           {/* <div>
             <h3 className='mb-4 text-xl font-bold'>Legal</h3>
