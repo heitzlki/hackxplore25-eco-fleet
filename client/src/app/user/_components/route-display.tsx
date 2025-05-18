@@ -110,7 +110,15 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
       // Take only the first 5 waste containers (or all if less than 5)
       
       // Format waypoints as required by the API
-      const waypoints = getContainerMarkerFromRoute().map((c) => `${c.lng},${c.lat}`);
+      const waypoints = [
+        "8.403545,49.009544", // Start point
+        ...getContainerMarkerFromRoute().map((c) => `${c.lng},${c.lat}`)
+      ]
+
+      if (waypoints.length < 2) {
+        alert('Not enough waypoints to create a route');
+        return;
+      }
 
       setIsSelectingMarkers(false)
       document.body.classList.remove('SELECTING_MARKERS');
