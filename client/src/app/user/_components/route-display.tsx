@@ -111,7 +111,7 @@ export default function RouteDisplay({ mapRef, onRouteCreated, onMarkerClick }: 
       
       // Format waypoints as required by the API
       const waypoints = [
-        "8.403545,49.009544", // Start point
+        "8.35869419195883,49.01571816015043", // Start point
         ...getContainerMarkerFromRoute().map((c) => `${c.lng},${c.lat}`)
       ]
 
